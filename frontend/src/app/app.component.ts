@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { UserComponent } from "./user/user.component";
-import { GamesComponent } from "./games/games.component";
+import { Component, OnInit } from '@angular/core';
+import { CrudService } from './services/crud.service';
+
+
 
 @Component({
   selector: 'app-root',
-  standalone: true, //Importar un componente aqui, se pone en imports
-  imports: [RouterOutlet, CommonModule, UserComponent, GamesComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  // title = 'frontend';
-  city = 'Badajoz';
+export class AppComponent implements OnInit{
+  title = 'frontend';
+
+  constructor(private crudService: CrudService){
+
+    
+  }
+
+  ngOnInit(): void {
+    this.crudService.getUsuarios().subscribe( (res) => {
+      console.log(res);
+      
+    })
+  }
+
 }
