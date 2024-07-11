@@ -25,7 +25,7 @@ export class CrudService {
   }
   getusuario(id: any) {
     return this.httpClient
-      .get(`this.REST_API/${id}`, { headers: this.httpHeaders })
+      .get(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
       .pipe(
         map((res: any) => {
           return res || {};
@@ -39,12 +39,12 @@ export class CrudService {
   }
   updateUsuario(id: any, data: Usuario) {
     return this.httpClient
-      .put(`this.REST_API/${id}`, data, { headers: this.httpHeaders })
+      .put(`${this.rest_API}/${id}`, data, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
   }
   deleteUsuario(id: any) {
     return this.httpClient
-      .delete(`this.REST_API/${id}`, { headers: this.httpHeaders })
+      .delete(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
   }
 

@@ -1,3 +1,57 @@
-<form [formGroup]="formUsuario"></form>
-
+<form [formGroup]="formUsuario" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Nombre</label>
+        <div class="col-sm-10">
+            <input formControlName="nombre" type="text" class="form-control">
+            <div *ngIf="formControls['nombre'].invalid && (formControls['nombre'].dirty || formControls['nombre'].touched)" class="text-danger">
+                <div *ngIf="formControls['nombre'].errors?.['required']">El nombre es requerido.</div>
+                <div *ngIf="formControls['nombre'].errors?.['minlength']">El nombre debe tener al menos 2 caracteres.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Edad</label>
+        <div class="col-sm-10">
+            <input formControlName="edad" type="text" class="form-control">
+            <div *ngIf="formControls['edad'].invalid && (formControls['edad'].dirty || formControls['edad'].touched)" class="text-danger">
+                <div *ngIf="formControls['edad'].errors?.['required']">La edad es requerida.</div>
+                <div *ngIf="formControls['edad'].errors?.['pattern']">La edad debe ser un número.</div>
+                <div *ngIf="formControls['edad'].errors?.['min']">La edad debe ser mayor de 18 años</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Correo</label>
+        <div class="col-sm-10">
+            <input formControlName="correo" type="email" class="form-control">
+            <div *ngIf="formControls['correo'].invalid && (formControls['correo'].dirty || formControls['correo'].touched)" class="text-danger">
+                <div *ngIf="formControls['correo'].errors?.['required']">El correo es requerido.</div>
+                <div *ngIf="formControls['correo'].errors?.['email']">El correo no es válido.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Saldo</label>
+        <div class="col-sm-10">
+            <input formControlName="saldo" type="number" class="form-control">
+            <div *ngIf="formControls['saldo'].invalid && (formControls['saldo'].dirty || formControls['saldo'].touched)" class="text-danger">
+                <div *ngIf="formControls['saldo'].errors?.['required']">El saldo es requerido.</div>
+                <div *ngIf="formControls['saldo'].errors?.['min']">El saldo no puede ser negativo.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Contraseña</label>
+        <div class="col-sm-10">
+            <input formControlName="password" type="password" class="form-control">
+            <div *ngIf="formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)" class="text-danger">
+                <div *ngIf="formControls['password'].errors?.['required']">La contraseña es requerida.</div>
+                <div *ngIf="formControls['password'].errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+            </div>
+        </div>
+    </div>
+    <div class="btn-group float-end" role="group">
+        <button [disabled]="!formUsuario.valid" type="submit" class="btn btn-primary">Submit</button>
+        <a routerLink="/" class="btn btn-outline-secondary">Cancel</a>
+    </div>
 </form>

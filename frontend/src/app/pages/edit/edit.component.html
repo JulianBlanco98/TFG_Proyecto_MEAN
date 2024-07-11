@@ -1,1 +1,10 @@
-<p>edit works!</p>
+<div *ngIf="modelUsuario" class="card">
+    <div class="card-body">
+        <h5 class="card-title text-center">Editar Usuario</h5>
+        <app-generic-form *ngIf="modelUsuario"
+                          [modelUsuario]="modelUsuario"
+                          (submitValues)="onSubmit($event)">
+        </app-generic-form>
+    </div>
+</div>
+
