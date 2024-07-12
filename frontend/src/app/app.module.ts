@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ShowComponent,
     CreateComponent,
     EditComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    ShowPremiosComponent
   ],
   imports: [
     BrowserModule,

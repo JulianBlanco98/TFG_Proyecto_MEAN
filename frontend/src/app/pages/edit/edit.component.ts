@@ -10,41 +10,58 @@ import { CrudService } from 'src/app/services/crud.service';
 })
 export class EditComponent implements OnInit{
 
-  id!: any
-  modelUsuario: Usuario
+  id!: any;
+  modelUsuario: Usuario = {
+    _id: '',
+    nombre: '',
+    edad: 0,
+    correo: '',
+    saldo: 0,
+    password: ''
+  };
 
   constructor(
     private crudService: CrudService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ){
+  ) { }
 
+  ngOnInit(): void {    
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    
+    if (this.id) {
+      this.crudService.getusuario(this.id).subscribe({
+        next: (res) => {    
+          //console.log('Respuesta del servicio getusuario:', res);
+          //console.log("IdUsuario respuesta: ", res.usuario._id);   
+          this.modelUsuario = {
+            _id: res.usuario._id,
+            nombre: res.usuario.nombre,
+            edad: res.usuario.edad,
+            correo: res.usuario.correo,
+            saldo: res.usuario.saldo,
+            password: res.usuario.password
+          };
+        },
+        error: (error) => {
+          console.log("Error al obtener el usuario: ", error);
+        }
+      });
+    } else {
+      console.log('No se encontró un ID en la ruta.');
+    }
   }
 
-  ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id')
-    this.crudService.getusuario(this.id).subscribe( (res) => {
-      this.modelUsuario = {
-        _id: res.id,
-        nombre: res.nombre,
-        edad: res.edad,
-        correo: res.correo,
-        saldo: res.saldo,
-        password: res.password
-      }
-    })
+  onSubmit(usuario: Usuario): void {
+    if (this.id) {
+      this.crudService.updateUsuario(this.id, usuario).subscribe({
+        next: () => {
+          this.router.navigateByUrl('/');
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
   }
-
-  onSubmit(usuario: Usuario){
-    this.crudService.updateUsuario(this.id, usuario).subscribe({
-      next:() => {
-        this.router.navigateByUrl('/')
-      },
-      error:(error) => {
-        console.log(error);
-        
-      }
-    })
-  }
-
 }

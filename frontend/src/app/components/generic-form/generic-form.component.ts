@@ -25,6 +25,7 @@ export class GenericFormComponent implements OnInit{
     private router: Router,
   ){
 
+    
     this.formUsuario = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       edad: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(18)]],
@@ -33,22 +34,12 @@ export class GenericFormComponent implements OnInit{
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
 
-
   }
   
 
   ngOnInit(): void {
-    if(this.modelUsuario !== undefined){
-      console.log("Entra, pero no cambia los valores");
-      console.log(this.modelUsuario);
-      
-      
+    if(this.modelUsuario !== undefined){    
       this.formUsuario.patchValue(this.modelUsuario)
-    }
-    else{
-      console.log("No coge los valores");
-      console.log(this.modelUsuario);
-      
     }
   }
 
@@ -60,6 +51,13 @@ export class GenericFormComponent implements OnInit{
     console.log("Submit");
     this.submitValues.emit(this.formUsuario.value)
     
+  }
+
+  ngOnChanges(): void {
+    if (this.modelUsuario) {
+      
+      this.formUsuario.patchValue(this.modelUsuario);
+    }
   }
 
 }

@@ -12,7 +12,7 @@ import { catchError, map } from 'rxjs';
   providedIn: 'root',
 })
 export class CrudService {
-  private rest_API: string = 'http://localhost:8000/api/usuarios/';
+  private rest_API: string = 'http://localhost:8000/apiTFG/usuarios';
   private httpHeaders = new HttpHeaders().set(
     'Content-type',
     'application/json'
@@ -20,10 +20,10 @@ export class CrudService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getUsuarios() {
+  getUsuarios(): Observable<any> {
     return this.httpClient.get(this.rest_API, { headers: this.httpHeaders });
   }
-  getusuario(id: any) {
+  getusuario(id: any): Observable<any> {
     return this.httpClient
       .get(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
       .pipe(
@@ -32,17 +32,17 @@ export class CrudService {
         })
       );
   }
-  createUsuario(data: Usuario) {
+  createUsuario(data: Usuario): Observable<any> {
     return this.httpClient
       .post(this.rest_API, data, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
   }
-  updateUsuario(id: any, data: Usuario) {
+  updateUsuario(id: any, data: Usuario): Observable<any> {
     return this.httpClient
       .put(`${this.rest_API}/${id}`, data, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
   }
-  deleteUsuario(id: any) {
+  deleteUsuario(id: any): Observable<any> {
     return this.httpClient
       .delete(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));

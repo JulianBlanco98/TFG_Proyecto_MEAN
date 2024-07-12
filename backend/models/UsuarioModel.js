@@ -7,18 +7,18 @@ const usuarioSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor, completa este campo"],
     },
-    edad: { 
-        type: Number, 
-        required: [true, "Por favor, completa este campo"]
+    edad: {
+      type: Number,
+      required: [true, "Por favor, completa este campo"],
     },
     correo: {
       type: String,
       required: [true, "Por favor, completa este campo"],
     },
     saldo: {
-        type: Number,
-        default: 1000, //Saldo por defecto a la hora de registrarse
-        required: [true, "Por favor, completa este campo"],
+      type: Number,
+      default: 1000, //Saldo por defecto a la hora de registrarse
+      required: [true, "Por favor, completa este campo"],
     },
     password: {
       type: String,
@@ -32,4 +32,4 @@ const usuarioSchema = new mongoose.Schema(
 );
 
 //Modelo (clase base) a partir del schema
-export const UsuarioModel = mongoose.model("Usuario", usuarioSchema);
+export const UsuarioModel = mongoose.model("usuario", usuarioSchema);

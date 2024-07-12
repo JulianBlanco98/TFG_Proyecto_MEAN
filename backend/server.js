@@ -2,7 +2,8 @@ import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from 'cors'
 import { connectDB } from "./config/db.js";
-import router from "./routes/routesUsuarios.js";
+import routerUsuarios from "./routes/routesUsuarios.js";
+import routerPremios from "./routes/routespremios.js";
 
 const app = express();
 dotenv.config();
@@ -10,7 +11,11 @@ dotenv.config();
 app.use(express.json());
 app.use(cors())
 app.use(urlencoded({ extended: true }));
-app.use("/api/usuarios", router);
+
+//Endpoints de las colecciones de la base de datos
+//Aquí son las rutas con las que luego se recoge en el front y en insomnia
+app.use("/apiTFG/usuarios", routerUsuarios);
+app.use("/apiTFG/premios", routerPremios);
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;

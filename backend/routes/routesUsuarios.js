@@ -8,8 +8,8 @@ const router = express.Router()
 router.get("/", getUsuarios)
 router.get("/:id", getUsuario)
 router.post("/", createUsuarios)
-router.put("/:id", updateUsuarios)
-router.delete("/:id", deleteUsuarios)
+router.put(":id", updateUsuarios)
+router.delete(":id", deleteUsuarios)
 
 //Forma más precisa
 /*
