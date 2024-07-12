@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.c
     CreateComponent,
     EditComponent,
     GenericFormComponent,
-    ShowPremiosComponent
+    ShowPremiosComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

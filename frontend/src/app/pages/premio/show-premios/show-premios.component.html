@@ -1,25 +1,27 @@
-<h4>Lista de premios</h4>
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr class="table-info">
-        <th style="display: none">ID</th>
-        <th>Nombre del premio</th>
-        <th>Imagen del premio</th>
-        <th>Saldo del premio</th>
-        <th>Canjear Premio</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let premio of premios; let i=index">
-            <td style="display: none;">{{premio._id}}</td>
-            <td>{{premio.nombrePremio}}</td>
-            <td><img src="{{premio.imagenPremio}}"></td>
-            <td>{{premio.saldoPremio}}</td>
-            <td>
-                <button class="btn btn-primary">Canjear</button>
-            </td>
+<div class="container text-center mt-4">
+  <h4>Lista de premios</h4>
+  <div class="table-responsive mt-4">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr class="table-info">
+          <th style="display: none">ID</th>
+          <th>Nombre del premio</th>
+          <th>Imagen del premio</th>
+          <th>Saldo del premio</th>
+          <th>Canjear Premio</th>
         </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <tr *ngFor="let premio of premios; let i = index">
+          <td style="display: none">{{ premio._id }}</td>
+          <td>{{ premio.nombrePremio }}</td>
+          <td><img src="{{ premio.imagenPremio }}" /></td>
+          <td>{{ premio.saldoPremio }}</td>
+          <td>
+            <button class="btn btn-primary">Canjear</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

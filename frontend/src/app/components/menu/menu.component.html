@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- Logo a la izquierda -->
+        <a routerLink="/" class="navbar-brand">
+            <img src="../../../assets/img/logoLiga.png" width="80" alt="Logo">
+        </a>
+        <!-- Botón de navegación para dispositivos móviles -->
+        <button class="navbar-toggler" data-bs-target="#my-nav" data-bs-toggle="collapse"
+            aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Menú en el centro -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <!-- Elementos del menú -->
+                <li class="nav-item active">
+                    <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
+                </li>
+                <li class="nav-item active">
+                    <a routerLink="" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
+                </li>
+                <li class="nav-item active">
+                    <a routerLink="" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>
+                </li>
+                <li class="nav-item active">
+                     <a routerLink="" class="btn btn-primary"><fa-icon [icon]="faBook"></fa-icon> Coleccion</a>
+                </li>
+                <li class="nav-item active">
+                     <a routerLink="/premios" class="btn btn-primary"><fa-icon [icon]="faGift"></fa-icon> Premios</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Botones de crear cuenta e iniciar sesion -->
+        <div>
+            <button class="btn btn-secondary">Crear Cuenta</button>
+            <button class="btn btn-secondary">Iniciar Sesion</button>
+        </div>
+    </div>
+</nav>

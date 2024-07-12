@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShowComponent } from './pages/show/show.component';
 import { CreateComponent } from './pages/create/create.component';
 import { EditComponent } from './pages/edit/edit.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,9 @@ const routes: Routes = [
   },
   {
     path:'update/:id', component:EditComponent
+  },
+  {
+    path:'premios', component: ShowPremiosComponent
   },
   {
     path:'**', redirectTo: '' //Hacer un componente de page not found
