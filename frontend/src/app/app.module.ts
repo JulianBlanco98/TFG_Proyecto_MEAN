@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MenuComponent } from './components/menu/menu.component';
     EditComponent,
     GenericFormComponent,
     ShowPremiosComponent,
-    MenuComponent
+    MenuComponent,
+    ShowEquiposComponent
   ],
   imports: [
     BrowserModule,
