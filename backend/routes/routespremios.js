@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPremio, getPremios, createPremios, updatePremios, deletePremios } from '../controllers/PremioController.js'
+import { getPremio, getPremios, createPremios, updatePremios, deletePremios } from '../controller/PremioController.js'
 
 const router = express.Router()
 

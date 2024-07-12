@@ -3,7 +3,12 @@ import dotenv from "dotenv";
 import cors from 'cors'
 import { connectDB } from "./config/db.js";
 import routerUsuarios from "./routes/routesUsuarios.js";
-import routerPremios from "./routes/routespremios.js";
+import routerPremios from "./routes/routesPremios.js";
+import routerEquipos from "./routes/routesEquipos.js"
+
+//Carga de la colección de equipos
+import { verificarCargaDatos } from "./helper/initEquipo.js";
+
 
 const app = express();
 dotenv.config();
@@ -16,6 +21,7 @@ app.use(urlencoded({ extended: true }));
 //Aquí son las rutas con las que luego se recoge en el front y en insomnia
 app.use("/apiTFG/usuarios", routerUsuarios);
 app.use("/apiTFG/premios", routerPremios);
+app.use("/apiTFG/equipos", routerEquipos)
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -28,8 +34,13 @@ const MONGO_URI = process.env.MONGO_URI;
 
 const start = async () => {
     try {
+        console.log("Iniciando el servidor...");
         await connectDB(MONGO_URI);
         console.log("¡Conectado a MongoDB!");
+
+        //Verificar los datos de equipo
+        await verificarCargaDatos();
+
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en la URL http://localhost:${PORT}`);
         });

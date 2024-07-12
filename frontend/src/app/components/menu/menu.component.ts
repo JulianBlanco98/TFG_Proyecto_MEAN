@@ -8,9 +8,18 @@ import { faHome, faMoneyCheckDollar, faTrophy, faBook, faGift } from '@fortaweso
 })
 export class MenuComponent {
 
+  /*constructor(private readonly modalService: ngb){
+
+  }*/
+
+
   faHome = faHome;
   faMoney = faMoneyCheckDollar;
   faTrophy = faTrophy;
   faBook = faBook;
   faGift = faGift;
+
+  regiterModal(){
+    
+  }
 }

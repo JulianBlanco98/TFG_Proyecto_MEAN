@@ -35,8 +35,8 @@ export class EditComponent implements OnInit{
           //console.log('Respuesta del servicio getusuario:', res);
           //console.log("IdUsuario respuesta: ", res.usuario._id);   
           this.modelUsuario = {
-            _id: res.usuario._id,
-            nombre: res.usuario.nombre,
+            _id: res?.usuario?._id || null,
+            nombre: res?.usuario?.nombre || null, 
             edad: res.usuario.edad,
             correo: res.usuario.correo,
             saldo: res.usuario.saldo,
