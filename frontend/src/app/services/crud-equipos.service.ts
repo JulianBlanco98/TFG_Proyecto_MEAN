@@ -13,7 +13,7 @@ import { catchError, map } from 'rxjs';
 })
 export class CrudEquiposService {
 
-  private rest_API: string = 'http://localhost:8000/apiTFG/premios';
+  private rest_API: string = 'http://localhost:8000/apiTFG/equipos';
   private httpHeaders = new HttpHeaders().set(
     'Content-type',
     'application/json'

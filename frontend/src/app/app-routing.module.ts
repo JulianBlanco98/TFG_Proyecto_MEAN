@@ -5,6 +5,7 @@ import { CreateComponent } from './pages/create/create.component';
 import { EditComponent } from './pages/edit/edit.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
+import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path:'premios', component: ShowPremiosComponent
+  },
+  {
+    path:'equipos', component: ShowEquiposComponent
   },
   {
     path:'**', redirectTo: '' //Hacer un componente de page not found
