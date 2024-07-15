@@ -6,4 +6,14 @@ img {
 }
 h5 {
     font-weight: bold;
+    margin-left: 15px;
 }
+
+.modal-header img {
+    width: auto;
+    height: 50px;
+}
+.btn-group .btn {
+    width: 50%;
+    border-radius: 10px;
+  }

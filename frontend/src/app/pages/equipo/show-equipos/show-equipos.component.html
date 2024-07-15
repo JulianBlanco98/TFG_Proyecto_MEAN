@@ -1,11 +1,14 @@
 <h1 class="text-center mt-3">Equipos</h1>
-<div class="row row-cols-1 row-cols-md-5 g-4 mt-3 mx-1">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 g-4 mt-3 mx-1">
     <div class="col" *ngFor="let equipo of equipos">
       <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
         <img [src]="equipo?.escudoEquipo" class="card-img-top" alt="{{ equipo.nombreEquipo }}">
         <div class="card-body text-center">
           <h5 class="card-title">{{ equipo?.nombreEquipo }}</h5>
-          <button class="btn btn-primary" (click)="openModal(equipo)">Más información</button>
+          <div class="btn-group d-flex" role="group">
+            <button class="btn btn-primary mx-1">Jugadores</button>
+            <button class="btn btn-secondary mx-1" (click)="openModal(equipo)">Más información</button>
+          </div>
         </div>
       </div>
     </div>
@@ -16,6 +19,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
+          <img [src]="selectedEquipo?.escudoEquipo" class="" alt="{{ selectedEquipo?.nombreEquipo }}">
           <h5 class="modal-title" id="equipoModalLabel">{{ selectedEquipo?.nombreEquipo }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>

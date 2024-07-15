@@ -7,7 +7,7 @@ export const verificarCargaDatos = async() => {
     try{
         const contador = await EquiposModel.countDocuments();
         if(contador === 0){
-            console.log("Colección vacía, procediendo a cargar los datos...");
+            console.log("Colección vacía de equipos, procediendo a cargar los datos...");
             await recuperarDatos()
         }
         else{

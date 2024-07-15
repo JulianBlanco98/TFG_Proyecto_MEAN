@@ -5,7 +5,7 @@ const jugadoresSchema = new mongoose.Schema(
     equipo: {
       idEquipo: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Equipo',
+        ref: 'equipos',
         required: true,
       },
       nombreEquipo: {
@@ -60,4 +60,4 @@ const jugadoresSchema = new mongoose.Schema(
   }
 );
 
-//export default mongoose.model('Jugador', jugadoresSchema);
+export const JugadorModel = mongoose.model('jugadores', jugadoresSchema);
