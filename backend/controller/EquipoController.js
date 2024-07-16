@@ -61,3 +61,16 @@ export const getEquiposOrdenados = async (req, res) => {
         res.status(500).json({message: error.message})
     }
 }
+
+export const getEquipo = async (req, res) => {
+    try {
+        const {id} = req.params
+        const equipo = await EquiposModel.findById(id)
+        if(!equipo){
+            return res.status(400).json(`El equipo con id: ${id} no existe en la base de datos`)
+        }
+        res.status(200).json({equipo})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}

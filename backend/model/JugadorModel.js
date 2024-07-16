@@ -2,24 +2,14 @@ import mongoose from "mongoose";
 
 const jugadoresSchema = new mongoose.Schema(
   {
-    equipo: {
-      idEquipo: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'equipos',
-        required: true,
-      },
-      nombreEquipo: {
-          type: String,
-          required: [true, "Por favor, completa este campo"],
-      },
-      equipoJugador: {
-        type: String,
-        required: [true, "Por favor, completa este campo"],
-      },
-      escudo: {
-        type: String,
-        required: [true, "Por favor, completa este campo"],
-      },
+    idEquipo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'equipos',
+      required: true,
+    },
+    nombreEquipo: {
+      type: String,
+      required: [true, "Por favor, completa este campo"],
     },
     datos: {
       nombreJugador: {
@@ -31,27 +21,25 @@ const jugadoresSchema = new mongoose.Schema(
         required: [true, "Por favor, completa este campo"],
       },
       fechaNacimiento: {
-        type: Date,
+        type: String,
         required: [true, "Por favor, completa este campo"],
       },
       nacionalidad: {
         type: String,
         required: [true, "Por favor, completa este campo"],
       },
+      dorsal: {
+        type: Number,
+        default: -1,
+      },
+      valorMercado: {
+        type: Number,
+        default: -1,
+      },
     },
     estadisticas: {
-      goles: {
-        type: Number,
-        default: 0,
-      },
-      asistencias: {
-        type: Number,
-        default: 0,
-      },
-      partidosJugados: {
-        type: Number,
-        default: 0,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'estadisticas'
     },
   },
   {

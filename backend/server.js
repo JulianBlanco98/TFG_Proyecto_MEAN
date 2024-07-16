@@ -5,9 +5,11 @@ import { connectDB } from "./config/db.js";
 import routerUsuarios from "./routes/routesUsuarios.js";
 import routerPremios from "./routes/routesPremios.js";
 import routerEquipos from "./routes/routesEquipos.js"
+import routerJugadores from "./routes/routesJugadores.js"
 
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
+import { verificarJugadores } from "./helper/initJugador.js";
 
 
 const app = express();
@@ -22,6 +24,7 @@ app.use(urlencoded({ extended: true }));
 app.use("/apiTFG/usuarios", routerUsuarios);
 app.use("/apiTFG/premios", routerPremios);
 app.use("/apiTFG/equipos", routerEquipos)
+app.use("/apiTFG/jugadores", routerJugadores)
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -40,6 +43,9 @@ const start = async () => {
 
         //Verificar los datos de equipo
         await verificarCargaDatos();
+
+        //Verificar los jugadores (no estadísticas todavía)
+        await verificarJugadores();
 
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en la URL http://localhost:${PORT}`);
