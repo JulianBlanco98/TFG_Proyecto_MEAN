@@ -15,6 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
+import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.c
     GenericFormComponent,
     ShowPremiosComponent,
     MenuComponent,
-    ShowEquiposComponent
+    ShowEquiposComponent,
+    ShowJugadoresEquipoComponent
   ],
   imports: [
     BrowserModule,

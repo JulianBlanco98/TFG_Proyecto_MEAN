@@ -6,6 +6,7 @@ import { EditComponent } from './pages/edit/edit.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
+import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,9 @@ const routes: Routes = [
   },
   {
     path:'create', component:CreateComponent
+  },
+  {
+    path:'jugadores/:id', component: ShowJugadoresEquipoComponent
   },
   {
     path:'update/:id', component:EditComponent
