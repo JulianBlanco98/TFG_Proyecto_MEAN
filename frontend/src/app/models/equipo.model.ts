@@ -7,5 +7,6 @@ export interface Equipo {
     webEquipo: string,
     anoFundacionEquipo: string,
     coloresEquipos: string,
-    estadioEquipo: string
+    estadioEquipo: string,
+    idEquipoAPI: number
 }

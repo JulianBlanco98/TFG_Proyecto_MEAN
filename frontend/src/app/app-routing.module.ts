@@ -16,7 +16,7 @@ const routes: Routes = [
     path:'create', component:CreateComponent
   },
   {
-    path:'jugadores/:id', component: ShowJugadoresEquipoComponent
+    path:'jugadores/:id/:idAPI', component: ShowJugadoresEquipoComponent
   },
   {
     path:'update/:id', component:EditComponent

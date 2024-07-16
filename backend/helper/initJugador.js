@@ -1,17 +1,5 @@
 import { recuperarJugadores } from "../controller/JugadorController.js";
-import { EquiposModel } from "../model/EquiposModel.js";
 import { JugadorModel } from "../model/JugadorModel.js";
-import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config()
-const API_KEY = process.env.API_KEY
-const API_URL = 'https://api.football-data.org/v4/competitions/PD/teams'
-
-//Aparte del método de rellenar el 90% de campos de jugadores, faltan 2 campos
-//que están en otra llamada a la api diferente.
-//Como la api solo me ofrece 10 llamadas por minuto, y son 20 equipos,
-//voy a hacer 2 funciones: cada una de ellas tendrá 10 llamadas a la API
 
 /*Athlethic: 77
 Atleti: 78

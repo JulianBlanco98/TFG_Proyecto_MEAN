@@ -27,6 +27,7 @@ export const recuperarDatos = async (req, res) => {
             anoFundacionEquipo: team.founded,
             coloresEquipos: team.clubColors,
             estadioEquipo: team.venue,
+            idEquipoAPI: team.id,
         }));
 
         // Guardar los datos en la base de datos

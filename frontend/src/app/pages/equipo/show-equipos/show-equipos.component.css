@@ -1,19 +1,21 @@
 img {
-    width: 100%;
-    height: 250px;
-    object-fit: contain;
-    
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
 }
 h5 {
-    font-weight: bold;
-    margin-left: 15px;
+  font-weight: bold;
+  margin-left: 15px;
 }
 
 .modal-header img {
-    width: auto;
-    height: 50px;
+  width: auto;
+  height: 50px;
 }
-.btn-group .btn {
-    width: 50%;
-    border-radius: 10px;
-  }
+/* .btn-group .btn,
+.btn-group a {
+  width: 50%;
+  border-radius: 10px;
+} */
+
+

@@ -40,7 +40,7 @@ export const recuperarJugadores = async (req, res) => {
                     nombreEquipo: team.shortName,
                     datos: {
                         nombreJugador: jugador.name,
-                        posicion: jugador.position,
+                        posicion: jugador.position || "Desconocido",
                         fechaNacimiento: formatearFecha(jugador.dateOfBirth),
                         nacionalidad: jugador.nationality,
                     },
@@ -49,14 +49,15 @@ export const recuperarJugadores = async (req, res) => {
 
                 await JugadorModel.create(nuevoJugador);
                 contador++;
+                i++;
             });
             await Promise.all(promises);
             console.log("Equipo "+team.shortName+" --> Numero de jugadores: ",contador);
-            i++;
         }
         if (res) {
             res.status(200).send('Datos de jugadores guardados correctamente');
         } else {
+            console.log("Total de jugadores: ",i)
             console.log('Datos de jugadores guardados correctamente');
         }
         

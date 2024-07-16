@@ -34,6 +34,10 @@ const equiposSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor, completa este campo"],
     },
+    idEquipoAPI: {
+      type: Number,
+      required: [true, "Por favor, completa este campo"],
+    }
   },
   {
     timestamps: true,

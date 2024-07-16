@@ -20,6 +20,8 @@ export class ShowEquiposComponent implements OnInit{
   ngOnInit(): void {
     this.crudEquiposService.getEquiposOrdenados().subscribe((res: Equipo[]) => {
       this.equipos = res
+      console.log(this.equipos);
+      
     })
   }
 
