@@ -17,59 +17,32 @@ const formatearFecha = (fecha) => {
     return `${dia}-${mes}-${año}`;
 };
 
+/*const imagenesEquipos = {
+    77: "/assets/img/jugadores/jug_bilbao.png",
+    78: "/assets/img/jugadores/jug_atleti.png",
+    79: "/assets/img/jugadores/jug_osasuna.png",
+    80: "/assets/img/jugadores/jug_espanyol.png",
+    81: "/assets/img/jugadores/jug_barsa.png",
+    82: "/assets/img/jugadores/jug_getafe.png",
+    86: "/assets/img/jugadores/jug_madrid.png",
+    87: "/assets/img/jugadores/jug_vallecano.png",
+    89: "/assets/img/jugadores/jug_mallorca.png",
+    90: "/assets/img/jugadores/jug_betis.png",
+    92: "/assets/img/jugadores/jug_sociedad.png",
+    94: "/assets/img/jugadores/jug_villareal.png",
+    95: "/assets/img/jugadores/jug_valencia.png",
+    250: "/assets/img/jugadores/jug_valladolid.png",
+    263: "/assets/img/jugadores/jug_alaves.png",
+    275: "/assets/img/jugadores/jug_laspalmas.png",
+    298: "/assets/img/jugadores/jug_girona.png",
+    558: "/assets/img/jugadores/jug_celta.png",
+    559: "/assets/img/jugadores/jug_sevilla.png",
+    745: "/assets/img/jugadores/jug_leganes.png",
+};*/
 
-/*export const recuperarJugadores = async (req, res) => {
-    try {
-        const response = await axios.get(API_URL, {
-            headers: {
-                'X-Auth-Token': API_KEY
-            }
-        });
-        const datosAPI = response.data.teams
-
-        let i = 0;
-
-        for (const team of datosAPI) {
-            console.log(`Tamaño del equipo ${team.shortName}: ${team.squad.length}`);
-            const equipoColeccion = await EquiposModel.findOne({nombreEquipoCorto: team.shortName});
-            const id_Equipo = equipoColeccion._id;
-            let contador = 0;
-            const promises = team.squad.map(async (jugador) => {
-                const nuevoJugador = {
-                    idEquipo: id_Equipo,
-                    nombreEquipo: team.shortName,
-                    datos: {
-                        nombreJugador: jugador.name,
-                        posicion: jugador.position || "Desconocido",
-                        fechaNacimiento: formatearFecha(jugador.dateOfBirth),
-                        nacionalidad: jugador.nationality,
-                    },
-                    estadisticas: null, //la colección estadísticas la crearé después
-                };
-
-                await JugadorModel.create(nuevoJugador);
-                contador++;
-                i++;
-            });
-            await Promise.all(promises);
-            console.log("Equipo "+team.shortName+" --> Numero de jugadores: ",contador);
-        }
-        if (res) {
-            res.status(200).send('Datos de jugadores guardados correctamente');
-        } else {
-            console.log("Total de jugadores: ",i)
-            console.log('Datos de jugadores guardados correctamente');
-        }
-        
-    } catch (error) {
-        console.error('Error recuperando los datos de la API de equipos', error);
-        if (res) {
-            res.status(500).send('Error recuperando los datos de la API');
-        }
-    }
-}*/
-
-
+const quitarAcentos = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
 
 export const getJugadoresByEquipo = async (req, res) => {
 
@@ -97,6 +70,8 @@ export const getJugadoresByEquipo = async (req, res) => {
         //console.log("Equipo: ", equipo);
 
         const jugadores = jugadoresAPI.map(jugador => {
+            //Esto es para la ruta de las imagenes de los juagdores
+            const nombreEquipoFormateado = quitarAcentos(equipo.nombreEquipoCorto).replace(/ /g, '_').toLowerCase();
             const nuevoJugador = {
                 idEquipo: equipo._id,
                 idApiEquipo: idApi,
@@ -107,7 +82,7 @@ export const getJugadoresByEquipo = async (req, res) => {
                     nacionalidad: jugador.nationality || "Desconocido",
                     dorsal: jugador.shirtNumber || -1,
                     paisNacimiento: jugador.countryOfBirth || "Desconocido",
-                },
+                    imagenJugador: `/assets/img/jugadores/jug_${nombreEquipoFormateado}.png`,                },
             };
 
             //console.log("Jugador creado:", nuevoJugador); // Log para ver cada jugador creado

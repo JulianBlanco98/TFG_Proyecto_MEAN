@@ -21,9 +21,11 @@ export class ShowJugadoresEquipoComponent implements OnInit{
   
   ngOnInit(): void {
      this.idApi = +this.activatedRoute.snapshot.paramMap.get('idApi');
-     this.crudJugadoresService.getJugadoresByIdApi(this.idApi).subscribe((data: any[]) => {
-      this.jugadores = data
-      console.log("Jugadores:",this.jugadores);
+     this.crudJugadoresService.getJugadoresByIdApi(this.idApi).subscribe((data: any) => {
+      //console.log(data);
+      
+      this.jugadores = data.jugadores;
+      // console.log("Jugadores:",this.jugadores);
       
      })
 

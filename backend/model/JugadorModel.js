@@ -36,6 +36,10 @@ const jugadoresSchema = new mongoose.Schema(
         type: String,
         required: [true, "Por favor, completa este campo"],
       },
+      imagenJugador: {
+        type: String,
+        required: [true, "Por favor, completa este campo"],
+      }
     },
     estadisticas: {
       type: mongoose.Schema.Types.ObjectId,

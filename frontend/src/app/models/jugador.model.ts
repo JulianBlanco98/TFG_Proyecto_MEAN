@@ -1,14 +1,15 @@
 export interface Jugador {
-  _id: string;
-  idEquipo: string;
-  idApiEquipo: number;
+  _id: string,
+  idEquipo: string,
+  idApiEquipo: number,
   datos: {
-    nombreJugador: string;
-    posicion: string;
-    fechaNacimiento: string;
-    nacionalidad: string;
-    dorsal: number;
-    paisNacimiento: string;
+    nombreJugador: string,
+    posicion: string,
+    fechaNacimiento: string,
+    nacionalidad: string,
+    dorsal: number,
+    paisNacimiento: string,
+    imagenJugador: string,
   };
-  estadisticas: string;
+  estadisticas: string,
 }
