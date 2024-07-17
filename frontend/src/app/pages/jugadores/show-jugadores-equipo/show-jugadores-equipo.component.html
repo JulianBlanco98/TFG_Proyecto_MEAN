@@ -4,15 +4,15 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-3 mx-1">
     <div class="col" *ngFor="let jugador of jugadores">
         <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
-            <img [src]="jugador?.datos.imagenJugador" class="card-img-top" alt="{{jugador?.datos.nombreJugador}}">
+            <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
             <div class="card-body">
                 <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
                 <p class="card-text">
-                    Posición: {{jugador?.datos.posicion}}<br>
-                    Fecha de nacimiento: {{jugador?.datos.fechaNacimiento}}<br>
-                    Nacionalidad: {{jugador?.datos.nacionalidad}}<br>
-                    Dorsal: {{jugador?.datos.dorsal}}<br>
-                    País de nacimiento: {{jugador?.datos.paisNacimiento}}
+                    Posición: {{jugador?.datos?.posicion}}<br>
+                    Fecha de nacimiento: {{jugador?.datos?.fechaNacimiento}}<br>
+                    Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
+                    Dorsal: {{jugador?.datos?.dorsal}}<br>
+                    País de nacimiento: {{jugador?.datos?.paisNacimiento}}
                 </p>
             </div>
         </div>
