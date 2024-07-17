@@ -9,8 +9,6 @@ import routerJugadores from "./routes/routesJugadores.js"
 
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
-import { verificarJugadores } from "./helper/initJugador.js";
-
 
 const app = express();
 dotenv.config();
@@ -29,11 +27,6 @@ app.use("/apiTFG/jugadores", routerJugadores)
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
-/*app.listen(PORT, () => {
-    connectDB(MONGO_URI)
-    console.log("¡Conectado a MongoDB!");
-    console.log(`Servidor corriendo en la URL http://localhost:${PORT}`);
-    })*/
 
 const start = async () => {
     try {
@@ -43,9 +36,6 @@ const start = async () => {
 
         //Verificar los datos de equipo
         await verificarCargaDatos();
-
-        //Verificar los jugadores (no estadísticas todavía)
-        await verificarJugadores();
 
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en la URL http://localhost:${PORT}`);

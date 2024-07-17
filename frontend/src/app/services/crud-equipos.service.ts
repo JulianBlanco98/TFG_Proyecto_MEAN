@@ -14,6 +14,7 @@ import { catchError, map } from 'rxjs';
 export class CrudEquiposService {
 
   private rest_API: string = 'http://localhost:8000/apiTFG/equipos';
+  //private rest_API_2: string = 'http://localhost:8000/apiTFG/jugadores';
   private httpHeaders = new HttpHeaders().set(
     'Content-type',
     'application/json'
@@ -27,5 +28,7 @@ export class CrudEquiposService {
   getEquiposOrdenados(): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/ord`, {headers: this.httpHeaders})
   }
+
+  
 
 }

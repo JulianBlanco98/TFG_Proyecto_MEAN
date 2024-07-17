@@ -7,9 +7,9 @@ const jugadoresSchema = new mongoose.Schema(
       ref: 'equipos',
       required: true,
     },
-    nombreEquipo: {
-      type: String,
-      required: [true, "Por favor, completa este campo"],
+    idApiEquipo: {
+      type: Number,
+      required: true,
     },
     datos: {
       nombreJugador: {
@@ -30,11 +30,11 @@ const jugadoresSchema = new mongoose.Schema(
       },
       dorsal: {
         type: Number,
-        default: -1,
+        required: [true, "Por favor, completa este campo"],
       },
-      valorMercado: {
-        type: Number,
-        default: -1,
+      paisNacimiento: {
+        type: String,
+        required: [true, "Por favor, completa este campo"],
       },
     },
     estadisticas: {

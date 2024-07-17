@@ -32,4 +32,6 @@ export class ShowEquiposComponent implements OnInit{
     modal.show()
   }
 
+  
+
 }

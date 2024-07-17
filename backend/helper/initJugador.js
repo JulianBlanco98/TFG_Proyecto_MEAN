@@ -1,4 +1,4 @@
-import { recuperarJugadores } from "../controller/JugadorController.js";
+//import { recuperarJugadores } from "../controller/JugadorController.js";
 import { JugadorModel } from "../model/JugadorModel.js";
 
 /*Athlethic: 77
@@ -25,7 +25,7 @@ Leganés: 745*/
 
 
 
-export const verificarJugadores = async() => {
+/*export const verificarJugadores = async() => {
     try {
         const contador = await JugadorModel.countDocuments()
         if(contador === 0){
@@ -38,4 +38,4 @@ export const verificarJugadores = async() => {
     } catch (error) {
         console.error("Error al cargar los datos: ",error)
     }
-}
+}*/

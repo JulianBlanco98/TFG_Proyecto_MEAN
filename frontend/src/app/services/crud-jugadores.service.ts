@@ -22,13 +22,10 @@ export class CrudJugadoresService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getJugadoresByEquipo(id: any): Observable<any> {
-    return this.httpClient.
-    get(`${this.rest_API}/equipo/${id}`, {headers: this.httpHeaders}).pipe(
-      map((res: any) => {
-        return res || {};
-      })
-    );
+  getJugadoresByIdApi(idApi: number): Observable<any> {
+    console.log("Estoy en el método del service del front. IDAPI: ", idApi);
+    
+    return this.httpClient.get(`${this.rest_API}/equipo/${idApi}`, {headers: this.httpHeaders})
   }
 
   handleError(error: HttpErrorResponse) {

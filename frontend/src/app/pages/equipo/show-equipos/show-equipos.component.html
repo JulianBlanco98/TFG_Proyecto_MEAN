@@ -6,7 +6,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">{{ equipo?.nombreEquipo }}</h5>
           <div class="btn-group d-flex" role="group">
-            <a routerLink="/jugadores/{{equipo?._id}}/{{equipo?.idEquipoAPI}}" class="btn btn-primary mx-1">Jugadores</a>
+            <a routerLink="/jugadores/{{equipo?.idEquipoAPI}}" class="btn btn-primary mx-1">Jugadores</a>
             <button class="btn btn-secondary mx-1" (click)="openModal(equipo)">Más información</button>
           </div>
         </div>

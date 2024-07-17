@@ -3,6 +3,6 @@ import { getJugadoresByEquipo } from '../controller/JugadorController.js'
 
 const router = express.Router()
 
-router.get('/equipo/:id', getJugadoresByEquipo)
+router.get('/equipo/:idApi', getJugadoresByEquipo)
 
 export default router;
