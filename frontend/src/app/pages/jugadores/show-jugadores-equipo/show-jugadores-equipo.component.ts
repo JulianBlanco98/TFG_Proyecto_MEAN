@@ -3,6 +3,7 @@ import { Jugador } from 'src/app/models/jugador.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
+import { Entrenador } from 'src/app/models/entrenador.model';
 
 @Component({
   selector: 'app-show-jugadores-equipo',
@@ -21,6 +22,7 @@ export class ShowJugadoresEquipoComponent implements OnInit{
 
   jugadores: Jugador[]
   idApi: number
+  entrenador: Entrenador
   
   ngOnInit(): void {
      this.idApi = +this.activatedRoute.snapshot.paramMap.get('idApi');
@@ -29,6 +31,9 @@ export class ShowJugadoresEquipoComponent implements OnInit{
       
       this.jugadores = data.jugadores;
       console.log("Jugadores:",this.jugadores);
+      this.entrenador = data.entrenador
+      console.log("Entrenaodr:",this.entrenador);
+      
       
      })
 
