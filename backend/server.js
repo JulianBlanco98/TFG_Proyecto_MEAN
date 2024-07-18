@@ -38,6 +38,7 @@ const start = async () => {
         //Verificar los datos de equipo
         await verificarCargaDatos();
 
+        //Crear el calendario y las jornadas una vez que estén los equipos
         await generarCalendario();
 
         app.listen(PORT, () => {
