@@ -9,7 +9,7 @@ import routerJugadores from "./routes/routesJugadores.js"
 
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
-import { generarCalendario } from "./controller/CalendarioController.js";
+import { generarCalendario } from "./helper/initCalendario.js";
 
 const app = express();
 dotenv.config();
