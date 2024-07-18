@@ -11,6 +11,10 @@ const jugadoresSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    coloresEquipo: { 
+      type: [String], 
+      required: false, 
+    },
     datos: {
       nombreJugador: {
         type: String,

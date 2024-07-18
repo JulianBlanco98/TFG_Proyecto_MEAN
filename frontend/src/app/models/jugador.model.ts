@@ -2,6 +2,7 @@ export interface Jugador {
   _id: string,
   idEquipo: string,
   idApiEquipo: number,
+  coloresEquipo: string[],
   datos: {
     nombreJugador: string,
     posicion: string,

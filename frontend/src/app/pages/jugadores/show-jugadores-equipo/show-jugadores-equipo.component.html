@@ -1,7 +1,14 @@
-<h1 class="text-center mt-3">Jugadores</h1>
+<div class="d-flex align-items-center">
+    <a routerLink="/equipos">
+        <fa-icon [icon]="faBackWard" [size]="'3x'"></fa-icon>
+    </a>
+    <h1 class="text-center mt-3 mx-auto">Jugadores</h1>
+</div>
+
+
 
 <!-- Div de todos los jugadores -->
-<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-3 mx-1">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 mt-3 mx-1">
     <div class="col" *ngFor="let jugador of jugadores">
         <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
             <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
@@ -11,7 +18,7 @@
                     Posición: {{jugador?.datos?.posicion}}<br>
                     Fecha de nacimiento: {{jugador?.datos?.fechaNacimiento}}<br>
                     Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
-                    Dorsal: {{jugador?.datos?.dorsal}}<br>
+                    Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
                     País de nacimiento: {{jugador?.datos?.paisNacimiento}}
                 </p>
             </div>

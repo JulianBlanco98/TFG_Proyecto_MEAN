@@ -17,29 +17,6 @@ const formatearFecha = (fecha) => {
     return `${dia}-${mes}-${año}`;
 };
 
-/*const imagenesEquipos = {
-    77: "/assets/img/jugadores/jug_bilbao.png",
-    78: "/assets/img/jugadores/jug_atleti.png",
-    79: "/assets/img/jugadores/jug_osasuna.png",
-    80: "/assets/img/jugadores/jug_espanyol.png",
-    81: "/assets/img/jugadores/jug_barsa.png",
-    82: "/assets/img/jugadores/jug_getafe.png",
-    86: "/assets/img/jugadores/jug_madrid.png",
-    87: "/assets/img/jugadores/jug_vallecano.png",
-    89: "/assets/img/jugadores/jug_mallorca.png",
-    90: "/assets/img/jugadores/jug_betis.png",
-    92: "/assets/img/jugadores/jug_sociedad.png",
-    94: "/assets/img/jugadores/jug_villareal.png",
-    95: "/assets/img/jugadores/jug_valencia.png",
-    250: "/assets/img/jugadores/jug_valladolid.png",
-    263: "/assets/img/jugadores/jug_alaves.png",
-    275: "/assets/img/jugadores/jug_laspalmas.png",
-    298: "/assets/img/jugadores/jug_girona.png",
-    558: "/assets/img/jugadores/jug_celta.png",
-    559: "/assets/img/jugadores/jug_sevilla.png",
-    745: "/assets/img/jugadores/jug_leganes.png",
-};*/
-
 const quitarAcentos = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -69,12 +46,18 @@ export const getJugadoresByEquipo = async (req, res) => {
         //console.log(jugadoresAPI);
         //console.log("Equipo: ", equipo);
 
+        const coloresEquipo = equipo.coloresEquipos; // "Red / White / Black"
+        let arrayColores = coloresEquipo.split(" / "); // ["Red", "White", "Black"]
+        arrayColores = arrayColores.map(color => color.toLowerCase()); // ["red", "white", "black"]
+
+
         const jugadores = jugadoresAPI.map(jugador => {
             //Esto es para la ruta de las imagenes de los juagdores
             const nombreEquipoFormateado = quitarAcentos(equipo.nombreEquipoCorto).replace(/ /g, '_').toLowerCase();
             const nuevoJugador = {
                 idEquipo: equipo._id,
                 idApiEquipo: idApi,
+                coloresEquipo: arrayColores,
                 datos: {
                     nombreJugador: jugador.name,
                     posicion: jugador.position || "Desconocido",
