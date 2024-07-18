@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Jugador } from 'src/app/models/jugador.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
-import { faBackwardStep } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Entrenador } from 'src/app/models/entrenador.model';
 
 @Component({
@@ -12,7 +12,7 @@ import { Entrenador } from 'src/app/models/entrenador.model';
 })
 export class ShowJugadoresEquipoComponent implements OnInit{
 
-  faBackWard = faBackwardStep
+  faBackWard = faArrowLeft
 
   constructor(
     private crudJugadoresService: CrudJugadoresService,
