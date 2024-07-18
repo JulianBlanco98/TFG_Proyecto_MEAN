@@ -84,4 +84,20 @@ export const getJugadoresByEquipo = async (req, res) => {
     }
 }
 
+export const getPorteros = async (req, res) => {
+    try {
+        const {idApi} = req.params
+        console.log("Consulta de porteros. IDAPI: ",idApi);
+        const porteros = await JugadorModel.find({
+            idApiEquipo: idApi,
+            'datos.posicion': 'Goalkeeper'
+        })
+
+        res.status(200).json(porteros)
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
 
