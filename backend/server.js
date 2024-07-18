@@ -9,6 +9,7 @@ import routerJugadores from "./routes/routesJugadores.js"
 
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
+import { generarCalendario } from "./controller/CalendarioController.js";
 
 const app = express();
 dotenv.config();
@@ -36,6 +37,8 @@ const start = async () => {
 
         //Verificar los datos de equipo
         await verificarCargaDatos();
+
+        await generarCalendario();
 
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en la URL http://localhost:${PORT}`);
