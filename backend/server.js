@@ -2,10 +2,13 @@ import express, { urlencoded } from "express";
 import dotenv from "dotenv";
 import cors from 'cors'
 import { connectDB } from "./config/db.js";
+
+//Importar las rutas de los endpoint
 import routerUsuarios from "./routes/routesUsuarios.js";
 import routerPremios from "./routes/routesPremios.js";
 import routerEquipos from "./routes/routesEquipos.js"
 import routerJugadores from "./routes/routesJugadores.js"
+import routerJornadas from "./routes/routesJornada.js"
 
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
@@ -24,6 +27,7 @@ app.use("/apiTFG/usuarios", routerUsuarios);
 app.use("/apiTFG/premios", routerPremios);
 app.use("/apiTFG/equipos", routerEquipos)
 app.use("/apiTFG/jugadores", routerJugadores)
+app.use("/apiTFG/jornada", routerJornadas)
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;

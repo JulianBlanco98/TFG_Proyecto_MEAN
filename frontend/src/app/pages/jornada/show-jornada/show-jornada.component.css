@@ -1,0 +1,42 @@
+img {
+    width: 100px;
+    height: 50px;
+    object-fit: contain;
+}
+.local, .visitante {
+    display: flex;
+    align-items: center;
+}
+.visitante {
+    justify-content: flex-end;
+}
+
+.local p, .visitante p, .resultado{
+    margin-top: 16px !important;
+}
+
+.jor {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.jornada-anterior, .jornada-siguiente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.nuevaJ:hover {
+    cursor: pointer;
+    color: #007BFF;
+}
+.jornada-anterior {
+    margin-left: 40px;
+}
+.jornada-siguiente {
+    margin-right: 40px;
+}
+.disabled {
+    color: #CCC;
+    cursor: not-allowed;
+}

@@ -1,0 +1,52 @@
+<div *ngIf="jornada" class="container-sm">
+    <div class="mt-4 jor">
+        <div class="jornada-anterior nuevaJ" (click)="jornada.numeroJornada > 1 && nuevaJornada(jornada.numeroJornada - 1)">
+            <fa-icon [icon]="faLeft" [size]="'3x'" [class.disabled]="jornada.numeroJornada <= 1"></fa-icon>
+            <p>Jornada {{jornada.numeroJornada - 1}}</p>
+        </div>
+        <h3 class="text-center">Jornada {{ jornada?.numeroJornada }}</h3>
+        <div class="jornada-siguiente nuevaJ" (click)="jornada.numeroJornada < 38 && nuevaJornada(jornada.numeroJornada + 1)">
+            <fa-icon [icon]="faRight" [size]="'3x'" [class.disabled]="jornada.numeroJornada >= 38"></fa-icon>
+            <p>Jornada {{jornada.numeroJornada + 1}}</p>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th style="float: left; margin-left: 30px">EquipoLocal</th>
+                    <th>Resultado</th>
+                    <th style="float: right; margin-right: 30px">EquipoVisitante</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr *ngFor="let partido of jornada.partidos">
+                    <td>
+                        <div class="local">
+                            <img [src]="partido?.equipoLocal.escudoEquipo"
+                                alt="{{ partido?.equipoLocal?.nombreEquipoCorto }}" />
+                            <p>{{ partido?.equipoLocal?.nombreEquipoCorto }}</p>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div *ngIf="jornada.jugado; else noJugado">
+                            <p class="resultado">
+                                {{ partido?.golesLocal }} vs {{ partido?.golesVisitante }}
+                            </p>
+                        </div>
+                        <ng-template #noJugado>
+                            <p class="resultado">No jugado</p>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <div class="visitante">
+                            <p>{{ partido?.equipoVisitante?.nombreEquipoCorto }}</p>
+                            <img [src]="partido?.equipoVisitante?.escudoEquipo"
+                                alt="{{ partido?.equipoVisitante?.nombreEquipoCorto }}" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
