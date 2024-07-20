@@ -22,17 +22,20 @@ export class ShowJugadoresEquipoComponent implements OnInit{
 
   jugadores: Jugador[]
   idApi: number
-  entrenador: Entrenador
+  entrenador: Entrenador | undefined
   
   ngOnInit(): void {
      this.idApi = +this.activatedRoute.snapshot.paramMap.get('idApi');
      this.crudJugadoresService.getJugadoresByIdApi(this.idApi).subscribe((data: any) => {
       //console.log(data);
+      console.log(data);
       
       this.jugadores = data.jugadores;
       console.log("Jugadores:",this.jugadores);
-      this.entrenador = data.entrenador
-      console.log("Entrenaodr:",this.entrenador);
+      if(data.entrenador && data.entrenador.length > 0){
+        this.entrenador = data.entrenador[0]
+        console.log("Entrenador:",this.entrenador);
+      }
       
       
      })

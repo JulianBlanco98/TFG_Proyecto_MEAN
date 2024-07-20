@@ -1,1 +1,13 @@
+.principal {
+    display: flex;
+}
+.izquierda {
+    width: 25%;
+    background-color: bisque;
+}
+.derecha {
+    width: 75%;
+    background-color: cadetblue;
+}
 
+/* Estilos del selector */

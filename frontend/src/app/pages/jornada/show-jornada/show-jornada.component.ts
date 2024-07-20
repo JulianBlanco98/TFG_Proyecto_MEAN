@@ -36,14 +36,14 @@ export class ShowJornadaComponent implements OnInit {
   }
 
   nuevaJornada(jornadaNueva: number) {
-    this.crudJornadaService.getJornadaByNumero(jornadaNueva).subscribe(
-      (data) => {
+    this.crudJornadaService.getJornadaByNumero(jornadaNueva).subscribe({
+      next: (data) => {
         this.jornada = data;
         console.log(this.jornada);
       },
-      (error) => {
-        console.log(error);
-      }
-    );
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }
