@@ -1,3 +1,48 @@
-<h1 class="text-center mt-3">Aquí irá la tabla de clasificacion</h1>
+<h1 class="text-center mt-3">Clasificacion</h1>
+
+<div class="container text-center mt-4">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Pos.</th>
+                    <th>Nombre</th>
+                    <th>Escudo</th>
+                    <th>Puntos</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                    <th>DG</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let equipo of tablaClasificacion?.tabla">
+                    <td [ngClass]="{'champions': equipo?.posicion >=1 && equipo?.posicion <= 4,
+                                    'europa': equipo?.posicion === 5,
+                                    'conference': equipo?.posicion ===6,
+                                    'descenso': equipo?.posicion >= 18 && equipo?.posicion <=20}">
+                        <strong>{{equipo?.posicion}}</strong>
+                    </td>
+                    <td>{{equipo?.equipoPosicion?.nombreEquipoCorto}}</td>
+                    <td>
+                        <img [src]="equipo?.equipoPosicion?.escudoEquipo" alt="Escudo del {{equipo?.equipoPosicion?.nombreEquipoCorto}}">               
+                    </td>
+                    <td>{{equipo?.estadisticas?.puntos}}</td>
+                    <td>{{equipo?.estadisticas?.partidosJugados}}</td>
+                    <td>{{equipo?.estadisticas?.victorias}}</td>
+                    <td>{{equipo?.estadisticas?.empates}}</td>
+                    <td>{{equipo?.estadisticas?.derrotas}}</td>
+                    <td>{{equipo?.estadisticas?.golesAFavor}}</td>
+                    <td>{{equipo?.estadisticas?.golesEnContra}}</td>
+                    <td>{{equipo?.estadisticas?.diferenciaGoles}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <hr>
 <app-show-jornada [numJornada] ="1"></app-show-jornada>

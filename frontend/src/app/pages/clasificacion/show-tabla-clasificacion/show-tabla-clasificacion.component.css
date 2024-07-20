@@ -1,0 +1,18 @@
+td img {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: contain;
+}
+
+.champions {
+    background-color: rgb(158, 158, 255);
+}
+.europa {
+    background-color: rgb(255, 209, 123);
+}
+.conference {
+    background-color: rgb(122, 243, 92);
+}
+.descenso {
+    background-color: rgb(250, 109, 109);
+}
