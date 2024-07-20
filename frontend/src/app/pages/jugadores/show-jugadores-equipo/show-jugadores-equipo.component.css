@@ -1,9 +1,14 @@
 .principal {
     display: flex;
 }
-.izquierda {
+.pos {
     width: 25%;
+}
+.izquierda {
+    width: 100%;
     background-color: bisque;
+    position: sticky;
+    top: 0;
 }
 .derecha {
     width: 75%;

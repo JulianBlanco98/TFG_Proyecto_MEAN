@@ -7,39 +7,41 @@
 
 
 <div class="principal">
-    <div class="izquierda">
-        <div class="entrenador">
-            <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
-                <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top" alt="{{entrenador?.datos?.nombreEntrenador}}">
-                <div class="card-body">
-                    <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
-                    <div class="card-text">
-                        <ul>
-                            <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
-                            <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
-                            <li>Pais de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
-                        </ul>
+    <div class="pos">
+        <div class="izquierda">
+            <div class="entrenador">
+                <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
+                    <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top" alt="{{entrenador?.datos?.nombreEntrenador}}">
+                    <div class="card-body">
+                        <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
+                        <div class="card-text">
+                            <ul>
+                                <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
+                                <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
+                                <li>Pais de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="opciones">
-            <h2>Buscar por posicion</h2>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">Todas las posiciones</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                <label class="form-check-label" for="flexRadioDefault2">Porteros</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                <label class="form-check-label" for="flexRadioDefault3">Mediocentros</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
-                <label class="form-check-label" for="flexRadioDefault4">Delanteros</label>
+            <div class="opciones">
+                <h2>Buscar por posicion</h2>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">Todas las posiciones</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                    <label class="form-check-label" for="flexRadioDefault2">Porteros</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                    <label class="form-check-label" for="flexRadioDefault3">Mediocentros</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+                    <label class="form-check-label" for="flexRadioDefault4">Delanteros</label>
+                </div>
             </div>
         </div>
     </div>
