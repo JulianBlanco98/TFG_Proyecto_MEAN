@@ -5,7 +5,6 @@ export const generarTablaClasificacion = async (req, res) => {
 
     try {
         
-        console.log("Generando tabla de clasificacion...");
         const tablaExiste = await ClasificacionModel.findOne();
         //console.log(tablaExiste);
         if (tablaExiste) {
@@ -16,6 +15,7 @@ export const generarTablaClasificacion = async (req, res) => {
                 console.log("No están los 20 equipos");
                 return;
             }
+            console.log("Generando tabla de clasificacion...");
 
             const tabla = equipos.map((equipo, indice) => ({
                 posicion: indice + 1,

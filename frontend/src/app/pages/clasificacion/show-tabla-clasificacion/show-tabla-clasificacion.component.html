@@ -22,7 +22,7 @@
                 <tr *ngFor="let equipo of tablaClasificacion?.tabla">
                     <td [ngClass]="{'champions': equipo?.posicion >=1 && equipo?.posicion <= 4,
                                     'europa': equipo?.posicion === 5,
-                                    'conference': equipo?.posicion ===6,
+                                    'conference': equipo?.posicion === 6,
                                     'descenso': equipo?.posicion >= 18 && equipo?.posicion <=20}">
                         <strong>{{equipo?.posicion}}</strong>
                     </td>

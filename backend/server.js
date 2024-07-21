@@ -11,6 +11,9 @@ import routerJugadores from "./routes/routesJugadores.js"
 import routerJornadas from "./routes/routesJornada.js"
 import routerClasificacion from "./routes/routesClasificacion.js"
 
+//Usuarios rutas
+import routerUser from "./routes/routesUser.js"
+
 //Carga de la colección de equipos
 import { verificarCargaDatos } from "./helper/initEquipo.js";
 import { generarCalendario } from "./helper/initCalendario.js";
@@ -26,6 +29,7 @@ app.use(urlencoded({ extended: true }));
 //Endpoints de las colecciones de la base de datos
 //Aquí son las rutas con las que luego se recoge en el front y en insomnia
 app.use("/apiTFG/usuarios", routerUsuarios);
+app.use("/apiTFG/users", routerUser);
 app.use("/apiTFG/premios", routerPremios);
 app.use("/apiTFG/equipos", routerEquipos)
 app.use("/apiTFG/jugadores", routerJugadores)
