@@ -23,28 +23,14 @@ export class CrudUsersService {
   registro(data: any): Observable<any> {
     return this.httpClient
       .post(`${this.rest_API}/registro`, data, {headers: this.httpHeaders})
-      .pipe(catchError(this.handleError))
   }
 
-  login (nombreUsuario: string, password: string): Observable<any> {
+  login (data: any): Observable<any> {
     return this.httpClient
-      .post(`${this.rest_API}/login`, {nombreUsuario, password}, {headers: this.httpHeaders})
-      .pipe(catchError(this.handleError))
+      .post(`${this.rest_API}/login`, data, {headers: this.httpHeaders})
   }
 
 
-  handleError(error: HttpErrorResponse) {
-    let errorMensaje: string = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMensaje = error.error.message;
-    } else {
-      errorMensaje = `Error code: ${error.status}. Mensaje: ${error.message}`;
-    }
-
-    return throwError(() => {
-      errorMensaje;
-    });
-  }
 }
 
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user.model';
@@ -10,6 +10,7 @@ import { User } from 'src/app/models/user.model';
 })
 export class ModalUsuarioComponent {
   
+  @Input() tipo: string = ''
   form: FormGroup
   usuario: User
   

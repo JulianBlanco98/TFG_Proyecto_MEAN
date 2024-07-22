@@ -30,30 +30,46 @@ export class MenuComponent {
   faBook = faBook;
   faGift = faGift;
 
-  openModal() {
+  openModal(tipo: string) {
     const modal = this.modalService.open(ModalUsuarioComponent, {
       centered: true,
       backdrop: true,
       size: 'md'
     })
+    
+      //El tipo me dice si es login o registro
+      modal.componentInstance.tipo = tipo;
+    
     modal.result
       .then((result) => {
         const response = result;
         console.log(response);
-        this.crudUsersService.registro(response).subscribe({
-          next: (data) => {
-            this.alertifyService.success(data.message)
-          },
-          error: (err) => {
-            console.log("error: ", err);
-            this.alertifyService.warning(err.message);
-            
-          }
-        })
+        let nameService;
+        if(tipo === 'registro'){
+          nameService = 'registro';
+        }
+        else{
+          nameService = 'login';
+
+        }
+        this.typeSubmit(nameService, response);
       },
       () => { //este es el evento de darle a la x para cerrar
 
       }
     )
   }
+
+  typeSubmit(service: any, response: any){
+    this.crudUsersService[service](response).subscribe({
+      next: (data) => {
+        this.alertifyService.success(data.message)
+      },
+      error: (err) => {
+        // console.log("error: ", err);
+        this.alertifyService.error(err.error.message);           
+      }
+    })
+  }
+
 }

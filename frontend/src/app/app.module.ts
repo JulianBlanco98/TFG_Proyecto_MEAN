@@ -18,7 +18,6 @@ import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.c
 import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
 import { ShowJornadaComponent } from './pages/jornada/show-jornada/show-jornada.component';
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
-import { LoginComponent } from './components/auth/login/login.component';
 import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-usuario.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -35,7 +34,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ShowJugadoresEquipoComponent,
     ShowJornadaComponent,
     ShowTablaClasificacionComponent,
-    LoginComponent,
     ModalUsuarioComponent
   ],
   imports: [

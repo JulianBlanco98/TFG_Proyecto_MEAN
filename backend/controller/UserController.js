@@ -44,10 +44,11 @@ export const registrarUsuario = async (req, res) => {
 
 //Login de un usuario
 export const loginUsuario = async (req, res) => {
-    const { nombreUsuario, password } = req.body;
+    const { nombre, password } = req.body;
 
     try {
-        const usuario = await UserModel.findOne({ "datos.nombre": nombreUsuario });
+        console.log("parametros login: ", req.body);
+        const usuario = await UserModel.findOne({ "datos.nombre": nombre });
         if (!usuario) {
             return res.status(404).json({
                 message: "Usuario no encontrado",
