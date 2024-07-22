@@ -18,6 +18,8 @@ import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.c
 import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
 import { ShowJornadaComponent } from './pages/jornada/show-jornada/show-jornada.component';
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
+import { RegistroComponent } from './components/auth/registro/registro.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabl
     ShowEquiposComponent,
     ShowJugadoresEquipoComponent,
     ShowJornadaComponent,
-    ShowTablaClasificacionComponent
+    ShowTablaClasificacionComponent,
+    RegistroComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
