@@ -20,7 +20,7 @@ export class CrudUsersService {
 
   constructor(private httpClient: HttpClient) { }
 
-  registro(data: User): Observable<any> {
+  registro(data: any): Observable<any> {
     return this.httpClient
       .post(`${this.rest_API}/registro`, data, {headers: this.httpHeaders})
       .pipe(catchError(this.handleError))

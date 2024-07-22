@@ -33,14 +33,14 @@
         
         <!-- Botones de crear cuenta e iniciar sesion -->
         <div>
-            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registroModal">Crear Cuenta</button>
-            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesion</button>
+            <button class="btn btn-secondary" (click)="openModal()">Crear Cuenta</button>
+            <button class="btn btn-secondary" (click)="openModal()">Iniciar Sesion</button>
         </div>
     </div>
 </nav>
 
 <!-- Modal de Registro -->
-<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,11 +52,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
   
   <!-- Modal de Inicio de Sesion -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <!-- <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -68,4 +68,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
