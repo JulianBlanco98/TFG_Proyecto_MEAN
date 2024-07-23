@@ -8,6 +8,7 @@ import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.c
 import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
 import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
+import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,9 @@ const routes: Routes = [
   },
   {
     path:'create', component:CreateComponent
+  },
+  {
+    path:'apuesta', component: Ap1Component
   },
   {
     path:'jugadores/:idApi', component: ShowJugadoresEquipoComponent

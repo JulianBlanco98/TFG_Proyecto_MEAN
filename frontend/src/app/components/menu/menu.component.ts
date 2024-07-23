@@ -64,6 +64,7 @@ export class MenuComponent {
     );
   }
 
+  //Mover esta lógica al crud-user-service.ts y crear un 
   typeSubmit(service: any, response: any) {
     this.crudUsersService[service](response).subscribe({
       next: (data: any) => {

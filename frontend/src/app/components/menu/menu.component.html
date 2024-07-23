@@ -17,7 +17,7 @@
                     <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
                 </li>
                 <li class="nav-item active" *ngIf="authServiceService.isAuthenticated()">
-                    <a routerLink="" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
+                    <a routerLink="/apuesta" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
                 </li>
                 <li class="nav-item active">
                     <a routerLink="/clasificacion" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>

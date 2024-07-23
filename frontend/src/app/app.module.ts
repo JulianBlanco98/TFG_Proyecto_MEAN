@@ -20,6 +20,7 @@ import { ShowJornadaComponent } from './pages/jornada/show-jornada/show-jornada.
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-usuario.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ShowJugadoresEquipoComponent,
     ShowJornadaComponent,
     ShowTablaClasificacionComponent,
-    ModalUsuarioComponent
+    ModalUsuarioComponent,
+    Ap1Component
   ],
   imports: [
     BrowserModule,
