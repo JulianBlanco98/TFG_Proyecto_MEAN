@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs';
+import { AuthServiceService } from './auth-service.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,7 @@ export class CrudUsersService {
     'application/json'
   );
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authServiceService: AuthServiceService) { }
 
   registro(data: any): Observable<any> {
     return this.httpClient
@@ -28,6 +29,18 @@ export class CrudUsersService {
   login (data: any): Observable<any> {
     return this.httpClient
       .post(`${this.rest_API}/login`, data, {headers: this.httpHeaders})
+  }
+
+  getUsuario(id: any): Observable<any> {
+    const token = this.authServiceService.getToken();
+    const headers = this.httpHeaders.set('Authorization', token);
+    return this.httpClient
+      .get(`${this.rest_API}/${id}`, {headers})
+      .pipe(
+        map((res: any) => {
+          return res || {};
+        })
+      );
   }
 
 

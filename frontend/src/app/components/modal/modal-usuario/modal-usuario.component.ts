@@ -1,23 +1,54 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/models/user.model';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { CrudUsersService } from 'src/app/services/crud-users.service';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 @Component({
   selector: 'app-modal-usuario',
   templateUrl: './modal-usuario.component.html',
   styleUrls: ['./modal-usuario.component.css']
 })
-export class ModalUsuarioComponent {
+export class ModalUsuarioComponent implements OnInit{
   
   @Input() tipo: string = ''
   form: FormGroup
-  usuario: User
   
   //active modal es el actual
-  constructor(public readonly modal: NgbActiveModal){
+  constructor(public readonly modal: NgbActiveModal, 
+    private readonly authServiceService: AuthServiceService,
+    private readonly crudUsersService: CrudUsersService,
+    private readonly alertifyService: AlertifyService
+  ){
     this.buildForm()
   }
+
+  ngOnInit(): void {
+
+    //console.log("Tipo: ",this.tipo);
+    if(this.tipo === 'editarUsuario'){
+      const userId = this.authServiceService.getIdUsuarioToken();
+      //console.log("IdUsuario: ", userId);
+      if(userId){
+        this.crudUsersService.getUsuario(userId).subscribe({
+          next: (data: any) => {
+            //console.log(data.datos);
+            let datosUsuario = { ...data.datos };
+            delete datosUsuario.password;
+            this.form.patchValue(datosUsuario)
+            
+          },
+          error: (err: any) => {
+            this.alertifyService.error('Error al cargar los datos del usuario');
+          }
+
+        })
+      }
+      
+    }      
+  }
+  
   
   buildForm(){
     this.form = new FormGroup({

@@ -16,7 +16,7 @@
                 <li class="nav-item active">
                     <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item active" *ngIf="authServiceService.isAuthenticated()">
                     <a routerLink="" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
                 </li>
                 <li class="nav-item active">
@@ -31,41 +31,14 @@
             </ul>
         </div>
         
-        <!-- Botones de crear cuenta e iniciar sesion -->
-        <div>
-            <button class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
-            <button class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
+        <!-- Botones de crear cuenta e iniciar sesion // usuario y logOut -->
+        <div class="botones">
+            <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
+            <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
+            <div *ngIf="authServiceService.isAuthenticated()" (click)="openModal('editarUsuario')">
+                <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'"></fa-icon>
+            </div>
+            <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="logOut()">Log Out</button>
         </div>
     </div>
 </nav>
-
-<!-- Modal de Registro -->
-<!-- <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registroModalLabel">Registro</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <app-registro></app-registro>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-  
-  <!-- Modal de Inicio de Sesion -->
-  <!-- <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Iniciar Sesion</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <app-login></app-login>
-        </div>
-      </div>
-    </div>
-  </div> -->

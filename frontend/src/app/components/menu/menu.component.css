@@ -1,3 +1,14 @@
 .btn {
     margin: 0 10px;  
 }
+.botones {
+    display: flex;
+    align-items: center;
+}
+.iconoUsuario {
+    color: aliceblue;
+}
+.iconoUsuario:hover {
+    color: rgb(93, 93, 255);
+    cursor: pointer;
+}

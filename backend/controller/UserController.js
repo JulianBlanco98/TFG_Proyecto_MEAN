@@ -47,7 +47,7 @@ export const loginUsuario = async (req, res) => {
     const { nombre, password } = req.body;
 
     try {
-        console.log("parametros login: ", req.body);
+        //console.log("parametros login: ", req.body);
         const usuario = await UserModel.findOne({ "datos.nombre": nombre });
         if (!usuario) {
             return res.status(404).json({
@@ -98,3 +98,34 @@ export const loginUsuario = async (req, res) => {
         });
     }
 };
+
+export const getUsuariodatos = async (req, res) => {
+
+    //console.log("GetUsuarioId en el back");
+    try {
+        const {id} = req.params;
+        //console.log("IdUsario en el back de getUsuario: ", id);
+        const usuario = await UserModel.findById(id);
+        if(!usuario){
+            res.status(404).json({message: "Usuario no encontrado"})
+        }
+        res.status(200).json(usuario)
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+export const updateUsuarios = async (req, res) => {
+
+    try {
+        const {id} = req.params;
+        const usuario = await UserModel.findOneAndUpdate(
+            {_id:id},
+            req.body,
+            {new: true}
+        )
+       
+        res.status(200).json({message: "usuario actualizado correctamente", usuario: usuario})
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
