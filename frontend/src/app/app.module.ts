@@ -9,7 +9,7 @@ import { EditComponent } from './pages/edit/edit.component';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
@@ -21,6 +21,7 @@ import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabl
 import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-usuario.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,11 @@ import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

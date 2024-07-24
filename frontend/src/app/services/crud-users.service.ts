@@ -32,10 +32,8 @@ export class CrudUsersService {
   }
 
   getUsuario(id: any): Observable<any> {
-    const token = this.authServiceService.getToken();
-    const headers = this.httpHeaders.set('Authorization', token);
     return this.httpClient
-      .get(`${this.rest_API}/${id}`, {headers})
+      .get(`${this.rest_API}/${id}`, {headers: this.httpHeaders})
       .pipe(
         map((res: any) => {
           return res || {};
