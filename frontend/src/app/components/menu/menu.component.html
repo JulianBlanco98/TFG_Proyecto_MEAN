@@ -38,6 +38,7 @@
             <div *ngIf="authServiceService.isAuthenticated()" (click)="openModal('editarUsuario')">
                 <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'"></fa-icon>
             </div>
+            <fa-icon [icon]="faAdmin" [size]="'5x'" *appRoles="['admin']" style="color: white;"></fa-icon>
             <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="logOut()">Log Out</button>
         </div>
     </div>

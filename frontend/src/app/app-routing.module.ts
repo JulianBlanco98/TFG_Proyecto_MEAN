@@ -10,7 +10,7 @@ import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-e
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { loginGuard } from './core/guards/login.guard';
-import { loginUsuario } from './core/guards/usuario.guard';
+import { loginUsuario } from './core/guards/roles.guard';
 
 const routes: Routes = [
   {

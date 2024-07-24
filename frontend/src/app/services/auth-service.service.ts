@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
+import { Observable, of } from 'rxjs';
+import { EventService } from './event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +10,13 @@ export class AuthServiceService {
 
   private readonly TOKEN_KEY = 'auth-token'
 
-  constructor() { }
+  constructor(private readonly eventService: EventService) { }
 
   //Guardar el token cuando se registre un usuario
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token)
+    const decodificar: any = jwtDecode(token);
+    this.eventService.setNewRoles(decodificar.rol)
   }
 
   //Obtener el token para ver el usuario o el rol del usuario
@@ -41,11 +45,11 @@ export class AuthServiceService {
   }
 
   //Obtener el rol de la persona
-  getRolUsuarioToken(): string | null {
+  getRolUsuarioToken(): Observable<any> {
     const token = this.getToken();
     if(token){
       const decodificar: any = jwtDecode(token);
-      return decodificar.rol;
+      return of(decodificar.rol);
     }
     return null;
   }
