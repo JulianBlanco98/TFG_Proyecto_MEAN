@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Jugador } from 'src/app/models/jugador.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Entrenador } from 'src/app/models/entrenador.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-show-jugadores-equipo',
@@ -13,6 +14,7 @@ import { Entrenador } from 'src/app/models/entrenador.model';
 export class ShowJugadoresEquipoComponent implements OnInit{
 
   faBackWard = faArrowLeft
+  faLupa = faSearch
 
   constructor(
     private crudJugadoresService: CrudJugadoresService,
@@ -23,6 +25,7 @@ export class ShowJugadoresEquipoComponent implements OnInit{
   jugadores: Jugador[]
   idApi: number
   entrenador: Entrenador | undefined
+  terminoBusqueda = ''
   
   ngOnInit(): void {
      this.idApi = +this.activatedRoute.snapshot.paramMap.get('idApi');
@@ -40,6 +43,13 @@ export class ShowJugadoresEquipoComponent implements OnInit{
       
      })
 
+  }
+  get jugadoresFiltrados() {
+    if (this.terminoBusqueda === '') {
+      return this.jugadores;
+    } else {
+      return this.jugadores.filter(jugador => jugador.datos.nombreJugador.toLowerCase().includes(this.terminoBusqueda.toLowerCase()));
+    }
   }
 
 }
