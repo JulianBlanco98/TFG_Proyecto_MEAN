@@ -109,21 +109,55 @@ export const getJugadoresByEquipo = async (req, res) => {
     }
 }
 
+export const getJugadoresByPosicion = async (req, res) => {
 
-export const getPorteros = async (req, res) => {
+    console.log("Endpoint para buscar jugadores por posicion");
     try {
-        const {idApi} = req.params
-        console.log("Consulta de porteros. IDAPI: ",idApi);
-        const porteros = await JugadorModel.find({
-            idApiEquipo: idApi,
-            'datos.posicion': 'Goalkeeper'
-        })
+        const {idApi, tipo} = req.params;
+        console.log("idAPi: ", idApi, " Tipo: ",tipo);
+        const posJugadores = await posicionJugadores(tipo);
+        console.log("Posicion de los jugadores a buscar: ",posJugadores);
+        let query = {idApiEquipo: idApi};
+        if(posJugadores !== 'Todos'){
+            query['datos.posicion'] = posJugadores;
+        }
 
-        res.status(200).json(porteros)
+        console.log(query);
 
+        const jugadores = await JugadorModel.find(query);
+        const entrenador = await EntrenadorModel.find({idApiEquipo: idApi})
+        if(!jugadores){
+            res.status(400).json("El id del equipo no existe")
+        }
+        return res.status(200).json({jugadores: jugadores, entrenador: entrenador})
+        
+        
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({message: error.message});
     }
+}
+
+const posicionJugadores = async (tipo) => {
+    let valor = '';
+    switch (tipo) {
+        case 'por':
+            valor = 'Goalkeeper'
+            break;
+        case 'def':
+            valor = 'Defence'
+            break;
+        case 'med':
+            valor = 'Midfield'
+            break;
+        case 'del':
+            valor = 'Offence'
+            break;   
+        default:
+            valor = 'Todos'
+            break;
+    }
+
+    return valor;
 }
 
 
