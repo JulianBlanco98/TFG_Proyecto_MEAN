@@ -40,4 +40,14 @@ export class AuthServiceService {
     return null;
   }
 
+  //Obtener el rol de la persona
+  getRolUsuarioToken(): string | null {
+    const token = this.getToken();
+    if(token){
+      const decodificar: any = jwtDecode(token);
+      return decodificar.rol;
+    }
+    return null;
+  }
+
 }

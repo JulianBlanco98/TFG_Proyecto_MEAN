@@ -9,6 +9,8 @@ import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.c
 import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-equipo/show-jugadores-equipo.component';
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
+import { loginGuard } from './core/guards/login.guard';
+import { loginUsuario } from './core/guards/usuario.guard';
 
 const routes: Routes = [
   {
@@ -18,7 +20,8 @@ const routes: Routes = [
     path:'create', component:CreateComponent
   },
   {
-    path:'apuesta', component: Ap1Component
+    path:'apuesta', component: Ap1Component,
+    canActivate: [loginGuard, loginUsuario]
   },
   {
     path:'jugadores/:idApi', component: ShowJugadoresEquipoComponent
