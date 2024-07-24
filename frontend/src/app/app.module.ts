@@ -22,6 +22,7 @@ import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-us
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { RolesDirective } from './core/directives/roles.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     ShowJornadaComponent,
     ShowTablaClasificacionComponent,
     ModalUsuarioComponent,
-    Ap1Component
+    Ap1Component,
+    RolesDirective
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,9 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     ReactiveFormsModule,
     NgbModule
   ],
+  // exports: [
+  //   RolesDirective
+  // ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
