@@ -23,6 +23,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RolesDirective } from './core/directives/roles.directive';
+import { ShowUsuariosComponent } from './pages/usuarios/show/show-usuarios/show-usuarios.component';
+import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/create-usuarios.component';
+import { FormUsuariosComponent } from './components/form/form-usuarios/form-usuarios.component';
+import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { RolesDirective } from './core/directives/roles.directive';
     ShowTablaClasificacionComponent,
     ModalUsuarioComponent,
     Ap1Component,
-    RolesDirective
+    RolesDirective,
+    ShowUsuariosComponent,
+    CreateUsuariosComponent,
+    FormUsuariosComponent,
+    EditUsuariosComponent
   ],
   imports: [
     BrowserModule,

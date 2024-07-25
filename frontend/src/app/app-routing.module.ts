@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ShowComponent } from './pages/show/show.component';
-import { CreateComponent } from './pages/create/create.component';
-import { EditComponent } from './pages/edit/edit.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { ShowPremiosComponent } from './pages/premio/show-premios/show-premios.component';
 import { ShowEquiposComponent } from './pages/equipo/show-equipos/show-equipos.component';
@@ -10,24 +8,33 @@ import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-e
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { loginGuard } from './core/guards/login.guard';
-import { loginUsuario } from './core/guards/roles.guard';
+import { loginAdmin, loginUsuario } from './core/guards/roles.guard';
+import { ShowUsuariosComponent } from './pages/usuarios/show/show-usuarios/show-usuarios.component';
+import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/create-usuarios.component';
+import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
 
 const routes: Routes = [
   {
     path:'', component: ShowComponent
   },
   {
-    path:'create', component:CreateComponent
+    path:'create', component:CreateUsuariosComponent,
+    canActivate: [loginGuard, loginAdmin]
   },
   {
     path:'apuesta', component: Ap1Component,
     canActivate: [loginGuard, loginUsuario]
   },
   {
+    path: 'usuarios', component: ShowUsuariosComponent,
+    canActivate: [loginGuard, loginAdmin]
+  },
+  {
     path:'jugadores/:idApi', component: ShowJugadoresEquipoComponent
   },
   {
-    path:'update/:id', component:EditComponent
+    path:'update/:id', component:EditUsuariosComponent,
+    canActivate: [loginGuard, loginAdmin]
   },
   {
     path:'clasificacion', component: ShowTablaClasificacionComponent

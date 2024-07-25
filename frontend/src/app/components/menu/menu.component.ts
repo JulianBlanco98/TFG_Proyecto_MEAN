@@ -6,7 +6,7 @@ import {
   faBook,
   faGift,
   faUser,
-  faDiamond
+  faUserSecret,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUsuarioComponent } from '../modal/modal-usuario/modal-usuario.component';
@@ -14,6 +14,7 @@ import { CrudUsersService } from 'src/app/services/crud-users.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EventService } from 'src/app/services/event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -26,7 +27,8 @@ export class MenuComponent {
     private readonly crudUsersService: CrudUsersService,
     private readonly alertifyService: AlertifyService,
     public authServiceService: AuthServiceService,
-    private readonly eventService: EventService
+    private readonly eventService: EventService,
+    private readonly router: Router
   ) {}
 
   faHome = faHome;
@@ -35,7 +37,7 @@ export class MenuComponent {
   faBook = faBook;
   faGift = faGift;
   faUser = faUser;
-  faAdmin = faDiamond;
+  faAdmin = faUserSecret;
 
   openModal(tipo: string) {
     const modal = this.modalService.open(ModalUsuarioComponent, {
@@ -88,6 +90,7 @@ export class MenuComponent {
   logOut(){
     this.authServiceService.removeToken();
     this.eventService.setNewRoles(null);
+    this.router.navigateByUrl("/");
     this.alertifyService.success("Sesion cerrada correctamente");
   }
 }

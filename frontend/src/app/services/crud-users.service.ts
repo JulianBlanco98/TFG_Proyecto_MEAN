@@ -40,6 +40,22 @@ export class CrudUsersService {
         })
       );
   }
+  getUsuarios(): Observable<any> {
+    return this.httpClient
+      .get(this.rest_API, {headers: this.httpHeaders});
+  }
+  createUsuarioAdmin(data: any): Observable<any> {
+    return this.httpClient
+      .post(`${this.rest_API}/create`, data, {headers: this.httpHeaders})
+  }
+  updateUsuario(id:any, data:any): Observable<any> {
+    return this.httpClient
+      .put(`${this.rest_API}/${id}`, data, { headers: this.httpHeaders })
+  }
+  deleteUsuarios(id: any): Observable <any> {
+    return this.httpClient
+      .delete(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
+  }
 
 
 }

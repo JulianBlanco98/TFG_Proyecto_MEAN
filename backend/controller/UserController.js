@@ -118,14 +118,80 @@ export const updateUsuarios = async (req, res) => {
 
     try {
         const {id} = req.params;
+        //console.log("back de actualizar usuario. ID: ",id);
+        //console.log(req.body);
+        const actualizarDatos = {
+            'datos.nombre': req.body.nombre,
+            'datos.edad': req.body.edad,
+            'datos.correo': req.body.correo,
+            'datos.password': req.body.password,
+        }
         const usuario = await UserModel.findOneAndUpdate(
             {_id:id},
-            req.body,
+            actualizarDatos,
             {new: true}
         )
        
         res.status(200).json({message: "usuario actualizado correctamente", usuario: usuario})
     } catch (error) {
         res.status(500).json({message: error.message});
+    }
+}
+
+export const getUsuarios = async (req, res) => {
+    try {
+        const usuarios = await UserModel.find()
+        res.status(200).json(usuarios)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+export const createUsuarioAdmin = async (req, res) => {
+    const { nombre, edad, correo, password } = req.body;
+    try {
+        //Verificar que no hay un usuario con el mismo nombre
+        const usuarioExiste = await UserModel.findOne({ "datos.nombre": nombre });
+        
+        if (usuarioExiste) {
+            return res.status(400).json({
+                message: "Ya existe un usuario con este nombre",
+                type: "danger",
+            });
+        }
+        //console.log("No existe. Continua");
+        //Encriptar la contra con 10 saltos (estándar)
+        const encriptarPassword = await bcrypt.hash(password, 10);
+
+        const newUsuario = new UserModel({
+            datos: { nombre, edad, correo, password: encriptarPassword },
+            rol: "usuario",
+        });
+        //console.log(newUsuario);
+        await newUsuario.save();
+
+        res.status(201).json({
+            message: "Usuario registrado con éxito por el admin",
+            type: "success",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error al registrar el usuario",
+            type: "danger",
+            err: error,
+        });
+        console.error(error);
+    }
+}
+
+export const deleteUsuarios = async (req, res) => {
+    try {
+        const {id} = req.params
+        const usuario = await UserModel.findByIdAndDelete(id)
+        if(!usuario){
+            return res.status(404).json(`El usuario con id: ${id} no se ha encontrado`)
+        }
+        res.status(200).json({message: "Usuario borrado perfectamente"})
+    } catch (error) {
+        res.status(500).json({message: error.message})
     }
 }

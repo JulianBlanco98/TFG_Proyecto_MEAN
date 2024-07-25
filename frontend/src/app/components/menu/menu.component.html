@@ -19,6 +19,9 @@
                 <li class="nav-item active" *appRoles="['usuario']">
                     <a routerLink="/apuesta" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
                 </li>
+                <li class="nav-item active" *appRoles="['admin']">
+                    <a routerLink="/usuarios" class="btn btn-primary"><fa-icon [icon]="faUser"></fa-icon> Usuarios</a>
+                </li>
                 <li class="nav-item active">
                     <a routerLink="/clasificacion" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>
                 </li>
@@ -35,11 +38,11 @@
         <div class="botones">
             <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
             <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
-            <div *ngIf="authServiceService.isAuthenticated()" (click)="openModal('editarUsuario')">
-                <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'"></fa-icon>
+            <div *appRoles="['admin', 'usuario']" (click)="openModal('editarUsuario')">
+                <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'" *appRoles="['usuario']"></fa-icon>
+                <fa-icon class="iconoUsuario" [icon]="faAdmin" [size]="'3x'" *appRoles="['admin']"></fa-icon>
             </div>
-            <fa-icon [icon]="faAdmin" [size]="'5x'" *appRoles="['admin']" style="color: white;"></fa-icon>
-            <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="logOut()">Log Out</button>
+            <button *appRoles="['admin', 'usuario']" class="btn btn-secondary" (click)="logOut()">Log Out</button>
         </div>
     </div>
 </nav>

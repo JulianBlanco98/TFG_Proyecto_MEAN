@@ -8,7 +8,7 @@ export const loginUsuario = () => {
     const authService = inject(AuthServiceService);
     
 
-    console.log("He pasao la guarda de log, tengo que ver si ahora es usuario");
+    //console.log("He pasao la guarda de log, tengo que ver si ahora es usuario");
 
     authService.getRolUsuarioToken().subscribe((rol) => {
         if(rol === 'usuario'){
@@ -25,7 +25,7 @@ export const loginAdmin = () => {
     const router = inject(Router);
     const authService = inject(AuthServiceService);
 
-    console.log("He pasao la guarda de log, tengo que ver si ahora es admin");
+    //console.log("He pasao la guarda de log, tengo que ver si ahora es admin");
 
     authService.getRolUsuarioToken().subscribe((rol) => {
         if(rol === 'admin'){

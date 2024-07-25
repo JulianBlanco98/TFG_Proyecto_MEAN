@@ -1,0 +1,12 @@
+<div class="container mt-4">
+    <div *ngIf="modelUsuario" class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">Editar Usuario desde Admin</h5>
+            <app-form-usuarios *ngIf="modelUsuario"
+            [modelUsuario]="modelUsuario" 
+            (submitValues)="onSubmit($event)"
+            [isEdit]="true">
+            </app-form-usuarios>
+        </div>
+    </div>
+</div>
