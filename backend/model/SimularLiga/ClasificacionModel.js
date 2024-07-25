@@ -2,6 +2,10 @@ import mongoose, { Mongoose } from "mongoose";
 
 const clasificacionSchema = new mongoose.Schema(
     {
+        numeroJornada: {
+            type: Number,
+            required: true,
+        },
         tabla: [{
             _id: false,
             posicion: {
@@ -21,15 +25,15 @@ const clasificacionSchema = new mongoose.Schema(
                 },
                 victorias: {
                     type: Number,
-                    default: -1,
+                    default: 0,
                 },
                 derrotas: {
                     type: Number,
-                    default: -1,
+                    default: 0,
                 },
                 empates: {
                     type: Number,
-                    default: -1,
+                    default: 0,
                 },
                 puntos: {
                     type: Number,

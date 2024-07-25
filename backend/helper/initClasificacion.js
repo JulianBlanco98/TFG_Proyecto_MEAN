@@ -22,7 +22,10 @@ export const generarTablaClasificacion = async (req, res) => {
                 equipoPosicion: equipo._id,
             }));
 
-            const nuevaClasificacion = new ClasificacionModel({tabla});
+            const nuevaClasificacion = new ClasificacionModel({
+                tabla,
+                numeroJornada: 0
+            });
             await nuevaClasificacion.save()
             console.log("Tabla de clasificacion guardada...");
 
