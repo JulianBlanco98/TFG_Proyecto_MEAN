@@ -12,3 +12,7 @@
     color: rgb(93, 93, 255);
     cursor: pointer;
 }
+.iconoPag {
+    display: flex;
+    align-items: center;
+}

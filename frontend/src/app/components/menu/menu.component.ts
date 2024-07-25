@@ -7,6 +7,7 @@ import {
   faGift,
   faUser,
   faUserSecret,
+  faFootballBall
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUsuarioComponent } from '../modal/modal-usuario/modal-usuario.component';
@@ -38,6 +39,7 @@ export class MenuComponent {
   faGift = faGift;
   faUser = faUser;
   faAdmin = faUserSecret;
+  faJornada = faFootballBall;
 
   openModal(tipo: string) {
     const modal = this.modalService.open(ModalUsuarioComponent, {

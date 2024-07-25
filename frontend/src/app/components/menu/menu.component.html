@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <!-- Logo a la izquierda -->
-        <a routerLink="/" class="navbar-brand">
+        <a routerLink="/" class="navbar-brand iconoPag">
             <img src="../../../assets/img/logoLiga.png" width="80" alt="Logo">
+            <h2 *appRoles="['admin']">Dashboard del Admin</h2>
         </a>
         <!-- Botón de navegación para dispositivos móviles -->
         <button class="navbar-toggler" data-bs-target="#my-nav" data-bs-toggle="collapse"
@@ -21,6 +22,9 @@
                 </li>
                 <li class="nav-item active" *appRoles="['admin']">
                     <a routerLink="/usuarios" class="btn btn-primary"><fa-icon [icon]="faUser"></fa-icon> Usuarios</a>
+                </li>
+                <li class="nav-item active" *appRoles="['admin']">
+                    <a routerLink="/adminJornadas" class="btn btn-primary"><fa-icon [icon]="faJornada"></fa-icon> Jornadas</a>
                 </li>
                 <li class="nav-item active">
                     <a routerLink="/clasificacion" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>
