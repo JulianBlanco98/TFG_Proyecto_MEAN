@@ -30,12 +30,12 @@
 
         <div class="opciones">
             <div class="form-floating">
-                <select class="form-select" id="floatingSelect">
-                    <option value="1" selected>Todos</option>
-                    <option value="2">Porteros</option>
-                    <option value="3">Defensas</option>
-                    <option value="4">Mediocentros</option>
-                    <option value="5">Delanteros</option>
+                <select class="form-select" id="floatingSelect" (change)="seleccionarPosicion($event)">
+                    <option value="Todos" selected>Todos</option>
+                    <option value="por">Porteros</option>
+                    <option value="def">Defensas</option>
+                    <option value="med">Mediocentros</option>
+                    <option value="del">Delanteros</option>
                 </select>
                 <label for="floatingSelect">Buscar por posicion</label>
             </div>
