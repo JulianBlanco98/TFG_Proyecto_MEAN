@@ -22,4 +22,12 @@ export class CrudJornadaService {
   getJornadaByNumero(idJornada: number): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/${idJornada}`, {headers: this.httpHeaders})
   }
+
+  simularJornadaAdmin(): Observable<any> {
+    return this.httpClient.put(`${this.rest_API}/s/simularJornada`, {}, {headers: this.httpHeaders});
+  }
+
+  getNumeroJornadaActual(): Observable<any>{
+    return this.httpClient.get(`${this.rest_API}/j/actual`, {headers: this.httpHeaders});
+  }
 }

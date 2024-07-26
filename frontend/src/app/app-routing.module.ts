@@ -12,6 +12,7 @@ import { loginAdmin, loginUsuario } from './core/guards/roles.guard';
 import { ShowUsuariosComponent } from './pages/usuarios/show/show-usuarios/show-usuarios.component';
 import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/create-usuarios.component';
 import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
+import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular-jornada.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   },
   {
     path:'clasificacion', component: ShowTablaClasificacionComponent
+  },
+  {
+    path: 'adminJornadas', component: SimularJornadaComponent,
+    canActivate: [loginGuard, loginAdmin]
   },
   {
     path:'premios', component: ShowPremiosComponent

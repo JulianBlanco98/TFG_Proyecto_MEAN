@@ -2,6 +2,7 @@ import axios from "axios";
 import { JugadorModel } from "../model/JugadorModel.js";
 import { EquiposModel } from "../model/EquiposModel.js";
 import { EntrenadorModel } from "../model/EntrenadorModel.js";
+import { EstadisticasModel } from "../model/EstadisticaModel.js";
 import dotenv from "dotenv";
 
 dotenv.config()
@@ -24,8 +25,12 @@ const quitarAcentos = (str) => {
 
 // Función para crear jugadores
 const crearJugadores = async (jugadoresAPI, equipo, idApi, arrayColors) => {
-    return jugadoresAPI.map(jugador => {
+    return Promise.all(jugadoresAPI.map(async jugador => {
         const nombreEquipoFormateado = quitarAcentos(equipo.nombreEquipoCorto).replace(/ /g, '_').toLowerCase();
+        
+        const estadisticas = new EstadisticasModel();
+        await estadisticas.save();
+        
         const nuevoJugador = {
             idEquipo: equipo._id,
             idApiEquipo: idApi,
@@ -39,9 +44,10 @@ const crearJugadores = async (jugadoresAPI, equipo, idApi, arrayColors) => {
                 paisNacimiento: jugador.countryOfBirth || "Desconocido",
                 imagenJugador: `/assets/img/jugadores/jug_${nombreEquipoFormateado}.png`,
             },
+            estadisticas: estadisticas._id,
         };
         return nuevoJugador;
-    });
+    }));
 };
 
 // Función para crear entrenadores
@@ -67,7 +73,7 @@ const crearEntrenadores = async (entrenadoresAPI, equipo, idApi, arrayColors) =>
 export const getJugadoresByEquipo = async (req, res) => {
     try {
         const {idApi} = req.params;
-        const jugadoresExistentes = await JugadorModel.find({idApiEquipo: idApi});
+        const jugadoresExistentes = await JugadorModel.find({idApiEquipo: idApi}).populate('estadisticas');
         const entrenadorExistente = await EntrenadorModel.find({idApiEquipo: idApi});
         if(jugadoresExistentes.length > 0 && entrenadorExistente.length > 0){
             console.log("Jugadores y entrenador ya creados --> No se llama a la API");
@@ -124,7 +130,7 @@ export const getJugadoresByPosicion = async (req, res) => {
 
         console.log(query);
 
-        const jugadores = await JugadorModel.find(query);
+        const jugadores = await JugadorModel.find(query).populate('estadisticas');
         const entrenador = await EntrenadorModel.find({idApiEquipo: idApi})
         if(!jugadores){
             res.status(400).json("El id del equipo no existe")

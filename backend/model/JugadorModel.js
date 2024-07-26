@@ -47,7 +47,8 @@ const jugadoresSchema = new mongoose.Schema(
     },
     estadisticas: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'estadisticas'
+      ref: 'estadisticas',
+      required: [true, "Por favor, completa este campo"],
     },
   },
   {
