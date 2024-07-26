@@ -93,11 +93,11 @@ export const simularJornadaActual = async (req, res) => {
 
             //console.log("Los jugadores se han escogido");
 
-            //Actualizo los goles y asistencias de estos jugadores del equipo local
+            //Actualizo los goles de estos jugadores del equipo local y equipo Visitante
             await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, "goles");
-            await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, "asistencias");
-            //Actualizo los goles y asistencias de estos jugadores del equipo visitante
             await actualizarEstadisticasJugadores(equipoVisitanteSeleccionado, partido.golesVisitante, "goles");
+            //Actualizo las asistencias de estos jugadores del equipo local y equipo visitante
+            await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, "asistencias");
             await actualizarEstadisticasJugadores(equipoVisitanteSeleccionado, partido.golesVisitante, "asistencias");
 
             console.log("Estadisticas de jugadores actualizadas");
@@ -157,8 +157,22 @@ const seleccionarJugadores = async (jugadores) => {
         portero: await seleccionarAleatorio(porteros, 1),
         defensas: await seleccionarAleatorio(defensas, 4),
         mediocentros: await seleccionarAleatorio(mediocentros, 3),
-        delanteros: await seleccionarAleatorio(delanteros, 3),
+        delanteros: []
+        // delanteros: await seleccionarAleatorio(delanteros, 3),
     };
+
+    //Hay equipos que no tienen 3 delanteros, por lo que los tendré que añadir algun medio
+    if(delanteros.length >= 3){
+        equipoSeleccioando.delanteros = await seleccionarAleatorio(delanteros, 3);
+    }
+    else{
+        //Los medios no tienen que estar escogidos ya, por eso busco en la lista de medios no escogidos
+        equipoSeleccioando.delanteros = delanteros;
+        const mediocentrosNoSeleccionados = mediocentros.filter(mediocentro => !equipoSeleccioando.mediocentros.includes(mediocentro));
+        const mediosExtra = await seleccionarAleatorio(mediocentrosNoSeleccionados, (3 - delanteros.length));
+        equipoSeleccioando.delanteros.push(...mediosExtra);
+    }
+
     const idApiEquipoP = equipoSeleccioando.portero[0].idApiEquipo;
     //console.log("IDAPI eqipo: ",idApiEquipoP);
 
@@ -169,8 +183,8 @@ const seleccionarJugadores = async (jugadores) => {
     }
 
     //console.log('Equipo seleccionado:', equipo.nombreEquipoCorto);
-    console.log(equipo.nombreEquipoCorto," --> Defensas:",equipoSeleccioando.defensas.length," Medios:",equipoSeleccioando.mediocentros.length, " Delanteros:",equipoSeleccioando.delanteros.length);
-    console.log('Número total de jugadores:', equipoSeleccioando.portero.length + equipoSeleccioando.defensas.length + equipoSeleccioando.mediocentros.length + equipoSeleccioando.delanteros.length);
+    //console.log(equipo.nombreEquipoCorto," --> Defensas:",equipoSeleccioando.defensas.length," Medios:",equipoSeleccioando.mediocentros.length, " Delanteros:",equipoSeleccioando.delanteros.length);
+    // console.log('Número total de jugadores:', equipoSeleccioando.portero.length + equipoSeleccioando.defensas.length + equipoSeleccioando.mediocentros.length + equipoSeleccioando.delanteros.length);
     return equipoSeleccioando;
 }
 /**
@@ -181,8 +195,12 @@ const seleccionarJugadores = async (jugadores) => {
  */
 const seleccionarAleatorio = async (array, numero) => {
 
-    const resultado = [];
+    if (numero > array.length) {
+        throw new Error("El número de jugadores a seleccionar es mayor que la cantidad disponible.");
+    }
+
     const arrayCopia = [...array];
+    const resultado = [];
     //console.log("Jugadores a escoger: ", arrayCopia.length, " teniendo que coger ",numero);
 
     for (let i = 0; i < numero; i++) {
@@ -203,43 +221,54 @@ const seleccionarAleatorio = async (array, numero) => {
 const actualizarEstadisticasJugadores = async (equipo, numeroGoles, tipo) => {
 
     const probabilidad = {
-        goles: {delanteros: 65, mediocentros: 25, defensas: 10},
+        goles: {delanteros: 50, mediocentros: 40, defensas: 10},
         asistencias: {delanteros: 25, mediocentros: 65, defensas: 10}
     }
     
     const jugadores = [...equipo.delanteros, ...equipo.mediocentros, ...equipo.defensas];
     console.log("Tipo:",tipo," |Numero de goles:",numeroGoles, " |Total de jugadores:",jugadores.length);
+    console.log('Número total de jugadores en actualizar estadisticas:', equipo.portero.length + equipo.defensas.length + equipo.mediocentros.length + equipo.delanteros.length);
+
+    //Actualizo una sola vez los partidosJugados del juagdor
+    if(tipo === 'goles'){
+
+        for (const jugador of jugadores) {
+            jugador.estadisticas.partidosJugados += 1;
+            await jugador.estadisticas.save();
+        }
+    }
+
+    if(numeroGoles !== 0){
+
+        for (let i = 0; i < numeroGoles; i++) {
+            
+            const random = await randomNumber(0, 100); //Probabilidad de 0 a 100
+            console.log("Numero aleatorio en estadisticas: ",random);
+            let jugSeleccionado;
+            if(random < probabilidad[tipo].delanteros){
+                jugSeleccionado = equipo.delanteros[await randomNumber(0, equipo.delanteros.length-1)]
+                //console.log("Goles de un delantero");
+            }else if(random < (probabilidad[tipo].delanteros + probabilidad[tipo].mediocentros)){
+                jugSeleccionado = equipo.mediocentros[await randomNumber(0, equipo.mediocentros.length-1)]
+                //console.log("Goles de un mediocentro");
+            }else{
+                jugSeleccionado = equipo.defensas[await randomNumber(0, equipo.defensas.length-1)]
+               //console.log("Goles de un defensa");
+            }
+            //console.log("Antes del if de tipos");
+            if(tipo === "goles"){
+                jugSeleccionado.estadisticas.goles += 1;
+                //console.log("Dentro del if de goles");
+            }
+            else if(tipo === "asistencias"){
+                jugSeleccionado.estadisticas.asistencias += 1;
+            }
     
-
-    for (let i = 0; i < numeroGoles; i++) {
-        
-        const random = await randomNumber(0, 100); //Probabilidad de 0 a 100
-        console.log("Numero aleatorio en estadisticas: ",random);
-        let jugSeleccionado;
-        if(random < probabilidad[tipo].delanteros){
-            jugSeleccionado = equipo.delanteros[await randomNumber(0, equipo.delanteros.length-1)]
-            console.log("Goles de un delantero");
-        }else if(random < (probabilidad[tipo].delanteros + probabilidad[tipo].mediocentros)){
-            jugSeleccionado = equipo.mediocentros[await randomNumber(0, equipo.mediocentros.length-1)]
-            console.log("Goles de un mediocentro");
-        }else{
-            jugSeleccionado = equipo.defensas[await randomNumber(0, equipo.defensas.length-1)]
-            console.log("Goles de un defensa");
+            //console.log("llega después de simular los datos de un juagdor");
+            await jugSeleccionado.estadisticas.save();
+            //console.log("ha guardado en el campo estadisticas");
+            
         }
-        //console.log("Antes del if de tipos");
-        if(tipo === "goles"){
-            jugSeleccionado.estadisticas.goles += 1;
-            console.log("Dentro del if de goles");
-        }
-        else if(tipo === "asistencias"){
-            jugSeleccionado.estadisticas.asistencias += 1;
-        }
-
-        console.log("llega después de simular los datos de un juagdor");
-        jugSeleccionado.estadisticas.partidosJugados += 1;
-        await jugSeleccionado.estadisticas.save();
-        console.log("ha guardado en el campo estadisticas");
-        
     }
 
 

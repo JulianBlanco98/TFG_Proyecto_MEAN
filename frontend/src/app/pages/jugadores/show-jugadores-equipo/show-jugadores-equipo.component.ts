@@ -58,7 +58,7 @@ export class ShowJugadoresEquipoComponent implements OnInit {
   seleccionarPosicion(event: Event): void {
 
     this.posicionSeleccionada = (event.target as HTMLInputElement).value;
-    console.log("Posicion seleecioanda: ",this.posicionSeleccionada);
+    //console.log("Posicion seleecioanda: ",this.posicionSeleccionada);
     
     if(this.posicionSeleccionada === 'Todos'){
       this.cargarJugadores(this.idApi)
