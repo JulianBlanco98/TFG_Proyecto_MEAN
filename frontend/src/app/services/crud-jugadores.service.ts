@@ -28,6 +28,10 @@ export class CrudJugadoresService {
     return this.httpClient.get(`${this.rest_API}/equipo/${idApi}`, {headers: this.httpHeaders})
   }
 
+  getJugadoresByPosicion(idApi: number, tipo:string): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/equipoT/${idApi}/${tipo}`, {headers: this.httpHeaders})
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMensaje: string = '';
     if (error.error instanceof ErrorEvent) {

@@ -4,5 +4,5 @@ import { getJugadoresByEquipo, getJugadoresByPosicion} from '../controller/Jugad
 const router = express.Router()
 
 router.get('/equipo/:idApi', getJugadoresByEquipo)
-router.get('/equipo/:idApi/:tipo', getJugadoresByPosicion)
+router.get('/equipoT/:idApi/:tipo', getJugadoresByPosicion)
 export default router;
