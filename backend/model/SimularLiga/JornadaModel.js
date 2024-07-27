@@ -28,7 +28,15 @@ const jornadaSchema = new mongoose.Schema(
             golesVisitante: {
                 type: Number,
                 default: 0,
-            }
+            },
+            asistenciasLocal: {
+                type: Number,
+                default: 0,
+            },
+            asistenciasVisitante: {
+                type: Number,
+                default: 0,
+            },
         }]
     },
     {

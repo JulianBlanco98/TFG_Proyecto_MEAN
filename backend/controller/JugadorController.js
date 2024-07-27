@@ -222,5 +222,79 @@ export const getAsistentes = async (req, res) => {
         res.status(500).json({message: error.message});
     }
 }
+export const getGolesTotales = async (req, res) => {
+
+    try {
+        // Agregación para sumar los goles de todos los jugadores
+        const totalGoles = await JugadorModel.aggregate([
+          {
+            $lookup: {
+              from: 'estadisticas', // Nombre de la colección 'estadisticas'
+              localField: 'estadisticas', // Campo en 'jugadores'
+              foreignField: '_id', // Campo en 'estadisticas'
+              as: 'estadisticasData' // Alias para los datos relacionados
+            }
+          },
+          {
+            $unwind: '$estadisticasData' // Descompone el array para acceder a los documentos de estadisticas
+          },
+          {
+            $group: {
+              _id: null, // No agrupar por ningún campo específico
+              totalGoles: { $sum: '$estadisticasData.goles' } // Sumar todos los goles
+            }
+          }
+        ]);
+    
+        // Enviar la respuesta con el total de goles
+        res.status(200).json({
+          totalGoles: totalGoles.length > 0 ? totalGoles[0].totalGoles : 0
+        });
+      } catch (error) {
+        // Manejo de errores
+        console.error('Error al obtener el total de goles:', error);
+        res.status(500).json({
+          message: 'Error al obtener el total de goles',
+          error: error.message
+        });
+      }
+}
+export const getAsistenciasTotales = async (req, res) => {
+
+    try {
+        // Agregación para sumar los goles de todos los jugadores
+        const totalAsistencias = await JugadorModel.aggregate([
+          {
+            $lookup: {
+              from: 'estadisticas', // Nombre de la colección 'estadisticas'
+              localField: 'estadisticas', // Campo en 'jugadores'
+              foreignField: '_id', // Campo en 'estadisticas'
+              as: 'estadisticasData' // Alias para los datos relacionados
+            }
+          },
+          {
+            $unwind: '$estadisticasData' // Descompone el array para acceder a los documentos de estadisticas
+          },
+          {
+            $group: {
+              _id: null, // No agrupar por ningún campo específico
+              totalAsistencias: { $sum: '$estadisticasData.asistencias' } // Sumar todos los goles
+            }
+          }
+        ]);
+    
+        // Enviar la respuesta con el total de goles
+        res.status(200).json({
+          totalAsistencias: totalAsistencias.length > 0 ? totalAsistencias[0].totalAsistencias : 0
+        });
+      } catch (error) {
+        // Manejo de errores
+        console.error('Error al obtener el total de asistencias:', error);
+        res.status(500).json({
+          message: 'Error al obtener el total de asistencias',
+          error: error.message
+        });
+      }
+}
 
 
