@@ -195,4 +195,32 @@ export const getGoleadores = async (req, res) => {
     }
 }
 
+export const getAsistentes = async (req, res) => {
+    try {
+        const asistentes = await JugadorModel.aggregate([
+            {
+                $lookup: {
+                    from: 'estadisticas',
+                    localField: 'estadisticas',
+                    foreignField: '_id',
+                    as: 'estadisticas'
+                }
+            },
+            { $unwind: '$estadisticas' },
+            { $sort: { 'estadisticas.asistencias': -1 } },
+            { $limit: 10 }
+        ]);
+
+        if(!asistentes || asistentes.length === 0){
+            return res.status(404).json({message: 'Sin asistencias'})
+        }
+
+        return res.status(200).json({asistentes})
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: error.message});
+    }
+}
+
 

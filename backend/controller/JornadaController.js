@@ -231,11 +231,11 @@ const actualizarEstadisticasJugadores = async (equipo, numeroGoles, tipo) => {
     }
     const idApiEquipoP = equipo.portero[0].idApiEquipo;
     const equipoS = await EquiposModel.findOne({idEquipoAPI: idApiEquipoP});
-    if(!equipo){
+    if(!equipoS){
         return res.status(404).json({message: 'Equipo no encontrado'})
     }
 
-    const jugadores = [...equipo.delanteros, ...equipo.mediocentros, ...equipo.defensas];
+    const jugadores = [...equipo.delanteros, ...equipo.mediocentros, ...equipo.defensas, ...equipo.portero];
     const totalJugadores = equipo.delanteros.length + equipo.mediocentros.length + equipo.defensas.length + equipo.portero.length;
     console.log("Equipo:",equipoS.nombreEquipoCorto,"--> Tipo:",tipo," |Numero de goles:",numeroGoles, " |Total de jugadores:",totalJugadores);
     //console.log('Número total de jugadores en actualizar estadisticas:', equipo.portero.length + equipo.defensas.length + equipo.mediocentros.length + equipo.delanteros.length);
