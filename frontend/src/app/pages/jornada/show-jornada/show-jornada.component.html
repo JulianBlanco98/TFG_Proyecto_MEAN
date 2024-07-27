@@ -31,7 +31,7 @@
                     <td class="align-middle">
                         <div *ngIf="jornada.jugado; else noJugado">
                             <p class="resultado">
-                                {{ partido?.golesLocal }} vs {{ partido?.golesVisitante }}
+                                <b>{{ partido?.golesLocal }} vs {{ partido?.golesVisitante }}</b>
                             </p>
                         </div>
                         <ng-template #noJugado>

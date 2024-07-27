@@ -166,4 +166,33 @@ const posicionJugadores = async (tipo) => {
     return valor;
 }
 
+export const getGoleadores = async (req, res) => {
+
+    try {
+        const goleadores = await JugadorModel.aggregate([
+            {
+                $lookup: {
+                    from: 'estadisticas',
+                    localField: 'estadisticas',
+                    foreignField: '_id',
+                    as: 'estadisticas'
+                }
+            },
+            { $unwind: '$estadisticas' },
+            { $sort: { 'estadisticas.goles': -1 } },
+            { $limit: 10 }
+        ]);
+
+        if(!goleadores || goleadores.length === 0){
+            return res.status(404).json({message: 'Sin goles'})
+        }
+
+        return res.status(200).json({goleadores})
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: error.message});
+    }
+}
+
 

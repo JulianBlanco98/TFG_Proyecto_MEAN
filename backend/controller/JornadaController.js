@@ -3,6 +3,7 @@ import { EquiposModel } from "../model/EquiposModel.js";
 import randomNumber from 'random-number-csprng'
 import { ClasificacionModel } from "../model/SimularLiga/ClasificacionModel.js";
 import { JugadorModel } from "../model/JugadorModel.js";
+import mongoose from "mongoose";
 
 
 export const getJornadaByNumero = async (req,res) => {
@@ -100,7 +101,7 @@ export const simularJornadaActual = async (req, res) => {
             await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, "asistencias");
             await actualizarEstadisticasJugadores(equipoVisitanteSeleccionado, partido.golesVisitante, "asistencias");
 
-            console.log("Estadisticas de jugadores actualizadas");
+            //console.log("Estadisticas de jugadores actualizadas");
 
             //Actualizar la tabla de clasificacion
             actualizarClasificacion(nuevaClasificacion, partido, equipoLocal, equipoVisitante);
@@ -136,7 +137,8 @@ export const simularJornadaActual = async (req, res) => {
         res.status(200).json({message: 'Jornada simulada con éxito', jornada: jornadaActual})
 
     } catch (error) {
-        res.status(500).json({message: 'Error al simular la jornada', error})
+        console.error('Error al simular la jornada:', error);
+        res.status(500).json({ message: 'Error al simular la jornada', problema: error.message || error });
     }
 
 }
@@ -173,14 +175,13 @@ const seleccionarJugadores = async (jugadores) => {
         equipoSeleccioando.delanteros.push(...mediosExtra);
     }
 
-    const idApiEquipoP = equipoSeleccioando.portero[0].idApiEquipo;
+    //const idApiEquipoP = equipoSeleccioando.portero[0].idApiEquipo;
     //console.log("IDAPI eqipo: ",idApiEquipoP);
 
-    const equipo = await EquiposModel.findOne({idEquipoAPI: idApiEquipoP});
-    //console.log(equipo);
+    /*const equipo = await EquiposModel.findOne({idEquipoAPI: idApiEquipoP});
     if(!equipo){
         return res.status(404).json({message: 'Equipo no encontrado'})
-    }
+    }*/
 
     //console.log('Equipo seleccionado:', equipo.nombreEquipoCorto);
     //console.log(equipo.nombreEquipoCorto," --> Defensas:",equipoSeleccioando.defensas.length," Medios:",equipoSeleccioando.mediocentros.length, " Delanteros:",equipoSeleccioando.delanteros.length);
@@ -204,10 +205,14 @@ const seleccionarAleatorio = async (array, numero) => {
     //console.log("Jugadores a escoger: ", arrayCopia.length, " teniendo que coger ",numero);
 
     for (let i = 0; i < numero; i++) {
-        const indice = await randomNumber(0, arrayCopia.length-1);
-        resultado.push(arrayCopia[indice])
-        arrayCopia.splice(indice, 1);
-        
+        if (arrayCopia.length === 1) {
+            resultado.push(arrayCopia[0]);
+            arrayCopia.splice(0, 1);
+        } else {
+            const indice = await randomNumber(0, arrayCopia.length-1);
+            resultado.push(arrayCopia[indice])
+            arrayCopia.splice(indice, 1);
+        }
     }
 
     return resultado;
@@ -224,36 +229,40 @@ const actualizarEstadisticasJugadores = async (equipo, numeroGoles, tipo) => {
         goles: {delanteros: 50, mediocentros: 40, defensas: 10},
         asistencias: {delanteros: 25, mediocentros: 65, defensas: 10}
     }
-    
-    const jugadores = [...equipo.delanteros, ...equipo.mediocentros, ...equipo.defensas];
-    console.log("Tipo:",tipo," |Numero de goles:",numeroGoles, " |Total de jugadores:",jugadores.length);
-    console.log('Número total de jugadores en actualizar estadisticas:', equipo.portero.length + equipo.defensas.length + equipo.mediocentros.length + equipo.delanteros.length);
+    const idApiEquipoP = equipo.portero[0].idApiEquipo;
+    const equipoS = await EquiposModel.findOne({idEquipoAPI: idApiEquipoP});
+    if(!equipo){
+        return res.status(404).json({message: 'Equipo no encontrado'})
+    }
 
+    const jugadores = [...equipo.delanteros, ...equipo.mediocentros, ...equipo.defensas];
+    const totalJugadores = equipo.delanteros.length + equipo.mediocentros.length + equipo.defensas.length + equipo.portero.length;
+    console.log("Equipo:",equipoS.nombreEquipoCorto,"--> Tipo:",tipo," |Numero de goles:",numeroGoles, " |Total de jugadores:",totalJugadores);
+    //console.log('Número total de jugadores en actualizar estadisticas:', equipo.portero.length + equipo.defensas.length + equipo.mediocentros.length + equipo.delanteros.length);
+    
     //Actualizo una sola vez los partidosJugados del juagdor
     if(tipo === 'goles'){
-
+        
         for (const jugador of jugadores) {
             jugador.estadisticas.partidosJugados += 1;
             await jugador.estadisticas.save();
         }
     }
-
+    
     if(numeroGoles !== 0){
-
+        
         for (let i = 0; i < numeroGoles; i++) {
             
             const random = await randomNumber(0, 100); //Probabilidad de 0 a 100
             console.log("Numero aleatorio en estadisticas: ",random);
             let jugSeleccionado;
+            console.log("Defensas:",equipo.defensas.length,"| Mediocentros:",equipo.mediocentros.length,"| Delanteros:",equipo.delanteros.length);
             if(random < probabilidad[tipo].delanteros){
-                jugSeleccionado = equipo.delanteros[await randomNumber(0, equipo.delanteros.length-1)]
-                //console.log("Goles de un delantero");
+                jugSeleccionado = equipo.delanteros.length > 1 ? equipo.delanteros[await randomNumber(0, equipo.delanteros.length-1)] : equipo.delanteros[0];
             }else if(random < (probabilidad[tipo].delanteros + probabilidad[tipo].mediocentros)){
-                jugSeleccionado = equipo.mediocentros[await randomNumber(0, equipo.mediocentros.length-1)]
-                //console.log("Goles de un mediocentro");
+                jugSeleccionado = equipo.mediocentros.length > 1 ? equipo.mediocentros[await randomNumber(0, equipo.mediocentros.length-1)] : equipo.mediocentros[0];
             }else{
-                jugSeleccionado = equipo.defensas[await randomNumber(0, equipo.defensas.length-1)]
-               //console.log("Goles de un defensa");
+                jugSeleccionado = equipo.defensas.length > 1 ? equipo.defensas[await randomNumber(0, equipo.defensas.length-1)] : equipo.defensas[0];
             }
             //console.log("Antes del if de tipos");
             if(tipo === "goles"){
@@ -281,32 +290,46 @@ const actualizarEstadisticasJugadores = async (equipo, numeroGoles, tipo) => {
  * @param {Array} equipoVisitante - EquipoVisitante
  */
 const actualizarClasificacion = (nuevaClasificacion, partido, equipoLocal, equipoVisitante) => {
-    const local = nuevaClasificacion.tabla.find(e => e.equipoPosicion.equals(equipoLocal));
-    const visitante = nuevaClasificacion.tabla.find(e => e.equipoPosicion.equals(equipoVisitante));
+    //console.log("EquipoLocal: ",equipoLocal);
+    const equipoLocalId = equipoLocal.toString();
+    const equipoVisitanteId = equipoVisitante.toString();
 
-    local.estadisticas.partidosJugados += 1;
-    visitante.estadisticas.partidosJugados += 1;
+    // Encontrar las posiciones en la tabla
+    const equipoLocalPos = nuevaClasificacion.tabla.find(e => e.equipoPosicion.toString() === equipoLocalId);
+    const equipoVisitantePos = nuevaClasificacion.tabla.find(e => e.equipoPosicion.toString() === equipoVisitanteId);
 
-    local.estadisticas.golesAFavor += partido.golesLocal;
-    local.estadisticas.golesEnContra += partido.golesVisitante;
-    local.estadisticas.diferenciaGoles += (partido.golesLocal - partido.golesVisitante);
+    if (!equipoLocalPos || !equipoVisitantePos) {
+        throw new Error("No se encontraron las posiciones del equipo en la clasificación");
+    }
 
-    visitante.estadisticas.golesAFavor += partido.golesVisitante;
-    visitante.estadisticas.golesEnContra += partido.golesLocal;
-    visitante.estadisticas.diferenciaGoles += (partido.golesVisitante - partido.golesLocal);
+    console.log("Dentro de actualizar clasificacion");
+    // const eL = EquiposModel.findOne({idEquipoAPI: local.idEquipoAPI})
+    // const eV = EquiposModel.findOne({idEquipoAPI: visitante.idEquipoAPI})
+    // console.log("Guardando estadisticas de ",eL.nombreEquipoCorto," contra ",eV.nombreEquipoCorto);
+
+    equipoLocalPos.estadisticas.partidosJugados += 1;
+    equipoVisitantePos.estadisticas.partidosJugados += 1;
 
     if (partido.golesLocal > partido.golesVisitante) {
-        local.estadisticas.victorias += 1;
-        local.estadisticas.puntos += 3;
-        visitante.estadisticas.derrotas += 1;
+        equipoLocalPos.estadisticas.victorias += 1;
+        equipoLocalPos.estadisticas.puntos += 3;
+        equipoVisitantePos.estadisticas.derrotas += 1;
     } else if (partido.golesLocal < partido.golesVisitante) {
-        visitante.estadisticas.victorias += 1;
-        visitante.estadisticas.puntos += 3;
-        local.estadisticas.derrotas += 1;
+        equipoVisitantePos.estadisticas.victorias += 1;
+        equipoVisitantePos.estadisticas.puntos += 3;
+        equipoLocalPos.estadisticas.derrotas += 1;
     } else {
-        local.estadisticas.empates += 1;
-        visitante.estadisticas.empates += 1;
-        local.estadisticas.puntos += 1;
-        visitante.estadisticas.puntos += 1;
+        equipoLocalPos.estadisticas.empates += 1;
+        equipoVisitantePos.estadisticas.empates += 1;
+        equipoLocalPos.estadisticas.puntos += 1;
+        equipoVisitantePos.estadisticas.puntos += 1;
     }
+
+    equipoLocalPos.estadisticas.golesAFavor += partido.golesLocal;
+    equipoLocalPos.estadisticas.golesEnContra += partido.golesVisitante;
+    equipoLocalPos.estadisticas.diferenciaGoles = equipoLocalPos.estadisticas.golesAFavor - equipoLocalPos.estadisticas.golesEnContra;
+
+    equipoVisitantePos.estadisticas.golesAFavor += partido.golesVisitante;
+    equipoVisitantePos.estadisticas.golesEnContra += partido.golesLocal;
+    equipoVisitantePos.estadisticas.diferenciaGoles = equipoVisitantePos.estadisticas.golesAFavor - equipoVisitantePos.estadisticas.golesEnContra;
 }

@@ -4,7 +4,7 @@ import { EquiposModel } from "../model/EquiposModel.js";
 export const getTablaClasificacion = async (req, res) => {
     try {
         //console.log("Get Clasificacion");
-        const clasificacion = await ClasificacionModel.findOne()
+        const clasificacion = await ClasificacionModel.findOne().sort({_id: -1})
         .populate('tabla.equipoPosicion', 'nombreEquipoCorto escudoEquipo');
 
         if(!clasificacion){
