@@ -31,6 +31,7 @@ export class SimularJornadaComponent {
       next: (response) => {
         console.log(response);
         this.alertifyService.success(response.message)
+        //hacer aquí la llamada
       },
       error: (err) => {
         console.log(err);
