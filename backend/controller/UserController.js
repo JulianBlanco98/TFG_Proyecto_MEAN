@@ -195,3 +195,17 @@ export const deleteUsuarios = async (req, res) => {
         res.status(500).json({message: error.message})
     }
 }
+export const getMonedaUsuarioById = async (req, res) => {
+
+    try {
+        //const usuarioId = req.usuario.id;
+        const {id} = req.params
+        const usuario = await UserModel.findById(id);
+        if(!usuario){
+            return res.status(404).json({message: 'Usuario no encontrado'});
+        }
+        res.status(200).json({moneda: usuario.moneda})
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}

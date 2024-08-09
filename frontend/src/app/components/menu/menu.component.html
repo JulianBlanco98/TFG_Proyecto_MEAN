@@ -39,7 +39,11 @@
         </div>
         
         <!-- Botones de crear cuenta e iniciar sesion // usuario y logOut -->
-        <div class="botones">
+        <div class="botones" [ngClass]="{'gap-usuario': authServiceService.hasRole('usuario')}">
+            <div *appRoles="['usuario']" class="d-flex align-items-center">
+                <img src="../../../assets/img/moneda.png" alt="monedaUsuario" width="50">
+                <label style="color: white;">{{ monedaJugador !== null ? monedaJugador : 'Cargando...' }}</label>
+            </div>
             <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
             <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
             <div *appRoles="['admin', 'usuario']" (click)="openModal('editarUsuario')">

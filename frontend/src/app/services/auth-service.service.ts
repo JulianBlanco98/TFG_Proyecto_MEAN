@@ -54,4 +54,14 @@ export class AuthServiceService {
     return null;
   }
 
+  //Verificar si el usuario tiene un rol específico
+  hasRole(role: string): boolean {
+    const token = this.getToken();
+    if (token) {
+      const decodificar: any = jwtDecode(token);
+      return decodificar.rol === role;
+    }
+    return false;
+  }
+
 }

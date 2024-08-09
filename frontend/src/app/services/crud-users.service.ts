@@ -56,6 +56,15 @@ export class CrudUsersService {
     return this.httpClient
       .delete(`${this.rest_API}/${id}`, { headers: this.httpHeaders })
   }
+  getMonedaById(id:any): Observable <any> {
+    return this.httpClient
+    .get(`${this.rest_API}/moneda/${id}`, {headers: this.httpHeaders})
+    .pipe(
+      map((res: any) => {
+        return res || {};
+      }),
+    );
+  }
 
 
 }

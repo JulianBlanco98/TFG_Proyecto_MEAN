@@ -48,8 +48,6 @@ export class ModalUsuarioComponent implements OnInit{
       
     }      
   }
-  
-  
   buildForm(){
     this.form = new FormGroup({
       nombre: new FormControl(''),
@@ -63,6 +61,5 @@ export class ModalUsuarioComponent implements OnInit{
     // --> Poner las validaciones aqui
     const params = {...this.form.value}
     this.modal.close(params)
-
   }
 }

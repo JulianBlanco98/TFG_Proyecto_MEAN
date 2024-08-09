@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   faHome,
   faMoneyCheckDollar,
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   constructor(
     private readonly modalService: NgbModal,
     private readonly crudUsersService: CrudUsersService,
@@ -40,6 +40,30 @@ export class MenuComponent {
   faUser = faUser;
   faAdmin = faUserSecret;
   faJornada = faFootballBall;
+  monedaJugador: number | null = null;
+
+  ngOnInit(): void {
+    if (this.authServiceService.isAuthenticated()) {
+      this.updateMonedas();
+    }
+
+  }
+  updateMonedas() {
+    const idUsuario = this.authServiceService.getIdUsuarioToken();
+    if (idUsuario) {
+      this.crudUsersService.getMonedaById(idUsuario).subscribe({
+        next: (data: any) => {
+          this.monedaJugador = data.moneda;
+        },
+        error: (err: any) => {
+          console.error('Error al obtener las monedas del usuario:', err);
+          this.monedaJugador = 0;
+        },
+      });
+    } else {
+      this.monedaJugador = 0;
+    }
+  }
 
   openModal(tipo: string) {
     const modal = this.modalService.open(ModalUsuarioComponent, {
@@ -58,11 +82,10 @@ export class MenuComponent {
         let nameService: string;
         if (tipo === 'registro') {
           nameService = 'registro';
-        } else if(tipo === 'login') {
+        } else if (tipo === 'login') {
           nameService = 'login';
-        }
-        else{
-          nameService = 'editarUsuario'
+        } else {
+          nameService = 'editarUsuario';
         }
         this.typeSubmit(nameService, response);
       },
@@ -72,15 +95,15 @@ export class MenuComponent {
     );
   }
 
-  //Mover esta lógica al crud-user-service.ts y crear un 
+  //Mover esta lógica al crud-user-service.ts y crear un
   typeSubmit(service: any, response: any) {
     this.crudUsersService[service](response).subscribe({
       next: (data: any) => {
         this.alertifyService.success(data.message);
-        if(service === 'login'){
-          this.authServiceService.setToken(data.token)
+        if (service === 'login') {
+          this.authServiceService.setToken(data.token);
+          this.updateMonedas();
         }
-       
       },
       error: (err: any) => {
         // console.log("error: ", err);
@@ -89,10 +112,11 @@ export class MenuComponent {
     });
   }
 
-  logOut(){
+  logOut() {
     this.authServiceService.removeToken();
     this.eventService.setNewRoles(null);
-    this.router.navigateByUrl("/");
-    this.alertifyService.success("Sesion cerrada correctamente");
+    this.monedaJugador = 0;
+    this.router.navigateByUrl('/');
+    this.alertifyService.success('Sesion cerrada correctamente');
   }
 }
