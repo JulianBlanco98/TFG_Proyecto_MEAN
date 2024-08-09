@@ -37,6 +37,36 @@ const jornadaSchema = new mongoose.Schema(
                 type: Number,
                 default: 0,
             },
+            titularesLocal: [{
+                jugador: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'jugadores',
+                    required: true,
+                },
+                goles: {
+                    type: Number,
+                    default: 0,
+                },
+                asistencias: {
+                    type: Number,
+                    default: 0,
+                },
+            }],
+            titularesVisitante: [{
+                jugador: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'jugadores',
+                    required: true,
+                },
+                goles: {
+                    type: Number,
+                    default: 0,
+                },
+                asistencias: {
+                    type: Number,
+                    default: 0,
+                },
+            }],
         }]
     },
     {

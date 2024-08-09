@@ -38,7 +38,9 @@ export const generarCalendario = async (req, res) => {
                         golesLocal: 0,
                         golesVisitante: 0,
                         asistenciasLocal: 0,
-                        asistenciasVisitante: 0
+                        asistenciasVisitante: 0,
+                        titularesLocal: [],
+                        titularesVisitante: []
                     });
                 }
 
@@ -68,7 +70,9 @@ export const generarCalendario = async (req, res) => {
                         golesLocal: 0,
                         golesVisitante: 0,
                         asistenciasLocal: 0,
-                        asistenciasVisitante: 0
+                        asistenciasVisitante: 0,
+                        titularesLocal: [],
+                        titularesVisitante: []
                     });
                 }
 

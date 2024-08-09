@@ -4,6 +4,7 @@ import { EquiposModel } from "../model/EquiposModel.js";
 import { EntrenadorModel } from "../model/EntrenadorModel.js";
 import { EstadisticasModel } from "../model/EstadisticaModel.js";
 import dotenv from "dotenv";
+import { JornadaModel } from "../model/SimularLiga/JornadaModel.js";
 
 dotenv.config()
 
@@ -296,5 +297,19 @@ export const getAsistenciasTotales = async (req, res) => {
         });
       }
 }
+export const getJugadorById = async (req,res) => {
+    try {
+        const {id} = req.params;
+        const jugador = await JugadorModel.findById(id);
+        if(!jugador){
+            return res.status(404).json({ message: 'Jugador no encontrado' });
+        }
+        res.status(200).json(jugador);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener el jugador.', err: error });
+    }
+}
+
 
 

@@ -15,6 +15,9 @@ export class SimularJornadaComponent {
     private readonly crudJornadaService: CrudJornadaService,
     private readonly alertifyService: AlertifyService
   ){
+    this.getNumeroJornadaActual();
+  }
+  getNumeroJornadaActual() {
     this.crudJornadaService.getNumeroJornadaActual().subscribe({
       next: (response) => {
         console.log(response);
@@ -22,15 +25,16 @@ export class SimularJornadaComponent {
       },
       error: (err) => {
         console.log(err);
-        
       }
-    })
+    });
   }
+
   simular() {
     this.crudJornadaService.simularJornadaAdmin().subscribe({
       next: (response) => {
         console.log(response);
         this.alertifyService.success(response.message)
+        this.getNumeroJornadaActual();
         //hacer aquí la llamada
       },
       error: (err) => {

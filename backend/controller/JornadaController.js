@@ -21,7 +21,7 @@ export const getJornadaByNumero = async (req, res) => {
         return res.status(200).json(jornada)
 
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 }
 
@@ -41,6 +41,43 @@ export const getJornadaActual = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const getGoleadorJornadaActual = async (req, res) => {
+    try {
+        console.log("Metodo de obtener el goleador de la jornada actuual");
+        
+        const ultimaJornada = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1})
+        if(!ultimaJornada){
+            return res.status(404).json({ message: "No se encontró ninguna jornada jugada" });
+        }
+        let maxGoles = 0;
+        let goleador = null;
+
+        //Recorro los partidos de la jornada
+        ultimaJornada.partidos.forEach(partido => {
+            partido.titularesLocal.forEach(jugador => {
+                if(jugador.goles > maxGoles) {
+                    maxGoles = jugador.goles;
+                    goleador = jugador.jugador;
+                }
+            });
+            partido.titularesVisitante.forEach(jugador => {
+                if(jugador.goles > maxGoles) {
+                    maxGoles = jugador.goles;
+                    goleador = jugador.jugador;
+                }
+            });
+
+        })
+        if (!goleador) {
+            return res.status(404).json({ message: "No se encontró ningún goleador" });
+        }
+        res.status(200).json({ goleador, goles: maxGoles });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 
 //Put, ya que voy a actualizar los datos de jornada
 export const simularJornadaActual = async (req, res) => {
@@ -92,12 +129,34 @@ export const simularJornadaActual = async (req, res) => {
             //Escoger los 11 jugadores que van a jugar el partido
             let equipoLocalSeleccionado = await seleccionarJugadores(jugadoresLocal);
             let equipoVisitanteSeleccionado = await seleccionarJugadores(jugadoresVisitante);
-
             //console.log("Los jugadores se han escogido");
 
+            //Agregar los titulares del equipoLocal al campo de titulares de jornada
+            partido.titularesLocal = [
+                ...equipoLocalSeleccionado.portero,
+                ...equipoLocalSeleccionado.defensas,
+                ...equipoLocalSeleccionado.mediocentros,
+                ...equipoLocalSeleccionado.delanteros,
+            ].map(jugador => ({
+                jugador: jugador._id,
+                goles: 0,
+                asistencias: 0
+            }))
+            //Agregar los titulares del equipoVisitante al campo de titulares de jornada           
+            partido.titularesVisitante = [
+                ...equipoVisitanteSeleccionado.portero,
+                ...equipoVisitanteSeleccionado.defensas,
+                ...equipoVisitanteSeleccionado.mediocentros,
+                ...equipoVisitanteSeleccionado.delanteros,
+            ].map(jugador => ({
+                jugador: jugador._id,
+                goles: 0,
+                asistencias: 0
+            }))
+
             //Actualizo los goles y las asistencias de estos jugadores del equipo local y equipo Visitante
-            await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, partido.asistenciasLocal);
-            await actualizarEstadisticasJugadores(equipoVisitanteSeleccionado, partido.golesVisitante, partido.asistenciasVisitante);
+            await actualizarEstadisticasJugadores(equipoLocalSeleccionado, partido.golesLocal, partido.asistenciasLocal, jornadaActual);
+            await actualizarEstadisticasJugadores(equipoVisitanteSeleccionado, partido.golesVisitante, partido.asistenciasVisitante, jornadaActual);
 
             //console.log("Estadisticas de jugadores actualizadas");
 
@@ -206,8 +265,9 @@ const seleccionarAleatorio = async (array, numero) => {
  * @param {array} equipo - Equipo con sus 11 jugadores
  * @param {Number} numeroGoles - Numero de goles para generar los goles 
  * @param {Number} numeroAsistencias - Numero de asistencias para generar las asistencias
+ * @param {object} jornadaActual - Jornada actual para añadir los goles y las asistencias a los titulares
  */
-const actualizarEstadisticasJugadores = async (equipo, numeroGoles, numeroAsistencias) => {
+const actualizarEstadisticasJugadores = async (equipo, numeroGoles, numeroAsistencias, jornadaActual) => {
 
     const probabilidad = {
         goles: { delanteros: 50, mediocentros: 40, defensas: 10 },
@@ -249,8 +309,22 @@ const actualizarEstadisticasJugadores = async (equipo, numeroGoles, numeroAsiste
             } else {
                 jugSeleccionado = equipo.defensas.length > 1 ? equipo.defensas[await randomNumber(0, equipo.defensas.length - 1)] : equipo.defensas[0];
             }
+            //Actualizo el campo estadísticas del jugador (global)
             jugSeleccionado.estadisticas.goles += 1;
-            await jugSeleccionado.estadisticas.save();
+            await jugSeleccionado.estadisticas.save(); //actualizo la colección estadíticas (total de cada jugador)
+            
+            //Actualizo los goles en jornada (particular) --> Busco el equipo y luego el jugador
+            const partido = jornadaActual.partidos.find(partido => partido.equipoLocal._id.equals(equipoS._id) || partido.equipoVisitante._id.equals(equipoS._id));
+            if(partido){
+                //Juntar los 22 titulares (11 locales y 11 visitantes)
+                const jugadoresTitulares = [...partido.titularesLocal, ...partido.titularesVisitante];
+                jugadoresTitulares.forEach(titular => {
+                    if(titular.jugador.equals(jugSeleccionado._id)){
+                        titular.goles += 1;
+                    }
+                });
+            }
+
             golesGenerados++;
         }
     }
@@ -266,12 +340,29 @@ const actualizarEstadisticasJugadores = async (equipo, numeroGoles, numeroAsiste
             } else {
                 jugSeleccionado = equipo.defensas.length > 1 ? equipo.defensas[await randomNumber(0, equipo.defensas.length - 1)] : equipo.defensas[0];
             }
+
+            //Actualizo el campo estadísticas del jugador (global)
             jugSeleccionado.estadisticas.asistencias += 1;
-            await jugSeleccionado.estadisticas.save();
+            await jugSeleccionado.estadisticas.save(); //actualizo la colección estadíticas (total de cada jugador)
+
+            const partido = jornadaActual.partidos.find(partido => partido.equipoLocal._id.equals(equipoS._id) || partido.equipoVisitante._id.equals(equipoS._id));
+
+            if(partido){
+                //Juntar los 22 titulares (11 locales y 11 visitantes)
+                const jugadoresTitulares = [...partido.titularesLocal, ...partido.titularesVisitante];
+                jugadoresTitulares.forEach(titular => {
+                    if(titular.jugador.equals(jugSeleccionado._id)){
+                        titular.asistencias += 1;
+                    }
+                });
+            }
+
             asistenciasGeneradas++;
         }
     }
 
+    //Actualizo la jornada actual
+    //await jornadaActual.save();
     console.log(`-->${equipoS.nombreEquipoCorto} | Goles Generados: ${golesGenerados} | Asistencias Generadas: ${asistenciasGeneradas}`);
 };
 /**
