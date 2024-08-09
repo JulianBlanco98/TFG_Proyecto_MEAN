@@ -28,6 +28,7 @@ import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/
 import { FormUsuariosComponent } from './components/form/form-usuarios/form-usuarios.component';
 import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
 import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular-jornada.component';
+import { FooterComponent } from './components/footer/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular
     CreateUsuariosComponent,
     FormUsuariosComponent,
     EditUsuariosComponent,
-    SimularJornadaComponent
+    SimularJornadaComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
