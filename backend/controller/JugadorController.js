@@ -168,7 +168,6 @@ const posicionJugadores = async (tipo) => {
 }
 
 export const getGoleadores = async (req, res) => {
-
     try {
         const goleadores = await JugadorModel.aggregate([
             {
@@ -176,25 +175,44 @@ export const getGoleadores = async (req, res) => {
                     from: 'estadisticas',
                     localField: 'estadisticas',
                     foreignField: '_id',
-                    as: 'estadisticas'
+                    as: 'golesEstadisticas'
                 }
             },
-            { $unwind: '$estadisticas' },
-            { $sort: { 'estadisticas.goles': -1 } },
-            { $limit: 10 }
+            { $unwind: '$golesEstadisticas' },
+            { $sort: { 'golesEstadisticas.goles': -1 } },
+            { $limit: 10 },
+            {
+                $lookup: {
+                    from: 'equipos',
+                    localField: 'idEquipo',
+                    foreignField: '_id',
+                    as: 'equipo'
+                }
+            },
+            { $unwind: '$equipo' },
+            {
+                $project: {
+                    'datos.nombreJugador': 1,
+                    'datos.imagenJugador': 1,
+                    'golesEstadisticas.goles': 1,
+                    'equipo.nombreEquipo': 1,
+                    'equipo.escudoEquipo': 1
+                }
+            }
         ]);
 
-        if(!goleadores || goleadores.length === 0){
-            return res.status(404).json({message: 'Sin goles'})
+        if (!goleadores || goleadores.length === 0) {
+            return res.status(404).json({ message: 'Sin goles' });
         }
 
-        return res.status(200).json({goleadores})
+        return res.status(200).json({ tabla: goleadores });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
+
 
 export const getAsistentes = async (req, res) => {
     try {
@@ -204,23 +222,41 @@ export const getAsistentes = async (req, res) => {
                     from: 'estadisticas',
                     localField: 'estadisticas',
                     foreignField: '_id',
-                    as: 'estadisticas'
+                    as: 'asistenciasEstadisticas'
                 }
             },
-            { $unwind: '$estadisticas' },
-            { $sort: { 'estadisticas.asistencias': -1 } },
-            { $limit: 10 }
+            { $unwind: '$asistenciasEstadisticas' },
+            { $sort: { 'asistenciasEstadisticas.asistencias': -1 } },
+            { $limit: 10 },
+            {
+                $lookup: {
+                    from: 'equipos',
+                    localField: 'idEquipo',
+                    foreignField: '_id',
+                    as: 'equipo'
+                }
+            },
+            { $unwind: '$equipo' },
+            {
+                $project: {
+                    'datos.nombreJugador': 1,
+                    'datos.imagenJugador': 1,
+                    'asistenciasEstadisticas.asistencias': 1,
+                    'equipo.nombreEquipo': 1,
+                    'equipo.escudoEquipo': 1
+                }
+            }
         ]);
 
-        if(!asistentes || asistentes.length === 0){
-            return res.status(404).json({message: 'Sin asistencias'})
+        if (!asistentes || asistentes.length === 0) {
+            return res.status(404).json({ message: 'Sin asistencias' });
         }
 
-        return res.status(200).json({asistentes})
+        return res.status(200).json({ tabla: asistentes });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
 }
 export const getGolesTotales = async (req, res) => {

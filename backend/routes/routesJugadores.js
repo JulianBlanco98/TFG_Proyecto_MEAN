@@ -3,10 +3,10 @@ import { getJugadoresByEquipo, getJugadoresByPosicion, getGoleadores, getAsisten
 
 const router = express.Router()
 
-router.get('/equipo/:idApi', getJugadoresByEquipo)
-router.get('/equipoT/:idApi/:tipo', getJugadoresByPosicion)
 router.get('/goleadores', getGoleadores);
 router.get('/asistentes', getAsistentes);
+router.get('/equipo/:idApi', getJugadoresByEquipo)
+router.get('/equipoT/:idApi/:tipo', getJugadoresByPosicion)
 router.get('/totalG', getGolesTotales);
 router.get('/totalA', getAsistenciasTotales);
 router.get('/:id', getJugadorById);

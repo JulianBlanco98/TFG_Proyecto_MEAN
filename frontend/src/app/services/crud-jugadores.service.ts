@@ -31,6 +31,9 @@ export class CrudJugadoresService {
   getJugadoresByPosicion(idApi: number, tipo:string): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/equipoT/${idApi}/${tipo}`, {headers: this.httpHeaders})
   }
+  getMaximosGoleadores(): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/goleadores`, {headers: this.httpHeaders})
+  }
 
   handleError(error: HttpErrorResponse) {
     let errorMensaje: string = '';

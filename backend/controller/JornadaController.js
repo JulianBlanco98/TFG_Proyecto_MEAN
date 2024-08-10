@@ -43,7 +43,7 @@ export const getJornadaActual = async (req, res) => {
 }
 export const getGoleadorJornadaActual = async (req, res) => {
     try {
-        console.log("Metodo de obtener el goleador de la jornada actuual");
+        //console.log("Metodo de obtener el goleador de la jornada actuual");
         
         const ultimaJornada = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1})
         if(!ultimaJornada){
@@ -77,8 +77,42 @@ export const getGoleadorJornadaActual = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const getAsistenteJornadaActual = async (req, res) => {
+    try {
+        //console.log("Metodo de obtener el asistente de la jornada actuual");
+        
+        const ultimaJornada = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1})
+        if(!ultimaJornada){
+            return res.status(404).json({ message: "No se encontró ninguna jornada jugada" });
+        }
+        let maxAsistentes = 0;
+        let asistente = null;
 
+        //Recorro los partidos de la jornada
+        ultimaJornada.partidos.forEach(partido => {
+            partido.titularesLocal.forEach(jugador => {
+                if(jugador.goles > maxAsistentes) {
+                    maxAsistentes = jugador.goles;
+                    asistente = jugador.jugador;
+                }
+            });
+            partido.titularesVisitante.forEach(jugador => {
+                if(jugador.goles > maxAsistentes) {
+                    maxAsistentes = jugador.goles;
+                    asistente = jugador.jugador;
+                }
+            });
 
+        })
+        if (!asistente) {
+            return res.status(404).json({ message: "No se encontró ningún asistente" });
+        }
+        res.status(200).json({ asistente, asistencias: maxAsistentes });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 //Put, ya que voy a actualizar los datos de jornada
 export const simularJornadaActual = async (req, res) => {
 
