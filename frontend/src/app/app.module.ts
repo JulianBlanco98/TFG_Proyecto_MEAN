@@ -31,6 +31,7 @@ import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular
 import { FooterComponent } from './components/footer/footer/footer.component';
 import { GoleadoresComponent } from './pages/jugadores/max-goleadores/goleadores/goleadores.component';
 import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
+import { AsistentesComponent } from './pages/jugadores/max-asistentes/asistentes/asistentes.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-c
     SimularJornadaComponent,
     FooterComponent,
     GoleadoresComponent,
-    TabClasificacionComponent
+    TabClasificacionComponent,
+    AsistentesComponent
   ],
   imports: [
     BrowserModule,

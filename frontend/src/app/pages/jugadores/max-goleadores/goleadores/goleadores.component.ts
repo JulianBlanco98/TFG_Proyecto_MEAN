@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Jugador } from 'src/app/models/jugador.model';
 import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 
 @Component({
@@ -9,8 +8,8 @@ import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 })
 export class GoleadoresComponent implements OnInit{
 
+  goleadores: any []
   constructor(private readonly crudJugadoresService: CrudJugadoresService){}
-  goleadores: Jugador[]
 
   ngOnInit(): void {
     this.cargarTablaGoleadores();
@@ -19,6 +18,8 @@ export class GoleadoresComponent implements OnInit{
     this.crudJugadoresService.getMaximosGoleadores().subscribe({
       next: (data) => {
         this.goleadores = data.tabla;
+        console.log(this.goleadores);
+        
       },
       error: (err) => {
         console.log(err);        

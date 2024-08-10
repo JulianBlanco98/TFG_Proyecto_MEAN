@@ -195,7 +195,7 @@ export const getGoleadores = async (req, res) => {
                     'datos.nombreJugador': 1,
                     'datos.imagenJugador': 1,
                     'golesEstadisticas.goles': 1,
-                    'equipo.nombreEquipo': 1,
+                    'equipo.nombreEquipoCorto': 1,
                     'equipo.escudoEquipo': 1
                 }
             }
@@ -242,7 +242,7 @@ export const getAsistentes = async (req, res) => {
                     'datos.nombreJugador': 1,
                     'datos.imagenJugador': 1,
                     'asistenciasEstadisticas.asistencias': 1,
-                    'equipo.nombreEquipo': 1,
+                    'equipo.nombreEquipoCorto': 1,
                     'equipo.escudoEquipo': 1
                 }
             }
