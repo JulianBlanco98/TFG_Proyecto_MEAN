@@ -13,6 +13,7 @@ import { ShowUsuariosComponent } from './pages/usuarios/show/show-usuarios/show-
 import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/create-usuarios.component';
 import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
 import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular-jornada.component';
+import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
     canActivate: [loginGuard, loginAdmin]
   },
   {
-    path:'clasificacion', component: ShowTablaClasificacionComponent
+    path:'clasificacion', component: TabClasificacionComponent
   },
   {
     path: 'adminJornadas', component: SimularJornadaComponent,

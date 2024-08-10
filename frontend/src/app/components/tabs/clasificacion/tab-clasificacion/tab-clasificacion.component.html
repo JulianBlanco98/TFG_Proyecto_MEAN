@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="clasificacion-tab" data-bs-toggle="tab" data-bs-target="#clasificacion-tab-pane" type="button" role="tab" aria-controls="clasificacion-tab-pane" aria-selected="true">
+          <fa-icon [icon]="faTabla" style="margin-right: 4px;"></fa-icon>Tabla
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button #jornadaTab class="nav-link" id="jornada-tab" data-bs-toggle="tab" data-bs-target="#jornada-tab-pane" type="button" role="tab" aria-controls="jornada-tab-pane" aria-selected="false">Jornada</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="goleadores-tab" data-bs-toggle="tab" data-bs-target="#goleadores-tab-pane" type="button" role="tab" aria-controls="goleadores-tab-pane" aria-selected="false">Goleadores</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="asistentes-tab" data-bs-toggle="tab" data-bs-target="#asistentes-tab-pane" type="button" role="tab" aria-controls="asistentes-tab-pane" aria-selected="false">Asistentes</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="clasificacion-tab-pane" role="tabpanel" aria-labelledby="clasificacion-tab" tabindex="0">
+        <app-show-tabla-clasificacion></app-show-tabla-clasificacion>
+      </div>
+      <div class="tab-pane fade" id="jornada-tab-pane" role="tabpanel" aria-labelledby="jornada-tab" tabindex="0">
+        <ng-container *ngIf="jornadaTabSelected">
+          <app-show-jornada [numJornada]="numeroJornada"></app-show-jornada>
+        </ng-container>
+      </div>
+      <div class="tab-pane fade" id="goleadores-tab-pane" role="tabpanel" aria-labelledby="goleadores-tab" tabindex="0">
+        Goleadores
+      </div>
+      <div class="tab-pane fade" id="asistentes-tab-pane" role="tabpanel" aria-labelledby="asistentes-tab" tabindex="0">
+        Asistentes
+      </div>
+    </div>
+  </div>
+  

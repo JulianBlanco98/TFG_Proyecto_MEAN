@@ -1,0 +1,33 @@
+/* Estilos para las pestañas */
+.nav-tabs .nav-link {
+    border: 1px solid #ddd;
+    border-radius: 0;
+    color: #555;
+    transition: background-color 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #dadcdd;
+    color: #7d19ff;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #7d19ff;
+    color: #fff;
+    border-color: #000000;
+}
+
+/* Estilos para el contenido de las pestañas */
+.tab-content .tab-pane {
+    padding: 15px;
+    border: 2px solid #ddd; /* Estaba a 1px*/
+    border-top: none;
+    background-color: #fff;
+}
+
+/* Estilos adicionales */
+
+
+.nav-tabs {
+    margin-bottom: 15px;
+}

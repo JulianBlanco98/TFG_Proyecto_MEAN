@@ -1,17 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Jornada } from 'src/app/models/jornada.model';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
-import {
-  faLongArrowLeft,
-  faLongArrowRight,
-} from '@fortawesome/free-solid-svg-icons';
+import { faLongArrowLeft, faLongArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-show-jornada',
   templateUrl: './show-jornada.component.html',
   styleUrls: ['./show-jornada.component.css'],
 })
-export class ShowJornadaComponent implements OnInit {
+export class ShowJornadaComponent implements OnChanges {
   @Input() numJornada: number;
   jornada: Jornada;
 
@@ -20,19 +17,24 @@ export class ShowJornadaComponent implements OnInit {
 
   constructor(private crudJornadaService: CrudJornadaService) {}
 
-  ngOnInit(): void {
-    this.getJornada();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['numJornada'] && changes['numJornada'].currentValue) {
+      this.getJornada();
+    }
   }
+
   getJornada() {
-    this.crudJornadaService.getJornadaByNumero(this.numJornada).subscribe({
-      next: (data) => {
-        this.jornada = data;
-        console.log(this.jornada);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    if (this.numJornada) {
+      this.crudJornadaService.getJornadaByNumero(this.numJornada).subscribe({
+        next: (data) => {
+          this.jornada = data;
+          console.log(this.jornada);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
   }
 
   nuevaJornada(jornadaNueva: number) {

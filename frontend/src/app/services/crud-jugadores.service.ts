@@ -34,6 +34,9 @@ export class CrudJugadoresService {
   getMaximosGoleadores(): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/goleadores`, {headers: this.httpHeaders})
   }
+  getMaximosAsistentes(): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/asistentes`, {headers: this.httpHeaders})
+  }
 
   handleError(error: HttpErrorResponse) {
     let errorMensaje: string = '';

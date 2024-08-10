@@ -7,7 +7,7 @@
         <h3 class="text-center">Jornada {{ jornada?.numeroJornada }}</h3>
         <div class="jornada-siguiente nuevaJ" (click)="jornada.numeroJornada < 38 && nuevaJornada(jornada.numeroJornada + 1)">
             <fa-icon [icon]="faRight" [size]="'3x'" [class.disabled]="jornada.numeroJornada >= 38"></fa-icon>
-            <p [class.disabled]="jornada.numeroJornada <= 1">Jornada {{jornada.numeroJornada + 1}}</p>
+            <p [class.disabled]="jornada.numeroJornada >= 38">Jornada {{jornada.numeroJornada + 1}}</p>
         </div>
     </div>
     <div class="table-responsive">

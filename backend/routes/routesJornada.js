@@ -5,7 +5,7 @@ import { autenticarToken } from '../middleware/authUser.js'
 const router = express.Router()
 
 router.put('/s/simularJornada', autenticarToken, simularJornadaActual)
-router.get('/j/actual', autenticarToken, getJornadaActual)
+router.get('/j/actual', getJornadaActual)
 router.get('/goleadorJornada', getGoleadorJornadaActual)
 router.get('/asistenteJornada', getAsistenteJornadaActual)
 router.get('/:numero', getJornadaByNumero)
