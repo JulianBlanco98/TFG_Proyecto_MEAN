@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { faRankingStar, faJournalWhills, faSoccerBall, faSocks } from '@fortawesome/free-solid-svg-icons';
+import { faRankingStar, faBookBookmark, faSoccerBall, faSocks } from '@fortawesome/free-solid-svg-icons';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class TabClasificacionComponent implements AfterViewInit {
   numeroJornada: number;
   jornadaTabSelected = false;
   faTabla = faRankingStar;
-  faJornada = faJournalWhills;
+  faJornada = faBookBookmark;
   faGoleador = faSoccerBall;
   faAsistente = faSocks;
 

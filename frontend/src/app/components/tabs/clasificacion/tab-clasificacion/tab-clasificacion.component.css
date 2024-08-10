@@ -4,6 +4,7 @@
     border-radius: 0;
     color: #555;
     transition: background-color 0.3s ease;
+    background-color: white;
 }
 
 .nav-tabs .nav-link:hover {
@@ -16,18 +17,17 @@
     color: #fff;
     border-color: #000000;
 }
-
-/* Estilos para el contenido de las pestañas */
 .tab-content .tab-pane {
     padding: 15px;
     border: 2px solid #ddd; /* Estaba a 1px*/
     border-top: none;
     background-color: #fff;
 }
-
-/* Estilos adicionales */
-
-
-.nav-tabs {
+/* .nav-tabs {
     margin-bottom: 15px;
+} */
+
+.container {
+    box-shadow: 0px 11px 20px 2px #bdbdbdde;
 }
+
