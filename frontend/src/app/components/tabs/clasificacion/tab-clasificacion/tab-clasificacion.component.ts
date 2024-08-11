@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { faRankingStar, faBookBookmark, faSoccerBall, faSocks } from '@fortawesome/free-solid-svg-icons';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 
@@ -8,12 +8,14 @@ import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
   styleUrls: ['./tab-clasificacion.component.css']
 })
 export class TabClasificacionComponent implements AfterViewInit {
+
   
-  @ViewChild('jornadaTab', { static: true }) jornadaTab: ElementRef;
   @Output() numeroJornadaChange = new EventEmitter<number>();
 
   numeroJornada: number;
   jornadaTabSelected = false;
+  activeTab: string = 'clasificacion';  // Default tab
+
   faTabla = faRankingStar;
   faJornada = faBookBookmark;
   faGoleador = faSoccerBall;
@@ -25,10 +27,7 @@ export class TabClasificacionComponent implements AfterViewInit {
     this.getNumeroJornadaActual();
 
     // Escuchar evento de cambio de tab
-    this.jornadaTab.nativeElement.addEventListener('shown.bs.tab', () => {
-      this.jornadaTabSelected = true;
-      this.numeroJornadaChange.emit(this.numeroJornada);
-    });
+    // Verifica si jornadaTab está definido
   }
 
   getNumeroJornadaActual(){
@@ -40,6 +39,10 @@ export class TabClasificacionComponent implements AfterViewInit {
       error: (err) => {
         console.log(err);        
       }
-    })
+    });
+  }
+
+  setActiveTab(tabName: string) {
+    this.activeTab = tabName;
   }
 }

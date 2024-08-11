@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class FormUsuariosComponent implements OnInit{
 
+
   formUsuario: FormGroup
   
   @Input() modelUsuario: User
@@ -54,6 +55,10 @@ export class FormUsuariosComponent implements OnInit{
         correo: this.modelUsuario.datos.correo,
       })
     }
+  }
+
+  volverAtras() {
+    this.router.navigate(['/usuarios']);
   }
 
 

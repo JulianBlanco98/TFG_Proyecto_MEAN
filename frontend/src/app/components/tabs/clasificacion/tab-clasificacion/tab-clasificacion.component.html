@@ -1,41 +1,46 @@
 <div class="container mt-4">
-    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="clasificacion-tab" data-bs-toggle="tab" data-bs-target="#clasificacion-tab-pane" type="button" role="tab" aria-controls="clasificacion-tab-pane" aria-selected="true">
-          <fa-icon [icon]="faTabla" style="margin-right: 8px;"></fa-icon>Tabla
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button #jornadaTab class="nav-link" id="jornada-tab" data-bs-toggle="tab" data-bs-target="#jornada-tab-pane" type="button" role="tab" aria-controls="jornada-tab-pane" aria-selected="false">
-            <fa-icon [icon]="faJornada" style="margin-right: 8px;"></fa-icon>Jornada
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="goleadores-tab" data-bs-toggle="tab" data-bs-target="#goleadores-tab-pane" type="button" role="tab" aria-controls="goleadores-tab-pane" aria-selected="false">
-            <fa-icon [icon]="faGoleador" style="margin-right: 8px;"></fa-icon>Goleadores
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="asistentes-tab" data-bs-toggle="tab" data-bs-target="#asistentes-tab-pane" type="button" role="tab" aria-controls="asistentes-tab-pane" aria-selected="false">
-            <fa-icon [icon]="faAsistente" style="margin-right: 8px;"></fa-icon>Asistentes
-        </button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="clasificacion-tab-pane" role="tabpanel" aria-labelledby="clasificacion-tab" tabindex="0">
+  <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'clasificacion'" id="clasificacion-tab" data-bs-toggle="tab" data-bs-target="#clasificacion-tab-pane" type="button" role="tab" aria-controls="clasificacion-tab-pane" aria-selected="true" (click)="setActiveTab('clasificacion')">
+        <fa-icon [icon]="faTabla" style="margin-right: 8px;"></fa-icon>Tabla
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'jornada'" id="jornada-tab" data-bs-toggle="tab" data-bs-target="#jornada-tab-pane" type="button" role="tab" aria-controls="jornada-tab-pane" aria-selected="false" (click)="setActiveTab('jornada')">
+          <fa-icon [icon]="faJornada" style="margin-right: 8px;"></fa-icon>Jornada
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'goleadores'" id="goleadores-tab" data-bs-toggle="tab" data-bs-target="#goleadores-tab-pane" type="button" role="tab" aria-controls="goleadores-tab-pane" aria-selected="false" (click)="setActiveTab('goleadores')">
+          <fa-icon [icon]="faGoleador" style="margin-right: 8px;"></fa-icon>Goleadores
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'asistentes'" id="asistentes-tab" data-bs-toggle="tab" data-bs-target="#asistentes-tab-pane" type="button" role="tab" aria-controls="asistentes-tab-pane" aria-selected="false" (click)="setActiveTab('asistentes')">
+          <fa-icon [icon]="faAsistente" style="margin-right: 8px;"></fa-icon>Asistentes
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show" [ngClass]="{'active': activeTab === 'clasificacion'}" id="clasificacion-tab-pane" role="tabpanel" aria-labelledby="clasificacion-tab">
+      <ng-container *ngIf="activeTab === 'clasificacion'">
         <app-show-tabla-clasificacion></app-show-tabla-clasificacion>
-      </div>
-      <div class="tab-pane fade" id="jornada-tab-pane" role="tabpanel" aria-labelledby="jornada-tab" tabindex="0">
-        <ng-container *ngIf="jornadaTabSelected">
-          <app-show-jornada [numJornada]="numeroJornada"></app-show-jornada>
-        </ng-container>
-      </div>
-      <div class="tab-pane fade" id="goleadores-tab-pane" role="tabpanel" aria-labelledby="goleadores-tab" tabindex="0">
+      </ng-container>
+    </div>
+    <div class="tab-pane fade" [ngClass]="{'active': activeTab === 'jornada'}" id="jornada-tab-pane" role="tabpanel" aria-labelledby="jornada-tab">
+      <ng-container *ngIf="activeTab === 'jornada'">
+        <app-show-jornada [numJornada]="numeroJornada"></app-show-jornada>
+      </ng-container>
+    </div>
+    <div class="tab-pane fade" [ngClass]="{'active': activeTab === 'goleadores'}" id="goleadores-tab-pane" role="tabpanel" aria-labelledby="goleadores-tab">
+      <ng-container *ngIf="activeTab === 'goleadores'">
         <app-goleadores></app-goleadores>
-      </div>
-      <div class="tab-pane fade" id="asistentes-tab-pane" role="tabpanel" aria-labelledby="asistentes-tab" tabindex="0">
+      </ng-container>
+    </div>
+    <div class="tab-pane fade" [ngClass]="{'active': activeTab === 'asistentes'}" id="asistentes-tab-pane" role="tabpanel" aria-labelledby="asistentes-tab">
+      <ng-container *ngIf="activeTab === 'asistentes'">
         <app-asistentes></app-asistentes>
-      </div>
+      </ng-container>
     </div>
   </div>
-  
+</div>
