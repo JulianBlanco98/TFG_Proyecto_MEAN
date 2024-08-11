@@ -27,6 +27,7 @@ export class FormUsuariosComponent implements OnInit{
       nombre: ['', [Validators.required, Validators.minLength(2)]],
       edad: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.min(18)]],
       correo: ['', [Validators.required, Validators.email]],
+      moneda: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
@@ -49,6 +50,7 @@ export class FormUsuariosComponent implements OnInit{
       this.formUsuario.patchValue({
         nombre: this.modelUsuario.datos.nombre,
         edad: this.modelUsuario.datos.edad,
+        moneda: this.modelUsuario.moneda,
         correo: this.modelUsuario.datos.correo,
       })
     }

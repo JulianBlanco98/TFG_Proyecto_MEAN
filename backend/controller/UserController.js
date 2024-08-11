@@ -123,6 +123,7 @@ export const updateUsuarios = async (req, res) => {
         const actualizarDatos = {
             'datos.nombre': req.body.nombre,
             'datos.edad': req.body.edad,
+            'moneda': req.body.moneda,
             'datos.correo': req.body.correo,
             'datos.password': req.body.password,
         }
