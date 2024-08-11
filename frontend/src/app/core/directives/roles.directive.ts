@@ -6,27 +6,39 @@ import { EventService } from 'src/app/services/event.service';
 @Directive({
   selector: '[appRoles]'
 })
-export class RolesDirective implements OnInit, OnDestroy{
+export class RolesDirective implements OnInit, OnDestroy {
 
-  private rolActual: string | null;
+  private sub: Subscription;
+
   @Input() appRoles: string[];
-  sub: Subscription
 
   constructor(
     private readonly templateRef: TemplateRef<any>,
     private readonly viewContainer: ViewContainerRef,
     private readonly authService: AuthServiceService,
     private readonly eventService: EventService
-  ) { 
-  }
-  
+  ) {}
+
   ngOnInit(): void {
-    // Manejo de la autenticación
+    this.handleRoles();
+    
+    // Suscripción para recargar los roles cuando cambian
+    this.sub = this.eventService.reloadRoles.subscribe(() => {
+      this.handleRoles();
+    });
+  }
+
+  private handleRoles(): void {
+    // Limpia la vista actual para evitar duplicados
+    this.viewContainer.clear();
+
     if (this.authService.isAuthenticated()) {
-      this.sub = this.authService.getRolUsuarioToken().pipe(
+      this.authService.getRolUsuarioToken().pipe(
         map((rol) => Boolean(rol && this.appRoles?.includes(rol))),
         tap((hasRole) => {
-          hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear();
+          if (hasRole) {
+            this.viewContainer.createEmbeddedView(this.templateRef);
+          }
         })
       ).subscribe();
     } else {
@@ -37,18 +49,12 @@ export class RolesDirective implements OnInit, OnDestroy{
         this.viewContainer.clear();
       }
     }
-
-    // Suscripción para recargar los roles cuando cambian
-    this.sub = this.eventService.reloadRoles.pipe(
-      map((rol) => Boolean(rol && this.appRoles?.includes(rol))),
-      tap((hasRole) => {
-        hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear();
-      })
-    ).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
-  
 }
+

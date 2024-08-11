@@ -103,6 +103,13 @@ export class MenuComponent implements OnInit {
         if (service === 'login') {
           this.authServiceService.setToken(data.token);
           this.updateMonedas();
+
+          //Si el usuario es el admin, redirijo a la pestaña de usuarios
+          this.authServiceService.getRolUsuarioToken().subscribe((rolUsuario) => {
+            if (rolUsuario === 'admin') {
+              this.router.navigateByUrl('/usuarios');
+            }
+          });
         }
       },
       error: (err: any) => {

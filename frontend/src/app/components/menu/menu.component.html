@@ -26,10 +26,10 @@
                 <li class="nav-item active" *appRoles="['admin']">
                     <a routerLink="/adminJornadas" class="btn btn-primary"><fa-icon [icon]="faJornada"></fa-icon> Jornadas</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item active" *appRoles="['nologin','usuario']">
                     <a routerLink="/clasificacion" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item active" *appRoles="['nologin','usuario']">
                      <a routerLink="/equipos" class="btn btn-primary"><fa-icon [icon]="faBook"></fa-icon> Coleccion</a>
                 </li>
                 <li class="nav-item active">
