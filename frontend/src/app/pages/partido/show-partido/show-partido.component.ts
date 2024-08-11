@@ -22,6 +22,8 @@ export class ShowPartidoComponent implements OnInit{
   }
 
   getPartido(){
+    console.log("En el modal jornada: ",this.nJornada, " partido: ", this.nPartido);
+    
     this.crudJornadaService.getPartido(this.nJornada, this.nPartido).subscribe({
       next: (data) => {
         console.log(data);

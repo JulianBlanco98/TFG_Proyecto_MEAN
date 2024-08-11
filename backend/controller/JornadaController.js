@@ -124,6 +124,8 @@ export const getAlineacionPartido = async (req,res) => {
 
         //Partido a buscar los datos
         const partido = jornadaActual.partidos[numPartido];
+        //console.log("Partido: ",partido);
+        
         const alineacion = {
             titularesLocal: partido.titularesLocal.map(titular => ({
                 jugador: titular.jugador,

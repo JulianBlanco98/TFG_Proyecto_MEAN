@@ -58,7 +58,7 @@ export class ShowJornadaComponent implements OnChanges {
   }
 
   openModal(nJornada: number, nPartido: number) {
-    console.log("Pinchar para el modal: Jornada ", nJornada, " Partido: ",nPartido);
+    //console.log("Pinchar para el modal: Jornada ", nJornada, " Partido: ",nPartido);
     const modal = this.modalService.open(ShowPartidoComponent, {
       centered: true,
       backdrop: true,
