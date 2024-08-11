@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr *ngFor="let partido of jornada.partidos">
+                <tr *ngFor="let partido of jornada.partidos; let i = index" (click)="openModal(jornada.numeroJornada, i)">
                     <td>
                         <div class="local">
                             <img [src]="partido?.equipoLocal.escudoEquipo"

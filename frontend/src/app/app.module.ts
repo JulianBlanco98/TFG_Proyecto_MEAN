@@ -32,6 +32,7 @@ import { FooterComponent } from './components/footer/footer/footer.component';
 import { GoleadoresComponent } from './pages/jugadores/max-goleadores/goleadores/goleadores.component';
 import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
 import { AsistentesComponent } from './pages/jugadores/max-asistentes/asistentes/asistentes.component';
+import { ShowPartidoComponent } from './pages/partido/show-partido/show-partido.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { AsistentesComponent } from './pages/jugadores/max-asistentes/asistentes
     FooterComponent,
     GoleadoresComponent,
     TabClasificacionComponent,
-    AsistentesComponent
+    AsistentesComponent,
+    ShowPartidoComponent
   ],
   imports: [
     BrowserModule,

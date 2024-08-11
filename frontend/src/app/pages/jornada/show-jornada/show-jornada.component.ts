@@ -1,7 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Jornada } from 'src/app/models/jornada.model';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
-import { faLongArrowLeft, faLongArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faLongArrowLeft,
+  faLongArrowRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowPartidoComponent } from '../../partido/show-partido/show-partido.component';
 
 @Component({
   selector: 'app-show-jornada',
@@ -15,7 +20,10 @@ export class ShowJornadaComponent implements OnChanges {
   faLeft = faLongArrowLeft;
   faRight = faLongArrowRight;
 
-  constructor(private crudJornadaService: CrudJornadaService) {}
+  constructor(
+    private readonly crudJornadaService: CrudJornadaService,
+    private readonly modalService: NgbModal
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['numJornada'] && changes['numJornada'].currentValue) {
@@ -47,5 +55,18 @@ export class ShowJornadaComponent implements OnChanges {
         console.log(err);
       },
     });
+  }
+
+  openModal(nJornada: number, nPartido: number) {
+    console.log("Pinchar para el modal: Jornada ", nJornada, " Partido: ",nPartido);
+    const modal = this.modalService.open(ShowPartidoComponent, {
+      centered: true,
+      backdrop: true,
+      size: 'lg'
+    }); 
+    
+    modal.componentInstance.nJornada = nJornada
+    modal.componentInstance.nPartido = nPartido
+
   }
 }

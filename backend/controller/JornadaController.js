@@ -113,6 +113,36 @@ export const getAsistenteJornadaActual = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const getAlineacionPartido = async (req,res) => {
+    try {
+        const {numJornada, numPartido} = req.params;
+        console.log(`Numero jornada: ${numJornada} | NumeroPartido: ${numPartido}`);
+        const jornadaActual = await JornadaModel.findOne({numeroJornada: numJornada});
+        if(!jornadaActual){
+            return res.status(404).json({ message: "No se encontró la jornada actual" });
+        }
+
+        //Partido a buscar los datos
+        const partido = jornadaActual.partidos[numPartido];
+        const alineacion = {
+            titularesLocal: partido.titularesLocal.map(titular => ({
+                jugador: titular.jugador,
+                goles: titular.goles,
+                asistencias: titular.asistencias,
+            })),
+            titularesVisitante: partido.titularesVisitante.map(titular => ({
+                jugador: titular.jugador,
+                goles: titular.goles,
+                asistencias: titular.asistencias,
+            })),
+        };
+
+        res.status(200).json(alineacion);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 //Put, ya que voy a actualizar los datos de jornada
 export const simularJornadaActual = async (req, res) => {
 

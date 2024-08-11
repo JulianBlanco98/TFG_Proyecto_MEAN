@@ -13,8 +13,7 @@ export class TabClasificacionComponent implements AfterViewInit {
   @Output() numeroJornadaChange = new EventEmitter<number>();
 
   numeroJornada: number;
-  jornadaTabSelected = false;
-  activeTab: string = 'clasificacion';  // Default tab
+  activeTab: string = 'clasificacion';  // Tab por defecto
 
   faTabla = faRankingStar;
   faJornada = faBookBookmark;
@@ -25,16 +24,13 @@ export class TabClasificacionComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.getNumeroJornadaActual();
-
-    // Escuchar evento de cambio de tab
-    // Verifica si jornadaTab está definido
   }
 
   getNumeroJornadaActual(){
     this.crudJornadaService.getNumeroJornadaActual().subscribe({
       next: (data) => {
         this.numeroJornada = data.numeroJornadaActual;
-        console.log("Numero jornada actual: ", this.numeroJornada);
+        //console.log("Numero jornada actual: ", this.numeroJornada);
       },
       error: (err) => {
         console.log(err);        
