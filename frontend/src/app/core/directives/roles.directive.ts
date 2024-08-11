@@ -21,25 +21,32 @@ export class RolesDirective implements OnInit, OnDestroy{
   }
   
   ngOnInit(): void {
-
-    if(this.authService.isAuthenticated()){
-
+    // Manejo de la autenticación
+    if (this.authService.isAuthenticated()) {
       this.sub = this.authService.getRolUsuarioToken().pipe(
         map((rol) => Boolean(rol && this.appRoles?.includes(rol))),
         tap((hasRole) => {
-          // console.log("Event service: ", this.eventService.reloadRoles);
-          hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear()
+          hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear();
         })
-      ).subscribe()
+      ).subscribe();
+    } else {
+      // Manejo cuando no está autenticado (rol 'nologin')
+      if (this.appRoles.includes('nologin')) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
     }
+
+    // Suscripción para recargar los roles cuando cambian
     this.sub = this.eventService.reloadRoles.pipe(
       map((rol) => Boolean(rol && this.appRoles?.includes(rol))),
       tap((hasRole) => {
-        // console.log("Event service: ", this.eventService.reloadRoles);
-        hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear()
+        hasRole ? this.viewContainer.createEmbeddedView(this.templateRef) : this.viewContainer.clear();
       })
-    ).subscribe()
+    ).subscribe();
   }
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

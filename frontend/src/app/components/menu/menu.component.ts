@@ -114,7 +114,7 @@ export class MenuComponent implements OnInit {
 
   logOut() {
     this.authServiceService.removeToken();
-    this.eventService.setNewRoles(null);
+    this.eventService.setNewRoles('nologin');
     this.monedaJugador = 0;
     this.router.navigateByUrl('/');
     this.alertifyService.success('Sesion cerrada correctamente');

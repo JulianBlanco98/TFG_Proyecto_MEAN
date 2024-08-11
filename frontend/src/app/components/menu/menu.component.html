@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mx-auto">
                 <!-- Elementos del menú -->
-                <li class="nav-item active">
+                <li class="nav-item active" *appRoles="['nologin','usuario']">
                     <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
                 </li>
                 <li class="nav-item active" *appRoles="['usuario']">
@@ -44,8 +44,8 @@
                 <img src="../../../assets/img/moneda.png" alt="monedaUsuario" width="50">
                 <label style="color: white;">{{ monedaJugador !== null ? monedaJugador : 'Cargando...' }}</label>
             </div>
-            <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
-            <button *ngIf="!authServiceService.isAuthenticated()" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
+            <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
+            <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
             <div *appRoles="['admin', 'usuario']" (click)="openModal('editarUsuario')">
                 <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'" *appRoles="['usuario']"></fa-icon>
                 <fa-icon class="iconoUsuario" [icon]="faAdmin" [size]="'3x'" *appRoles="['admin']"></fa-icon>
