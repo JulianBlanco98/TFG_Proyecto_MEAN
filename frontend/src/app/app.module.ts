@@ -34,6 +34,7 @@ import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-c
 import { AsistentesComponent } from './pages/jugadores/max-asistentes/asistentes/asistentes.component';
 import { ShowPartidoComponent } from './pages/partido/show-partido/show-partido.component';
 import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
+import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-nove
     TabClasificacionComponent,
     AsistentesComponent,
     ShowPartidoComponent,
-    ShowNovedadesComponent
+    ShowNovedadesComponent,
+    SeccionesComponent
   ],
   imports: [
     BrowserModule,

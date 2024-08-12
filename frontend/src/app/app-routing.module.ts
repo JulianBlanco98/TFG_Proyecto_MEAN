@@ -15,10 +15,11 @@ import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edi
 import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular-jornada.component';
 import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
 import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
+import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
 
 const routes: Routes = [
   {
-    path:'', component: ShowComponent
+    path:'', component: SeccionesComponent
   },
   {
     path:'create', component:CreateUsuariosComponent,
