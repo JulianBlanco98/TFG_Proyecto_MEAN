@@ -7,7 +7,8 @@ import {
   faGift,
   faUser,
   faUserSecret,
-  faFootballBall
+  faFootballBall,
+  faFireFlameCurved
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUsuarioComponent } from '../modal/modal-usuario/modal-usuario.component';
@@ -16,6 +17,7 @@ import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EventService } from 'src/app/services/event.service';
 import { Router } from '@angular/router';
+import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 
 @Component({
   selector: 'app-menu',
@@ -29,7 +31,8 @@ export class MenuComponent implements OnInit {
     private readonly alertifyService: AlertifyService,
     public authServiceService: AuthServiceService,
     private readonly eventService: EventService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly crudJornadaService: CrudJornadaService
   ) {}
 
   faHome = faHome;
@@ -40,12 +43,15 @@ export class MenuComponent implements OnInit {
   faUser = faUser;
   faAdmin = faUserSecret;
   faJornada = faFootballBall;
+  faNovedad = faFireFlameCurved;
   monedaJugador: number | null = null;
+  numJornada: number
 
   ngOnInit(): void {
     if (this.authServiceService.isAuthenticated()) {
       this.updateMonedas();
     }
+    this.getNumeroJornadaActual();
 
   }
   updateMonedas() {
@@ -63,6 +69,19 @@ export class MenuComponent implements OnInit {
     } else {
       this.monedaJugador = 0;
     }
+  }
+
+  getNumeroJornadaActual() {
+    this.crudJornadaService.getNumeroJornadaNovedad().subscribe({
+      next: (data: any) => {
+        this.numJornada = data.numeroJornadaActual;
+        console.log("Jornada actual: ",this.numJornada);
+        
+      },
+      error: (err: any) => {
+        console.error('Error al obtener la jornada', err);
+      },
+    })
   }
 
   openModal(tipo: string) {

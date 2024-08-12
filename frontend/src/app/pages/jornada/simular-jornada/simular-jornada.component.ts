@@ -21,7 +21,7 @@ export class SimularJornadaComponent {
     this.crudJornadaService.getNumeroJornadaActual().subscribe({
       next: (response) => {
         console.log(response);
-        this.jornadaActual = response.numeroJornadaActual;
+        this.jornadaActual = response.numeroJornadaActual - 1;
       },
       error: (err) => {
         console.log(err);

@@ -14,6 +14,7 @@ import { CreateUsuariosComponent } from './pages/usuarios/crear/create-usuarios/
 import { EditUsuariosComponent } from './pages/usuarios/editar/edit-usuarios/edit-usuarios.component';
 import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular-jornada.component';
 import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
+import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,9 @@ const routes: Routes = [
   {
     path:'create', component:CreateUsuariosComponent,
     canActivate: [loginGuard, loginAdmin]
+  },
+  {
+    path: 'novedades', component: ShowNovedadesComponent
   },
   {
     path:'apuesta', component: Ap1Component,

@@ -17,6 +17,11 @@
                 <li class="nav-item active" *appRoles="['nologin','usuario']">
                     <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
                 </li>
+                <ng-container *ngIf="numJornada !== 0">
+                    <li class="nav-item active" *appRoles="['nologin','usuario']">
+                        <a routerLink="/novedades" class="btn btn-primary"><fa-icon [icon]="faNovedad"></fa-icon>Novedades</a>
+                    </li>
+                </ng-container>                
                 <li class="nav-item active" *appRoles="['usuario']">
                     <a routerLink="/apuesta" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
                 </li>

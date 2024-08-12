@@ -25,6 +25,20 @@ export const getJornadaByNumero = async (req, res) => {
     }
 }
 
+export const getJornadaNovedades = async (req, res) => {
+    try {
+        //console.log("Conseguir el numero de la jornada actual");
+        const jornadaActual = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1});
+        if (!jornadaActual) {
+            return res.status(404).json({ message: "Todas las jornadas se han jugado ya" })
+        }
+
+        res.status(200).json({ numeroJornadaActual: jornadaActual.numeroJornada })
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
 export const getJornadaActual = async (req, res) => {
     try {
         //console.log("Conseguir el numero de la jornada actual");
@@ -32,8 +46,6 @@ export const getJornadaActual = async (req, res) => {
         if (!jornadaActual) {
             return res.status(404).json({ message: "Todas las jornadas se han jugado ya" })
         }
-        //console.log(jornadaActual);
-        //console.log("Numerjo jornada actual: ",jornadaActual.numeroJornada);
 
         res.status(200).json({ numeroJornadaActual: jornadaActual.numeroJornada })
 
@@ -45,7 +57,17 @@ export const getGoleadorJornadaActual = async (req, res) => {
     try {
         //console.log("Metodo de obtener el goleador de la jornada actuual");
         
-        const ultimaJornada = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1})
+        const ultimaJornada = await JornadaModel.findOne({jugado: true})
+            .sort({numeroJornada: -1})
+            .populate({
+                path: 'partidos.titularesLocal.jugador',
+                select: 'datos nombreJugador'
+            })
+            .populate({
+                path: 'partidos.titularesVisitante.jugador',
+                select: 'datos nombreJugador'
+            })
+        
         if(!ultimaJornada){
             return res.status(404).json({ message: "No se encontró ninguna jornada jugada" });
         }
@@ -81,7 +103,17 @@ export const getAsistenteJornadaActual = async (req, res) => {
     try {
         //console.log("Metodo de obtener el asistente de la jornada actuual");
         
-        const ultimaJornada = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1})
+        const ultimaJornada = await JornadaModel.findOne({jugado: true})
+            .sort({numeroJornada: -1})
+            .populate({
+                path: 'partidos.titularesLocal.jugador',
+                select: 'datos nombreJugador'
+            })
+            .populate({
+                path: 'partidos.titularesVisitante.jugador',
+                select: 'datos nombreJugador'
+            })
+        
         if(!ultimaJornada){
             return res.status(404).json({ message: "No se encontró ninguna jornada jugada" });
         }
