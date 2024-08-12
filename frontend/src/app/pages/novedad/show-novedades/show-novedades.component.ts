@@ -25,6 +25,11 @@ export class ShowNovedadesComponent implements OnInit{
     },
     asistencias: number
   }
+  equipoG: {
+    nombreEquipo: string,
+    escudoEquipo: string,
+    goles: number
+  }
 
   constructor(
     private readonly crudJornadaService: CrudJornadaService
@@ -34,6 +39,7 @@ export class ShowNovedadesComponent implements OnInit{
     this.getNumeroJornadaActual();
     this.getGoleadorJornada();
     this.getAsistenteJornada();
+    this.getEquipoJornada();
   }
 
   getNumeroJornadaActual() {
@@ -58,8 +64,8 @@ export class ShowNovedadesComponent implements OnInit{
             posicion: data.goleador.datos.posicion,
             imagenJugador: data.goleador.datos.imagenJugador
           },
-          goles: data.goleador.goles
-        }
+          goles: data.goles
+        }       
       },
       error: (err: any) => {
         console.log("Error al obtener el goleador: ", err);
@@ -75,11 +81,26 @@ export class ShowNovedadesComponent implements OnInit{
             posicion: data.asistente.datos.posicion,
             imagenJugador: data.asistente.datos.imagenJugador
           },
-          asistencias: data.asistente.asistencias
+          asistencias: data.asistencias
         }
       },
       error: (err: any) => {
         console.log("Error al obtener el asistente: ", err);
+      }
+    })
+  }
+
+  getEquipoJornada() {
+    this.crudJornadaService.getEquipoJornadaActual().subscribe({
+      next: (data: any) => {
+        this.equipoG = {
+          nombreEquipo: data.equipo.nombreEquipo,
+          escudoEquipo: data.equipo.escudoEquipo,
+          goles: data.goles
+        }
+      },
+      error: (err: any) => {
+        console.log("Error al obtener el equipo: ", err);
       }
     })
   }

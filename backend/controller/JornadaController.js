@@ -123,14 +123,14 @@ export const getAsistenteJornadaActual = async (req, res) => {
         //Recorro los partidos de la jornada
         ultimaJornada.partidos.forEach(partido => {
             partido.titularesLocal.forEach(jugador => {
-                if(jugador.goles > maxAsistentes) {
-                    maxAsistentes = jugador.goles;
+                if(jugador.asistencias > maxAsistentes) {
+                    maxAsistentes = jugador.asistencias;
                     asistente = jugador.jugador;
                 }
             });
             partido.titularesVisitante.forEach(jugador => {
-                if(jugador.goles > maxAsistentes) {
-                    maxAsistentes = jugador.goles;
+                if(jugador.asistencias > maxAsistentes) {
+                    maxAsistentes = jugador.asistencias;
                     asistente = jugador.jugador;
                 }
             });
@@ -140,6 +140,51 @@ export const getAsistenteJornadaActual = async (req, res) => {
             return res.status(404).json({ message: "No se encontró ningún asistente" });
         }
         res.status(200).json({ asistente, asistencias: maxAsistentes });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+export const getEquipoGoleador = async (req, res) => {
+    try {
+        const ultimaJornada = await JornadaModel.findOne({jugado: true})
+            .sort({numeroJornada: -1})
+            .populate({
+                path: 'partidos.equipoLocal',
+                select: 'nombreEquipo escudoEquipo'
+            })
+            .populate({
+                path: 'partidos.equipoVisitante',
+                select: 'nombreEquipo escudoEquipo'
+            })
+
+            if(!ultimaJornada){
+                return res.status(404).json({ message: "No se encontró ninguna jornada jugada" });
+            }
+
+            let maxGoles = 0;
+            let equipoGoleador = null;
+
+            ultimaJornada.partidos.forEach(partido => {
+                if(partido.golesLocal > maxGoles){
+                    maxGoles = partido.golesLocal;
+                    equipoGoleador = partido.equipoLocal;
+                }
+                if(partido.golesVisitante > maxGoles){
+                    maxGoles = partido.golesVisitante;
+                    equipoGoleador = partido.equipoVisitante;
+                }
+
+            })
+            // console.log("Maximos goles del equipo: ", maxGoles);
+            // console.log("Equipo goleador: ", equipoGoleador);
+            
+            
+            if (!equipoGoleador) {
+                return res.status(404).json({ message: "No se encontró ningún equipo goleador" });
+            }
+    
+            res.status(200).json({ equipo: equipoGoleador, goles: maxGoles });
 
     } catch (error) {
         res.status(500).json({ message: error.message })

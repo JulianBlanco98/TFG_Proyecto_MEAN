@@ -42,6 +42,10 @@ export class CrudJornadaService {
   getAsistenteJornadaActual(): Observable<any>{
     return this.httpClient.get(`${this.rest_API}/asistenteJornada`, {headers: this.httpHeaders});
   }
+  getEquipoJornadaActual(): Observable<any>{
+    return this.httpClient.get(`${this.rest_API}/equipoJornada`, {headers: this.httpHeaders});
+  }
+
 
   getPartido(numJornada: number, numPartido: number): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/partido/${numJornada}/${numPartido}`, {headers: this.httpHeaders})
