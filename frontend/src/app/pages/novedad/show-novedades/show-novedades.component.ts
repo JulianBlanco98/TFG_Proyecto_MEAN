@@ -31,6 +31,8 @@ export class ShowNovedadesComponent implements OnInit{
     goles: number
   }
 
+  slideActiva : number = 0;
+
   constructor(
     private readonly crudJornadaService: CrudJornadaService
   ) {}
@@ -45,9 +47,7 @@ export class ShowNovedadesComponent implements OnInit{
   getNumeroJornadaActual() {
     this.crudJornadaService.getNumeroJornadaNovedad().subscribe({
       next: (data: any) => {
-        this.numJornada = data.numeroJornadaActual;
-        //console.log("Jornada actual: ",this.numJornada);
-        
+        this.numJornada = data.numeroJornadaActual;        
       },
       error: (err: any) => {
         console.error('Error al obtener la jornada', err);

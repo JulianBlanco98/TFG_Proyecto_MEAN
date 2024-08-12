@@ -18,6 +18,7 @@ background: linear-gradient(to bottom, #928DAB, #1F1C2C);
   color: white;
 }
 .carousel-item img {
+    margin: 10px 0;
     width: 100%; /* Ajusta la anchura al 100% del contenedor */
     height: 380px; /* Establece una altura fija */
     object-fit: contain; /* Asegura que la imagen cubra el área sin distorsionarse */
