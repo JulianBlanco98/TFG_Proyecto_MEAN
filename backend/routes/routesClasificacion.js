@@ -1,8 +1,9 @@
 import express from 'express';
-import { getTablaClasificacion } from '../controller/ClasificacionController.js';
+import { getMultiplicadorTipo1, getTablaClasificacion } from '../controller/ClasificacionController.js';
 
 const router = express.Router()
 
-router.get('/', getTablaClasificacion);
+router.get('/clasificacion', getTablaClasificacion);
+router.get('/multi', getMultiplicadorTipo1);
 
 export default router;

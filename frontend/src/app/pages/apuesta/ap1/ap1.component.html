@@ -5,7 +5,7 @@
         <table class="table table-bordered text-center">
             <thead>
                 <tr>
-                    <th class="col-7">Enfrentamiento</th>
+                    <th class="col-7">Enfrentamiento [multi]</th>
                     <th class="col-3">Predicción</th>
                     <th class="col-2">Cantidad (monedas)</th>
                 </tr>
@@ -16,11 +16,17 @@
                         <div class="enfrentamiento">
                             <div class="local">
                                 <img [src]="partido?.equipoLocal?.escudoEquipo" [alt]="partido?.equipoLocal?.nombreEquipoCorto">
-                                <label>{{partido?.equipoLocal?.nombreEquipoCorto}}</label>
+                                <label>
+                                    {{partido?.equipoLocal?.nombreEquipoCorto}}
+                                    <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoLocal?._id)}}</strong>]</span>
+                                </label>
                             </div>
                             <label>vs</label>
                             <div class="visitante">
-                                <label>{{partido?.equipoVisitante?.nombreEquipoCorto}}</label>
+                                <label>
+                                    <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoVisitante?._id)}}</strong>]</span>
+                                    {{partido?.equipoVisitante?.nombreEquipoCorto}}
+                                </label>
                                 <img [src]="partido?.equipoVisitante?.escudoEquipo" [alt]="partido?.equipoVisitante?.nombreEquipoCorto">
                             </div>
 

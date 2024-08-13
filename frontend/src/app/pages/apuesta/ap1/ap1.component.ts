@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Jornada } from 'src/app/models/jornada.model';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
+import { GetClasificacionService } from 'src/app/services/get-clasificacion.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -13,12 +14,20 @@ export class Ap1Component implements OnInit{
   numJornada: number;
   selectedButton: { [key: number]: string } = {};
   faMoneda = faCoins;
+  multis: [{
+    equipo: string,
+    multi: string
+  }]
 
-  constructor(private readonly crudJornadaService: CrudJornadaService) {
+  constructor(
+    private readonly crudJornadaService: CrudJornadaService,
+    private readonly clasificacionService: GetClasificacionService
+  ) {
   }
   
   ngOnInit(): void {
     this.getNumeroJornadaActual();
+    this.getMultis();
   }
 
   getJornada() {
@@ -44,6 +53,24 @@ export class Ap1Component implements OnInit{
         console.log(err);
       },
     });
+  }
+
+  getMultis() {
+    this.clasificacionService.getMultiPrediccion1().subscribe({
+      next: (data) => {
+        this.multis = data.tabla;
+        console.log(this.multis);
+        
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  getMultiByEquipo(idEquipo: string): string {
+    const multiplicador = this.multis.find(m => m.equipo === idEquipo);
+    return multiplicador ? multiplicador.multi : '';
   }
 
   selectButton(index: number, option: string) {

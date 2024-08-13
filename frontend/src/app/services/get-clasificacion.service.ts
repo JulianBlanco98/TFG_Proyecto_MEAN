@@ -22,8 +22,11 @@ export class GetClasificacionService {
   constructor(private httpClient: HttpClient) { }
 
   getTablaClasificacion(): Observable<any> {
-    return this.httpClient.get(this.rest_API, {headers: this.httpHeaders})
+    return this.httpClient.get(`${this.rest_API}/clasificacion`, {headers: this.httpHeaders})
   }
-
+  
+  getMultiPrediccion1(): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/multi`, {headers: this.httpHeaders})
+  }
 
 }
