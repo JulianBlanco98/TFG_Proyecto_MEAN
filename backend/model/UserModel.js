@@ -25,23 +25,15 @@ const usuarioSchema = new mongoose.Schema(
       type: Number,
       default: 1000, //Saldo por defecto a la hora de registrarse
     },
-    apuestas: {
-      apuesta_1: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "quinielas",
-        required: false, //cambiar a true cuando tenga las apuestas
-    },
-    apuesta_2: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "comunio",
-          required: false, //cambiar a true cuando tenga las apuestas
-      }
-    },
     rol: {
         type: String,
         enum: ['admin', 'usuario'],
         default: 'usuario',
-    }
+    },
+    predicciones : [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'predicciones',
+    }],
   },
   {
     timestamps: true,
