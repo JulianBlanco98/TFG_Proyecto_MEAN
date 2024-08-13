@@ -30,6 +30,10 @@ const prediccionSchema = new mongoose.Schema(
             type: String,
             required: [true, "Por favor, completa este campo"],
           },
+          multiPrediccion: {
+            type: Number,
+            required: [true, "Por favor, completa este campo"],
+          },
           cantidad: {
             type: Number,
             required: [true, "Por favor, completa este campo"],

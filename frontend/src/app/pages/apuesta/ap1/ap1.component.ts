@@ -3,6 +3,7 @@ import { Jornada } from 'src/app/models/jornada.model';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 import { GetClasificacionService } from 'src/app/services/get-clasificacion.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ap1',
@@ -19,10 +20,16 @@ export class Ap1Component implements OnInit{
     multi: string
   }]
 
+  prediccionesForm: FormGroup;
+
   constructor(
     private readonly crudJornadaService: CrudJornadaService,
-    private readonly clasificacionService: GetClasificacionService
+    private readonly clasificacionService: GetClasificacionService,
+    private fb: FormBuilder
   ) {
+    this.prediccionesForm = this.fb.group({
+      predicciones: this.fb.array([])
+    });
   }
   
   ngOnInit(): void {

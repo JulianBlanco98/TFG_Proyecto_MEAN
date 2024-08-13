@@ -45,7 +45,7 @@ export const getMultiplicadorTipo1 = async (req,res) => {
         if(!clasificacion){
             return res.status(400).json(`La tabla de clasificacion no está creada`)
         }
-        console.log("Estoy después de la clasificación");
+        // console.log("Estoy después de la clasificación");
         
         let respuesta;
         //Mismo multi para todos --> Primera jornada
