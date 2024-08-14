@@ -1,52 +1,56 @@
 <div class="container">
     <h1 class="text-center mt-4">Predicciones de la Jornada {{numJornada}}</h1>
 
-    <div class="table-responsive mt-3">
-        <table class="table table-bordered text-center">
-            <thead>
-                <tr>
-                    <th class="col-7">Enfrentamiento [multi]</th>
-                    <th class="col-3">Predicción</th>
-                    <th class="col-2">Cantidad (monedas)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let partido of jornada?.partidos; let i = index">
-                    <td class="col-7">
-                        <div class="enfrentamiento">
-                            <div class="local">
-                                <img [src]="partido?.equipoLocal?.escudoEquipo" [alt]="partido?.equipoLocal?.nombreEquipoCorto">
-                                <label>
-                                    {{partido?.equipoLocal?.nombreEquipoCorto}}
-                                    <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoLocal?._id)}}</strong>]</span>
-                                </label>
+    <form [formGroup]="prediccionesForm" (ngSubmit)="onSubmit()">
+        <div class="table-responsive mt-3">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="col-7">Enfrentamiento [multi]</th>
+                        <th class="col-3">Predicción</th>
+                        <th class="col-2">Cantidad (monedas)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let partido of jornada?.partidos; let i = index">
+                        <td class="col-7">
+                            <div class="enfrentamiento">
+                                <div class="local">
+                                    <img [src]="partido?.equipoLocal?.escudoEquipo" [alt]="partido?.equipoLocal?.nombreEquipoCorto">
+                                    <label>
+                                        {{partido?.equipoLocal?.nombreEquipoCorto}}
+                                        <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoLocal?._id)}}</strong>]</span>
+                                    </label>
+                                </div>
+                                <label>vs</label>
+                                <div class="visitante">
+                                    <label>
+                                        <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoVisitante?._id)}}</strong>]</span>
+                                        {{partido?.equipoVisitante?.nombreEquipoCorto}}
+                                    </label>
+                                    <img [src]="partido?.equipoVisitante?.escudoEquipo" [alt]="partido?.equipoVisitante?.nombreEquipoCorto">
+                                </div>
                             </div>
-                            <label>vs</label>
-                            <div class="visitante">
-                                <label>
-                                    <span class="multi">[<strong>{{getMultiByEquipo(partido?.equipoVisitante?._id)}}</strong>]</span>
-                                    {{partido?.equipoVisitante?.nombreEquipoCorto}}
-                                </label>
-                                <img [src]="partido?.equipoVisitante?.escudoEquipo" [alt]="partido?.equipoVisitante?.nombreEquipoCorto">
-                            </div>
+                        </td>
+                        <td class="col-3">
+                            <div class="btn-group" role="group" aria-label="Basic button group">
+                                <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'local'" (click)="selectButton(i, 'local')">Local</button>
+                                <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'empate'" (click)="selectButton(i, 'empate')">Empate</button>
+                                <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'visitante'" (click)="selectButton(i, 'visitante')">Visitante</button>
 
-                        </div>
-                    </td>
-                    <td class="col-3">
-                        <div class="btn-group" role="group" aria-label="Basic button group">
-                            <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'local'" (click)="selectButton(i, 'local')">Local</button>
-                            <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'empate'" (click)="selectButton(i, 'empate')">Empate</button>
-                            <button type="button" class="btn btn-outline-dark" [class.active]="selectedButton[i] === 'visitante'" (click)="selectButton(i, 'visitante')">Visitante</button>
-                        </div>
-                    </td>
-                    <td class="col-2">
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" aria-label="">
-                            <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" [formControl]="getCantidadControl(i)" name="cantidad{{i}}" aria-label="">
+                                <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Predicciones</button>
+        <button type="reset" class="btn btn-danger" (click)="resetearFormulario()">Resetear</button>
+    </form>
 </div>

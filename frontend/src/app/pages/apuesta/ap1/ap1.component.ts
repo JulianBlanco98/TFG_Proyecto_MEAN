@@ -1,46 +1,55 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { Jornada } from 'src/app/models/jornada.model';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 import { GetClasificacionService } from 'src/app/services/get-clasificacion.service';
+import { CrudPrediccionService } from 'src/app/services/crud-prediccion.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ap1',
   templateUrl: './ap1.component.html',
   styleUrls: ['./ap1.component.css'],
 })
-export class Ap1Component implements OnInit{
+export class Ap1Component implements OnInit {
   jornada: Jornada;
   numJornada: number;
-  selectedButton: { [key: number]: string } = {};
   faMoneda = faCoins;
-  multis: [{
-    equipo: string,
-    multi: string
-  }]
-
+  multis: [{ equipo: string, multi: string }];
   prediccionesForm: FormGroup;
+  selectedButton: { [key: number]: string } = {};
 
   constructor(
+    private readonly fb: FormBuilder,
     private readonly crudJornadaService: CrudJornadaService,
     private readonly clasificacionService: GetClasificacionService,
-    private fb: FormBuilder
-  ) {
+    private readonly crudPrediccionService: CrudPrediccionService
+  ) {}
+
+  ngOnInit(): void {
     this.prediccionesForm = this.fb.group({
       predicciones: this.fb.array([])
     });
-  }
-  
-  ngOnInit(): void {
+
     this.getNumeroJornadaActual();
     this.getMultis();
+  }
+
+  get predicciones() {
+    return this.prediccionesForm.get('predicciones') as FormArray;
   }
 
   getJornada() {
     this.crudJornadaService.getJornadaByNumero(this.numJornada).subscribe({
       next: (data) => {
         this.jornada = data;
+        this.jornada.partidos.forEach(() => {
+          this.predicciones.push(this.fb.group({
+            prediccion: [''],
+            cantidad: [0],
+            multi:['']
+          }));
+        });
         console.log(this.jornada);
       },
       error: (err) => {
@@ -53,7 +62,7 @@ export class Ap1Component implements OnInit{
     this.crudJornadaService.getNumeroJornadaActual().subscribe({
       next: (data) => {
         this.numJornada = data.numeroJornadaActual;
-        console.log("Jornada actual apuesta: ",this.numJornada);
+        console.log("Jornada actual apuesta: ", this.numJornada);
         this.getJornada();
       },
       error: (err) => {
@@ -67,12 +76,11 @@ export class Ap1Component implements OnInit{
       next: (data) => {
         this.multis = data.tabla;
         console.log(this.multis);
-        
       },
       error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   getMultiByEquipo(idEquipo: string): string {
@@ -81,11 +89,68 @@ export class Ap1Component implements OnInit{
   }
 
   selectButton(index: number, option: string) {
-    if(this.selectedButton[index] === option){
+    let multi = '';
+
+    if (option === 'empate') {
+      const equipoLocalId = this.jornada.partidos[index].equipoLocal._id;
+      const equipoVisitanteId = this.jornada.partidos[index].equipoVisitante._id;
+
+      const multiLocal = parseFloat(this.getMultiByEquipo(equipoLocalId));
+      const multiVisitante = parseFloat(this.getMultiByEquipo(equipoVisitanteId));
+
+      multi = ((multiLocal + multiVisitante) / 2).toFixed(2); // Calcula la media y la formatea a dos decimales
+    } else if (option === 'local') {
+      const equipoLocalId = this.jornada.partidos[index].equipoLocal._id;
+      multi = this.getMultiByEquipo(equipoLocalId);
+    } else if (option === 'visitante') {
+      const equipoVisitanteId = this.jornada.partidos[index].equipoVisitante._id;
+      multi = this.getMultiByEquipo(equipoVisitanteId);
+    }
+
+    if (this.selectedButton[index] === option) {
       delete this.selectedButton[index];
-    }
-    else{
+      this.predicciones.at(index).get('prediccion').setValue('');
+      this.predicciones.at(index).get('multi').setValue(''); // Desmarca el multi en el formulario
+    } else {
       this.selectedButton[index] = option;
+      this.predicciones.at(index).get('prediccion').setValue(option);
+      this.predicciones.at(index).get('multi').setValue(multi); // Establece el multi en el formulario
     }
+  }
+  
+
+  getCantidadControl(index: number): FormControl {
+    return this.predicciones.at(index).get('cantidad') as FormControl;
+  }
+  
+
+  onSubmit() {
+    const data = this.predicciones.controls.map((control, index) => {
+      return {
+        indicePartido: index,
+        equipoLocal: this.jornada.partidos[index].equipoLocal._id,
+        equipoVisitante: this.jornada.partidos[index].equipoVisitante._id,
+        prediccion: control.get('prediccion').value,
+        cantidad: control.get('cantidad').value,
+        multi: control.get('multi').value,
+      };
+    });
+
+    this.crudPrediccionService.crearPredi(this.numJornada, data).subscribe({
+      next: (response) => {
+        console.log('Predicciones guardadas:', response);
+      },
+      error: (err) => {
+        console.log('Error al guardar predicciones:', err);
+      },
+    });
+  }
+
+  resetearFormulario() {
+    this.predicciones.controls.forEach((control, index) => {
+      control.get('cantidad').setValue(0);
+      control.get('multi').setValue('');
+      this.selectButton[index] = '';
+    })
   }
 }
