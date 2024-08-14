@@ -234,6 +234,9 @@ export class Ap1Component implements OnInit {
   
 
   resetearFormulario() {
+
+    //hacer llamada de delte prediccion
+
     this.predicciones.controls.forEach((control, index) => {
       control.reset({ cantidad: 0, prediccion: '', multi: '' }); // Resetea cada control
       delete this.selectedButton[index]; // Resetea los botones
