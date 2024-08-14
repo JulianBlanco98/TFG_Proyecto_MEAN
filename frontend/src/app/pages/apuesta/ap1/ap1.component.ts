@@ -6,6 +6,8 @@ import { GetClasificacionService } from 'src/app/services/get-clasificacion.serv
 import { CrudPrediccionService } from 'src/app/services/crud-prediccion.service';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { Router } from '@angular/router';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-ap1',
@@ -19,13 +21,16 @@ export class Ap1Component implements OnInit {
   multis: [{ equipo: string; multi: string }];
   prediccionesForm: FormGroup;
   selectedButton: { [key: number]: string } = {};
+  editarBoton: boolean = true;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly crudJornadaService: CrudJornadaService,
     private readonly clasificacionService: GetClasificacionService,
     private readonly crudPrediccionService: CrudPrediccionService,
-    private readonly alertifyService: AlertifyService
+    private readonly alertifyService: AlertifyService,
+    private readonly router: Router,
+    private readonly eventService: EventService,
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +61,7 @@ export class Ap1Component implements OnInit {
           );
         });
         console.log(this.jornada);
+        this.getPrediccionActual();
       },
       error: (err) => {
         console.log(err);
@@ -69,7 +75,7 @@ export class Ap1Component implements OnInit {
         this.numJornada = data.numeroJornadaActual;
         console.log('Jornada actual apuesta: ', this.numJornada);
         this.getJornada();
-        this.getPrediccionActual();
+        
       },
       error: (err) => {
         console.log(err);
@@ -92,10 +98,26 @@ export class Ap1Component implements OnInit {
   getPrediccionActual() {
     this.crudPrediccionService.getPrediByJornada(this.numJornada).subscribe({
       next: (data:any) => {
-        console.log("predi1 actual: ",data);       
+        console.log("predi1 actual: ",data); 
+        
+        //Si tiene contenido, es decir, ya hay una predi del usuario en ensta jornada
+        if(data && data.tipo_1) {
+
+          this.editarBoton= true;
+          data.tipo_1.forEach((predi: any) => {
+            const partidoIndice = predi.indicePartido;
+            this.selectedButton[partidoIndice] = predi.prediGanador;
+            this.predicciones.at(partidoIndice).get('prediccion').setValue(predi.prediGanador);
+            this.predicciones.at(partidoIndice).get('cantidad').setValue(predi.cantidad);
+            this.predicciones.at(partidoIndice).get('multi').setValue(predi.multiPrediccion);           
+          })
+        }
       },
       error: (err) => {
-        console.log(err);
+        // console.log(err);
+        if(err.status === 404){
+          this.editarBoton = false;
+        }
       },
     })
   }
@@ -158,7 +180,10 @@ export class Ap1Component implements OnInit {
     this.crudPrediccionService.crearPredi(this.numJornada, data).subscribe({
       next: (response) => {
         console.log('Predicciones guardadas:', response);
+        this.eventService.notifyMonedasActualizadas();
+        //this.router.navigateByUrl('/apuesta');
         this.alertifyService.success(response.message);
+        this.getPrediccionActual();
       },
       error: (err) => {
         console.log('Error al guardar predicciones:', err);
@@ -177,6 +202,36 @@ export class Ap1Component implements OnInit {
       },
     });
   }
+
+  onUpdate() {
+    const data = this.predicciones.controls.map((control, index) => {
+      return {
+        indicePartido: index,
+        equipoLocal: this.jornada.partidos[index].equipoLocal._id,
+        equipoVisitante: this.jornada.partidos[index].equipoVisitante._id,
+        prediccion: control.get('prediccion').value,
+        cantidad: control.get('cantidad').value,
+        multi: control.get('multi').value,
+      };
+    });
+  
+    this.crudPrediccionService.actualizarPredi(this.numJornada, data).subscribe({
+      next: (response) => {
+        console.log('Predicciones actualizadas:', response);
+        this.eventService.notifyMonedasActualizadas();
+        this.alertifyService.success(response.message);
+        this.getPrediccionActual();
+      },
+      error: (err) => {
+        console.log('Error al actualizar predicciones:', err);
+        if (err.status === 400) {
+          console.log('mensaje de error del backend: ', err.error.message);
+          this.alertifyService.warning(err.error.message);
+        }
+      },
+    });
+  }
+  
 
   resetearFormulario() {
     this.predicciones.controls.forEach((control, index) => {

@@ -53,6 +53,10 @@ export class MenuComponent implements OnInit {
     }
     this.getNumeroJornadaActual();
 
+    this.eventService.monedasActualizadas$.subscribe(() => {
+      this.updateMonedas(); // Actualizar monedas cuando se notifique
+    });
+
   }
   updateMonedas() {
     const idUsuario = this.authServiceService.getIdUsuarioToken();

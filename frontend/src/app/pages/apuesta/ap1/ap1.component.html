@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="text-center mt-4">Predicciones de la Jornada {{numJornada}}</h1>
 
-    <form [formGroup]="prediccionesForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="prediccionesForm">
         <div class="table-responsive mt-3">
             <table class="table table-bordered text-center">
                 <thead>
@@ -50,7 +50,9 @@
                 </tbody>
             </table>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar Predicciones</button>
+        <button class="btn btn-primary" (click)="editarBoton ? onUpdate() : onSubmit()">
+            {{ editarBoton ? 'Editar predicciones' : 'Guardar predicciones' }}
+          </button>
         <button type="button" class="btn btn-danger" (click)="resetearFormulario()">Resetear</button>
     </form>
 </div>
