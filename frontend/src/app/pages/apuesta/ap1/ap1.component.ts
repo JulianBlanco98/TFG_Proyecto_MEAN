@@ -35,6 +35,7 @@ export class Ap1Component implements OnInit {
 
     this.getNumeroJornadaActual();
     this.getMultis();
+    
   }
 
   get predicciones() {
@@ -68,6 +69,7 @@ export class Ap1Component implements OnInit {
         this.numJornada = data.numeroJornadaActual;
         console.log('Jornada actual apuesta: ', this.numJornada);
         this.getJornada();
+        this.getPrediccionActual();
       },
       error: (err) => {
         console.log(err);
@@ -85,6 +87,17 @@ export class Ap1Component implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  getPrediccionActual() {
+    this.crudPrediccionService.getPrediByJornada(this.numJornada).subscribe({
+      next: (data:any) => {
+        console.log("predi1 actual: ",data);       
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    })
   }
 
   getMultiByEquipo(idEquipo: string): string {

@@ -23,4 +23,8 @@ export class CrudPrediccionService {
   crearPredi(numJornada: number, data: any): Observable<any> {
     return this.httpClient.post(`${this.rest_API}/createPredi/${numJornada}`, data, {headers: this.httpHeaders});
   }
+
+  getPrediByJornada(numJornada: number): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/${numJornada}`, {headers: this.httpHeaders});
+  }
 }
