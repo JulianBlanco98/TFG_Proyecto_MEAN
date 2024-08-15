@@ -235,11 +235,24 @@ export class Ap1Component implements OnInit {
 
   resetearFormulario() {
 
-    //hacer llamada de delte prediccion
+    console.log("Botoón de reset. Jornada: ",this.numJornada);
 
-    this.predicciones.controls.forEach((control, index) => {
-      control.reset({ cantidad: 0, prediccion: '', multi: '' }); // Resetea cada control
-      delete this.selectedButton[index]; // Resetea los botones
-    });
+    //hacer llamada de delte prediccion
+    this.crudPrediccionService.deletePredi(this.numJornada).subscribe({
+      next: (response) => {
+        
+        this.alertifyService.success(response.message);
+        this.predicciones.controls.forEach((control, index) => {
+          control.reset({ cantidad: 0, prediccion: '', multi: '' }); // Resetea cada control
+          delete this.selectedButton[index]; // Resetea los botones
+        });
+        this.editarBoton = false;
+        this.eventService.notifyMonedasActualizadas();
+      },
+      error: (err) => {
+        this.alertifyService.warning(err.error.message);
+      }
+    })
+
   }
 }

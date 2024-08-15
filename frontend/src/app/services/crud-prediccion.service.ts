@@ -28,6 +28,10 @@ export class CrudPrediccionService {
     return this.httpClient.put(`${this.rest_API}/actualizarPredi/${numJornada}`, data, {headers: this.httpHeaders});
   }
 
+  deletePredi(numJornada: number): Observable<any> {
+    return this.httpClient.delete(`${this.rest_API}/borrarPredi/${numJornada}`, {headers: this.httpHeaders});
+  }
+
   getPrediByJornada(numJornada: number): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/${numJornada}`, {headers: this.httpHeaders});
   }

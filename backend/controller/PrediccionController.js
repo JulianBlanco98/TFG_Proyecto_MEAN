@@ -98,6 +98,33 @@ export const getPrediccionByJornada = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
+export const deletePrediccionByJornada = async (req, res) => {
+    try {
+        const { numJornada } = req.params;
+        const usuario = await UserModel.findById(req.usuario.id);
+        const prediccioBorrar = await PrediccionModel.findOneAndDelete({
+            idUsuario: usuario._id,
+            numeroJornada: numJornada
+        });
+        if (!prediccioBorrar) {
+            return res.status(404).json({ message: 'Predicción no encontrada' });
+        }
+
+        //Recorrer la prediccion actual, y devolver las monedas al usuario
+        let totalMonedas = 0;
+        prediccioBorrar.tipo_1.forEach(p => {
+            totalMonedas = totalMonedas + p.cantidad
+        });
+
+        usuario.moneda = usuario.moneda + totalMonedas;
+        await usuario.save();
+        res.status(200).json({message: 'La predicción se ha borrado correctamente'})
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
 export const actualizarPrediccionByJornada = async (req, res) => {
     try {
         console.log("Estoy en actualizarPrediccion");
