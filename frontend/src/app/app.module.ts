@@ -20,6 +20,7 @@ import { ShowJornadaComponent } from './pages/jornada/show-jornada/show-jornada.
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-usuario.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RolesDirective } from './core/directives/roles.directive';
@@ -72,7 +73,8 @@ import { SeccionesComponent } from './pages/inicio/secciones/secciones.component
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgbPopoverModule
   ],
   // exports: [
   //   RolesDirective

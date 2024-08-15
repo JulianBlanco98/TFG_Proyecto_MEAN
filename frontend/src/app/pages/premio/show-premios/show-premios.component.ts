@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Premio } from 'src/app/models/premio.model';
 import { CrudPremiosService } from 'src/app/services/crud-premios.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+
 
 @Component({
   selector: 'app-show-premios',
@@ -9,7 +11,10 @@ import { CrudPremiosService } from 'src/app/services/crud-premios.service';
 })
 export class ShowPremiosComponent implements OnInit{
 
-  constructor(private crudPremiosService: CrudPremiosService){}
+  constructor(
+    private readonly crudPremiosService: CrudPremiosService,
+    public authServiceService: AuthServiceService,
+  ){}
 
   premios: Premio[]
 

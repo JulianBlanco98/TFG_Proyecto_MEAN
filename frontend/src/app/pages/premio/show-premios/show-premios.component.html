@@ -18,7 +18,18 @@
           <td><img src="{{ premio.imagenPremio }}" /></td>
           <td>{{ premio.saldoPremio }}</td>
           <td>
-            <button class="btn btn-primary">Canjear</button>
+            <span *ngIf="!authServiceService.isAuthenticated()"
+              ngbPopover="Necesitas estar logueado para canjear este premio"
+              popoverClass="custom-popover"
+              triggers="hover"
+              popoverTitle="Mensaje"
+              >
+
+              <button class="btn btn-primary" type="button" disabled>
+                Canjear
+              </button>
+            </span>
+            <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-primary" type="button">Canjear</button>
           </td>
         </tr>
       </tbody>
