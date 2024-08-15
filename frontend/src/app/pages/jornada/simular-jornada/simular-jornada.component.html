@@ -1,4 +1,35 @@
 <div class="container">
-    <h1 class="text-center mt-4">Simular la jornada actual</h1>
-    <button class="btn btn-primary" (click)="simular()">Simular la jornada {{jornadaActual}}</button>
+    <h1 class="text-center my-3">Simular la jornada actual</h1>
+
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <div class="card h-100">
+            <img src="../../../../assets/img/simularJornada.png" class="card-img-top" alt="icono de simularJornada">
+            <div class="card-body">
+              <h5 class="card-title">Simular la jornada {{jornadaActual}}</h5>
+              <p class="card-text">Este es un método del administrador que simula la siguiente jornada de la liga. Genera de manera aleatoria los goles de 0 a 6, y 
+                a partir de ahi, se generan las asistencias, se escogen los titulares y se decide quien mete los goles y las asistencias de los titulares.</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" (click)="simular()">Simular la jornada {{jornadaActual}}</button>
+                <!-- <small class="text-body-secondary">Last updated 3 mins ago</small> -->
+              </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="../../../../assets/img/reset.png" class="card-img-top" alt="icono de resetJornadas">
+            <div class="card-body">
+              <h5 class="card-title">Resetear Calendario</h5>
+              <p class="card-text">Aquí se borran todas las jornadas que ya se hayan jugado, se borran las tablas de clasificación, se reinician las estadísticas de los jugadores a 0
+                y se borra el calendario, aparte también se tienen que borrar todas las predicciones de los usuarios.</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" (click)="resetJornadas()">Resetear Jornadas</button>
+                <!-- <small class="text-body-secondary">Last updated 3 mins ago</small> -->
+              </div>
+          </div>
+        </div>
+
 </div>

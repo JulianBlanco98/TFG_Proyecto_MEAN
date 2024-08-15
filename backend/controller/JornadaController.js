@@ -30,7 +30,7 @@ export const getJornadaNovedades = async (req, res) => {
         //console.log("Conseguir el numero de la jornada actual");
         const jornadaActual = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1});
         if (!jornadaActual) {
-            return res.status(404).json({ message: "Todas las jornadas se han jugado ya" })
+            return res.status(404).json({ message: "No hay ninguna jornada jugada aun", numeroJornada: 0})
         }
 
         res.status(200).json({ numeroJornadaActual: jornadaActual.numeroJornada })

@@ -9,6 +9,7 @@ import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 export class AsistentesComponent implements OnInit{
 
   asistentes: any[]
+  jornadaNoDisputada: boolean = false
   constructor(private readonly crudJugadoresService: CrudJugadoresService){}
 
   ngOnInit(): void {
@@ -18,11 +19,15 @@ export class AsistentesComponent implements OnInit{
     this.crudJugadoresService.getMaximosAsistentes().subscribe({
       next: (data) => {
         this.asistentes = data.tabla;
+        this.jornadaNoDisputada = false;
         console.log(this.asistentes);
         
       },
       error: (err) => {
-        console.log(err);        
+        if(err.status === 404) {
+          this.jornadaNoDisputada = true;
+          console.log(err);        
+        }        
       }
     })
   }

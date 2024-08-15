@@ -1,34 +1,49 @@
 <h1 class="text-center mt-3">TOP 10 Goleadores</h1>
 
-<div class="table-responsive">
+<ng-container *ngIf="jornadaNoDisputada; else mostrarTabla">
+  <div class="card mx-auto mb-3">
+    <img src="../../../../../assets/img/exclamacion.png" class="card-img-top" alt="iconoExclamacion">
+    <div class="card-body text-center">
+      <h5 class="card-title">Warning</h5>
+      <p class="card-text">No se ha jugado todavía la primera jornada.</p>
+      <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #mostrarTabla>
+  <div class="table-responsive">
     <table class="table align-middle table-bordered mt-3">
-        <thead class="table-light text-center">
-            <tr>
-                <th>Pos.</th>
-                <th>Jugador</th>
-                <th>Equipo</th>
-                <th>Goles</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let goleador of goleadores; let i = index">
-                <td class="text-center" [ngClass]="{'primero': i == 0, 'segundo' : i == 1,  'tercero' : i == 2}">{{i+1}}</td>
-                <td>
-                    <div class="datos-jugador">
-                        <img [src]="goleador?.datos?.imagenJugador" alt="{{goleador.datos.nombreJugador}}">
-                        <label>{{goleador?.datos?.nombreJugador}}</label>
-                    </div>
-                </td>
-                <td>
-                    <div class="datos-equipo">
-                        <img [src]="goleador?.equipo?.escudoEquipo" alt="{{goleador?.equipo?.nombreEquipoCorto}}">
-                        <label>{{goleador?.equipo?.nombreEquipoCorto}}</label>
-                    </div>
-                </td>
-                <td class="goles">
-                    <label><strong>{{goleador?.golesEstadisticas?.goles}}</strong></label>
-                </td>
-            </tr>
-        </tbody>
+      <thead class="table-light text-center">
+        <tr>
+          <th>Pos.</th>
+          <th>Jugador</th>
+          <th>Equipo</th>
+          <th>Goles</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let goleador of goleadores; let i = index">
+          <td class="text-center" [ngClass]="{'primero': i == 0, 'segundo' : i == 1,  'tercero' : i == 2}">
+            {{i+1}}
+          </td>
+          <td>
+            <div class="datos-jugador">
+              <img [src]="goleador?.datos?.imagenJugador" alt="{{goleador.datos.nombreJugador}}">
+              <label>{{goleador?.datos?.nombreJugador}}</label>
+            </div>
+          </td>
+          <td>
+            <div class="datos-equipo">
+              <img [src]="goleador?.equipo?.escudoEquipo" alt="{{goleador?.equipo?.nombreEquipoCorto}}">
+              <label>{{goleador?.equipo?.nombreEquipoCorto}}</label>
+            </div>
+          </td>
+          <td class="goles">
+            <label><strong>{{goleador?.golesEstadisticas?.goles}}</strong></label>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div>
+  </div>
+</ng-template>

@@ -169,43 +169,53 @@ const posicionJugadores = async (tipo) => {
 
 export const getGoleadores = async (req, res) => {
     try {
-        const goleadores = await JugadorModel.aggregate([
-            {
-                $lookup: {
-                    from: 'estadisticas',
-                    localField: 'estadisticas',
-                    foreignField: '_id',
-                    as: 'golesEstadisticas'
-                }
-            },
-            { $unwind: '$golesEstadisticas' },
-            { $sort: { 'golesEstadisticas.goles': -1 } },
-            { $limit: 10 },
-            {
-                $lookup: {
-                    from: 'equipos',
-                    localField: 'idEquipo',
-                    foreignField: '_id',
-                    as: 'equipo'
-                }
-            },
-            { $unwind: '$equipo' },
-            {
-                $project: {
-                    'datos.nombreJugador': 1,
-                    'datos.imagenJugador': 1,
-                    'golesEstadisticas.goles': 1,
-                    'equipo.nombreEquipoCorto': 1,
-                    'equipo.escudoEquipo': 1
-                }
-            }
-        ]);
 
-        if (!goleadores || goleadores.length === 0) {
-            return res.status(404).json({ message: 'Sin goles' });
+        //Primero, ver si hay una jornada jugada
+        const jornadaJugada = await JornadaModel.findOne({jugado: true});
+        if(!jornadaJugada) {
+            return res.status(404).json({ message: 'No se ha jugado ninguna jornada' });
+        }
+        else{
+
+            const goleadores = await JugadorModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'estadisticas',
+                        localField: 'estadisticas',
+                        foreignField: '_id',
+                        as: 'golesEstadisticas'
+                    }
+                },
+                { $unwind: '$golesEstadisticas' },
+                { $sort: { 'golesEstadisticas.goles': -1 } },
+                { $limit: 10 },
+                {
+                    $lookup: {
+                        from: 'equipos',
+                        localField: 'idEquipo',
+                        foreignField: '_id',
+                        as: 'equipo'
+                    }
+                },
+                { $unwind: '$equipo' },
+                {
+                    $project: {
+                        'datos.nombreJugador': 1,
+                        'datos.imagenJugador': 1,
+                        'golesEstadisticas.goles': 1,
+                        'equipo.nombreEquipoCorto': 1,
+                        'equipo.escudoEquipo': 1
+                    }
+                }
+            ]);
+    
+            if (!goleadores || goleadores.length === 0) {
+                return res.status(404).json({ message: 'Sin goles' });
+            }
+    
+            return res.status(200).json({ tabla: goleadores });
         }
 
-        return res.status(200).json({ tabla: goleadores });
 
     } catch (error) {
         console.error(error);
@@ -216,43 +226,51 @@ export const getGoleadores = async (req, res) => {
 
 export const getAsistentes = async (req, res) => {
     try {
-        const asistentes = await JugadorModel.aggregate([
-            {
-                $lookup: {
-                    from: 'estadisticas',
-                    localField: 'estadisticas',
-                    foreignField: '_id',
-                    as: 'asistenciasEstadisticas'
-                }
-            },
-            { $unwind: '$asistenciasEstadisticas' },
-            { $sort: { 'asistenciasEstadisticas.asistencias': -1 } },
-            { $limit: 10 },
-            {
-                $lookup: {
-                    from: 'equipos',
-                    localField: 'idEquipo',
-                    foreignField: '_id',
-                    as: 'equipo'
-                }
-            },
-            { $unwind: '$equipo' },
-            {
-                $project: {
-                    'datos.nombreJugador': 1,
-                    'datos.imagenJugador': 1,
-                    'asistenciasEstadisticas.asistencias': 1,
-                    'equipo.nombreEquipoCorto': 1,
-                    'equipo.escudoEquipo': 1
-                }
-            }
-        ]);
+        const jornadaJugada = await JornadaModel.findOne({jugado: true});
+        if(!jornadaJugada) {
+            return res.status(404).json({ message: 'No se ha jugado ninguna jornada' });
+        }
+        else{
 
-        if (!asistentes || asistentes.length === 0) {
-            return res.status(404).json({ message: 'Sin asistencias' });
+            const asistentes = await JugadorModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'estadisticas',
+                        localField: 'estadisticas',
+                        foreignField: '_id',
+                        as: 'asistenciasEstadisticas'
+                    }
+                },
+                { $unwind: '$asistenciasEstadisticas' },
+                { $sort: { 'asistenciasEstadisticas.asistencias': -1 } },
+                { $limit: 10 },
+                {
+                    $lookup: {
+                        from: 'equipos',
+                        localField: 'idEquipo',
+                        foreignField: '_id',
+                        as: 'equipo'
+                    }
+                },
+                { $unwind: '$equipo' },
+                {
+                    $project: {
+                        'datos.nombreJugador': 1,
+                        'datos.imagenJugador': 1,
+                        'asistenciasEstadisticas.asistencias': 1,
+                        'equipo.nombreEquipoCorto': 1,
+                        'equipo.escudoEquipo': 1
+                    }
+                }
+            ]);
+    
+            if (!asistentes || asistentes.length === 0) {
+                return res.status(404).json({ message: 'Sin asistencias' });
+            }
+    
+            return res.status(200).json({ tabla: asistentes });
         }
 
-        return res.status(200).json({ tabla: asistentes });
 
     } catch (error) {
         console.error(error);

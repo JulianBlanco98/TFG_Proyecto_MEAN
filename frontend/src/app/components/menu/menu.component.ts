@@ -32,7 +32,7 @@ export class MenuComponent implements OnInit {
     public authServiceService: AuthServiceService,
     private readonly eventService: EventService,
     private readonly router: Router,
-    private readonly crudJornadaService: CrudJornadaService
+    private readonly crudJornadaService: CrudJornadaService,
   ) {}
 
   faHome = faHome;
@@ -84,6 +84,7 @@ export class MenuComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Error al obtener la jornada', err);
+        this.numJornada = err.error.numeroJornada;
       },
     })
   }

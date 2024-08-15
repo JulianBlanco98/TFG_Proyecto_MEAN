@@ -9,6 +9,7 @@ import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 export class GoleadoresComponent implements OnInit{
 
   goleadores: any []
+  jornadaNoDisputada: boolean = false
   constructor(private readonly crudJugadoresService: CrudJugadoresService){}
 
   ngOnInit(): void {
@@ -18,11 +19,15 @@ export class GoleadoresComponent implements OnInit{
     this.crudJugadoresService.getMaximosGoleadores().subscribe({
       next: (data) => {
         this.goleadores = data.tabla;
+        this.jornadaNoDisputada = false;
         console.log(this.goleadores);
         
       },
       error: (err) => {
-        console.log(err);        
+        if(err.status === 404) {
+          this.jornadaNoDisputada = true;
+          console.log(err);        
+        }
       }
     })
   }
