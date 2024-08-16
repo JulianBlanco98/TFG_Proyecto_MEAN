@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let premio of premios; let i = index" (click)="openModal(premio._id)">
+        <tr *ngFor="let premio of premios; let i = index" >
           <td style="display: none">{{ premio._id }}</td>
           <td>{{ premio.nombrePremio }}</td>
           <td><img src="{{ premio.imagenPremio }}" /></td>
@@ -29,7 +29,7 @@
                 Canjear
               </button>
             </span>
-            <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-primary" type="button">Canjear</button>
+            <button *ngIf="authServiceService.isAuthenticated()" class="btn btn-primary" type="button" (click)="openModal(premio._id)">Canjear</button>
           </td>
         </tr>
       </tbody>

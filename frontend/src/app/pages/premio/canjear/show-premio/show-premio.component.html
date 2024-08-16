@@ -1,1 +1,25 @@
-<p>show-premio works!</p>
+<div class="modal-header">
+    <h4>Canjear {{premio?.nombrePremio}}</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss('cross click')"></button>
+</div>
+<div class="modal-body">
+    <div class="card mx-auto">
+        <img [src]="premio?.imagenPremio" class="card-img-top" [alt]="premio?.nombrePremio">
+        <div class="card-body">
+            <hr>
+            <div class="resta">          
+                <h5 class="card-title text-center">Premio a canjear: {{premio?.nombrePremio}}</h5>
+                <p class="mt-5">
+                    Monedas usuario: <span class="moneda">{{monedaUsuario}}</span> - Monedas premio: <span class="moneda">{{premio?.saldoPremio}}</span>
+                </p>
+                <hr>
+                <p>Monedas resultado = <span class="resultado">{{monedaUsuario - premio?.saldoPremio}}</span></p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="canjearPremio()">Canjear Premio</button>
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss('cross click')">Cancelar</button>
+</div>
