@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Premio } from 'src/app/models/premio.model';
 import { CrudPremiosService } from 'src/app/services/crud-premios.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowPremioComponent } from '../canjear/show-premio/show-premio.component';
 
 
 @Component({
@@ -14,6 +16,7 @@ export class ShowPremiosComponent implements OnInit{
   constructor(
     private readonly crudPremiosService: CrudPremiosService,
     public authServiceService: AuthServiceService,
+    private readonly modalService: NgbModal
   ){}
 
   premios: Premio[]
@@ -22,6 +25,16 @@ export class ShowPremiosComponent implements OnInit{
     this.crudPremiosService.getPremios().subscribe((res: Premio[]) => {
       this.premios = res
     })
+  }
+
+  openModal(idPremio: string) {
+    const modal = this.modalService.open(ShowPremioComponent, {
+      centered: true,
+      backdrop: true,
+      size: 'lg'
+    });
+
+    modal.componentInstance.idPremio = idPremio;
   }
 
 }

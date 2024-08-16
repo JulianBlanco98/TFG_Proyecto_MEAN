@@ -36,6 +36,7 @@ import { AsistentesComponent } from './pages/jugadores/max-asistentes/asistentes
 import { ShowPartidoComponent } from './pages/partido/show-partido/show-partido.component';
 import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
 import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
+import { ShowPremioComponent } from './pages/premio/canjear/show-premio/show-premio.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { SeccionesComponent } from './pages/inicio/secciones/secciones.component
     AsistentesComponent,
     ShowPartidoComponent,
     ShowNovedadesComponent,
-    SeccionesComponent
+    SeccionesComponent,
+    ShowPremioComponent
   ],
   imports: [
     BrowserModule,

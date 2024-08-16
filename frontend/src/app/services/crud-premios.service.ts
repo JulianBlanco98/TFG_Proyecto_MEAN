@@ -25,4 +25,8 @@ export class CrudPremiosService {
   getPremios(): Observable<any> {
     return this.httpClient.get(this.rest_API, {headers: this.httpHeaders});
   }
+
+  getPremioById(idPremio: string): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/${idPremio}`, {headers: this.httpHeaders})
+  }
 }

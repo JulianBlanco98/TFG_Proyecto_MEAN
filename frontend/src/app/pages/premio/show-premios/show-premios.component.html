@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let premio of premios; let i = index">
+        <tr *ngFor="let premio of premios; let i = index" (click)="openModal(premio._id)">
           <td style="display: none">{{ premio._id }}</td>
           <td>{{ premio.nombrePremio }}</td>
           <td><img src="{{ premio.imagenPremio }}" /></td>
