@@ -12,6 +12,9 @@ export class EventService {
   private monedasActualizadas = new Subject<void>();
   monedasActualizadas$ = this.monedasActualizadas.asObservable();
 
+  private jornadasActualizadas = new Subject<void>();
+  jornadasActualizadas$ = this.jornadasActualizadas.asObservable();
+
   constructor() { }
 
   setNewRoles(data: any) {
@@ -20,6 +23,10 @@ export class EventService {
 
   notifyMonedasActualizadas() {
     this.monedasActualizadas.next();
+  }
+
+  notifyJornadasActualizadas() {
+    this.jornadasActualizadas.next();
   }
 
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 import { CalendarioService } from 'src/app/services/calendario.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { EventService } from 'src/app/services/event.service';
+
 
 @Component({
   selector: 'app-simular-jornada',
@@ -15,7 +17,8 @@ export class SimularJornadaComponent {
   constructor(
     private readonly crudJornadaService: CrudJornadaService,
     private readonly alertifyService: AlertifyService,
-    private readonly calendarioService: CalendarioService
+    private readonly calendarioService: CalendarioService,
+    private readonly eventService: EventService
   ){
     this.getNumeroJornadaActual();
   }
@@ -35,8 +38,9 @@ export class SimularJornadaComponent {
     this.crudJornadaService.simularJornadaAdmin().subscribe({
       next: (response) => {
         console.log(response);
-        this.alertifyService.success(response.message)
         this.getNumeroJornadaActual();
+        this.eventService.notifyJornadasActualizadas();
+        this.alertifyService.success(response.message)
         //hacer aquí la llamada
       },
       error: (err) => {
@@ -50,6 +54,7 @@ export class SimularJornadaComponent {
     this.calendarioService.resetearCalendario().subscribe({
       next: (response) => {
         this.getNumeroJornadaActual();
+        this.eventService.notifyJornadasActualizadas();
         this.alertifyService.success(response.message)
       },
       error: (err) => {

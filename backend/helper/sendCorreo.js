@@ -31,6 +31,7 @@ export const premioCanjear = async (usuario, premio) => {
             <p>Felicidades por haber conseguido suficientes monedas para canjear el siguiente premio: </p>
             <img src="cid:imagenPremio" style="max-width: 300px; height: auto; object-fit: contain;">
             <p><strong>${premio.nombrePremio}</strong> (<i>${premio.saldoPremio} monedas</i>)<p>
+            <p><i>Clave del producto: XXXX - XXXX - XXXX</i></p>
             <p>
                 Tenías ${usuario.moneda} monedas y te has quedado con <strong>${(usuario.moneda - premio.saldoPremio)}</strong> monedas.
                 Un abrazo ${usuario.datos.nombre} y esperamos que sigas disfrutando de <strong>LaLigaStats!!</strong>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   faHome,
   faMoneyCheckDollar,
@@ -18,13 +18,14 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EventService } from 'src/app/services/event.service';
 import { Router } from '@angular/router';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   constructor(
     private readonly modalService: NgbModal,
     private readonly crudUsersService: CrudUsersService,
@@ -47,17 +48,30 @@ export class MenuComponent implements OnInit {
   monedaJugador: number | null = null;
   numJornada: number
 
+  moneda$: Subscription
+  jornada$: Subscription
+
   ngOnInit(): void {
     if (this.authServiceService.isAuthenticated()) {
       this.updateMonedas();
     }
     this.getNumeroJornadaActual();
 
-    this.eventService.monedasActualizadas$.subscribe(() => {
+    this.moneda$ = this.eventService.monedasActualizadas$.subscribe(() => {
       this.updateMonedas(); // Actualizar monedas cuando se notifique
     });
 
+    this.jornada$ = this.eventService.jornadasActualizadas$.subscribe(() => {
+      this.getNumeroJornadaActual();
+    })
+
   }
+
+  ngOnDestroy(): void {
+    this.moneda$.unsubscribe();
+    this.jornada$.unsubscribe();
+  }
+
   updateMonedas() {
     const idUsuario = this.authServiceService.getIdUsuarioToken();
     if (idUsuario) {

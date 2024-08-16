@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CrudUsersService } from 'src/app/services/crud-users.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-show-premio',
@@ -22,7 +23,8 @@ export class ShowPremioComponent implements OnInit{
     private readonly crudPremiosService: CrudPremiosService,
     private readonly crudUsersService: CrudUsersService,
     private readonly authServiceService: AuthServiceService,
-    private readonly alertifyService: AlertifyService
+    private readonly alertifyService: AlertifyService,
+    private readonly eventService: EventService,
   ) {}
 
   ngOnInit(): void {
@@ -64,11 +66,14 @@ export class ShowPremioComponent implements OnInit{
     this.crudPremiosService.canjearPremio(this.premio._id).subscribe({
       next: (data: any) => {
         console.log("Datos: ",data);
+        this.modal.close();
         this.alertifyService.success(data.message);
+        this.eventService.notifyMonedasActualizadas();
         
       },
       error: (err: any) => {
         if(err.status === 400){
+          this.modal.close();
           this.alertifyService.error(err.error.message)
         }
         console.log("Error de canjear: ",err.error.message);      
