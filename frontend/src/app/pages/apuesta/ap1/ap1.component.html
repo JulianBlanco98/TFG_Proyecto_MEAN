@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="text-center mt-4">Predicciones de la Jornada {{numJornada}}</h1>
+    <h1 class="text-center mt-4">Quiniela de la Jornada {{numJornada}}</h1>
 
     <form [formGroup]="prediccionesForm">
         <div class="table-responsive mt-3">
@@ -11,7 +11,7 @@
                         <th class="col-2">Cantidad (monedas)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-middle">
                     <tr *ngFor="let partido of jornada?.partidos; let i = index">
                         <td class="col-7">
                             <div class="enfrentamiento">
@@ -41,7 +41,7 @@
                             </div>
                         </td>
                         <td class="col-2">
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                                 <input type="number" class="form-control" [formControl]="getCantidadControl(i)" name="cantidad{{i}}" aria-label="">
                                 <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
                             </div>
@@ -50,7 +50,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary" (click)="editarBoton ? onUpdate() : onSubmit()">
+        <button class="btn btn-success" (click)="editarBoton ? onUpdate() : onSubmit()">
             {{ editarBoton ? 'Editar predicciones' : 'Guardar predicciones' }}
           </button>
         <button type="button" class="btn btn-danger" (click)="resetearFormulario()">Resetear</button>

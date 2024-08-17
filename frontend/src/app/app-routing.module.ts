@@ -16,6 +16,7 @@ import { SimularJornadaComponent } from './pages/jornada/simular-jornada/simular
 import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-clasificacion/tab-clasificacion.component';
 import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
 import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
+import { Ap2Component } from './pages/apuesta/ap2/ap2/ap2.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,15 @@ const routes: Routes = [
     path: 'novedades', component: ShowNovedadesComponent
   },
   {
-    path:'apuesta', component: Ap1Component,
+    path:'quiniela', component: Ap1Component,
+    canActivate: [loginGuard, loginUsuario]
+  },
+  {
+    path:'ap_Goles', component: Ap2Component,
+    canActivate: [loginGuard, loginUsuario]
+  },
+  {
+    path:'ap_Asistencias', component: Ap1Component,
     canActivate: [loginGuard, loginUsuario]
   },
   {

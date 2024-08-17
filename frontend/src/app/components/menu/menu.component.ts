@@ -8,7 +8,11 @@ import {
   faUser,
   faUserSecret,
   faFootballBall,
-  faFireFlameCurved
+  faFireFlameCurved,
+  faFutbol,
+  faSocks,
+  faRectangleList,
+  faScaleBalanced
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUsuarioComponent } from '../modal/modal-usuario/modal-usuario.component';
@@ -37,14 +41,19 @@ export class MenuComponent implements OnInit, OnDestroy {
   ) {}
 
   faHome = faHome;
-  faMoney = faMoneyCheckDollar;
   faTrophy = faTrophy;
   faBook = faBook;
   faGift = faGift;
   faUser = faUser;
   faAdmin = faUserSecret;
   faJornada = faFootballBall;
+  faPredicciones = faScaleBalanced
+  faQuiniela = faMoneyCheckDollar;
   faNovedad = faFireFlameCurved;
+  faGoles = faFutbol;
+  faAsistencias = faSocks;
+  faHistorico = faRectangleList;
+
   monedaJugador: number | null = null;
   numJornada: number
 

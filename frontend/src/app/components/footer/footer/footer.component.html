@@ -7,8 +7,10 @@
           <div class="row">
               <!-- Grid column -->
               <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                  <h6 class="text-uppercase mb-4 font-weight-bold">Proyecto TFG</h6>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam tenetur reprehenderit natus voluptatum perferendis fugiat praesentium provident. Tempore iste sequi voluptates facere, voluptatum ipsum cumque amet, esse saepe porro dolor!</p>
+                  <h6 class="text-uppercase mb-4 font-weight-bold">LaLigaStats</h6>
+                  <p>LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
+                    y aciertas las predicciones, podrás canjear los beneficios por increíbles premios
+                  </p>
               </div>
               <!-- Grid column -->
 
@@ -17,10 +19,14 @@
               <!-- Grid column -->
               <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                   <h6 class="text-uppercase mb-4 font-weight-bold">Secciones</h6>
-                  <p><a class="text-white" routerLink="/clasificacion">Clasificacion</a></p>
-                  <p><a class="text-white" routerLink="/equipos">Colección</a></p>
-                  <p><a class="text-white" routerLink="/equipos">Premios</a></p>
-                  <p><a class="text-white" routerLink="/">Novedades</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/clasificacion">Novedades</a></p>
+                  <p *appRoles="['usuario']"><a class="text-white" routerLink="/clasificacion">Predicciones</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/clasificacion">Clasificacion</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/equipos">Colección</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/premios">Premios</a></p>
+                  <p *appRoles="['admin']"><a class="text-white" routerLink="/usuarios">Usuarios</a></p>
+                  <p *appRoles="['admin']"><a class="text-white" routerLink="/adminJornadas">Jornadas</a></p>
+                  <p *appRoles="['admin']"><a class="text-white" routerLink="/premios">Premios</a></p>
               </div>
               <!-- Grid column -->
 
@@ -77,7 +83,7 @@
   </div>
   <!-- Grid container -->
   <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+  <div class="text-center p-3 bg-dark" style="background-color: rgba(0, 0, 0, 0.2)">
       © 2024 Copyright:
       <label class="text-white">Julián Blanco González</label>
   </div>

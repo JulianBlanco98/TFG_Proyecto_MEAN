@@ -1,0 +1,54 @@
+<div class="container">
+    <h1 class="text-center mt-4">Predicciones de Goles (jornada 2)</h1>
+
+    <form [formGroup]="golesPrediForm">
+      <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="col-6">Equipo</th>
+                        <th class="col-2">Predicción Goles</th>
+                        <th class="col-2">Cantidad (monedas)</th>
+                        <th class="col-2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fila of filas; let i = index">
+                        <td>
+                            <ng-template #rt let-equipo="result">
+                                <div class="d-flex align-items-center">
+                                    <img [src]="equipo.escudoEquipo" alt="Escudo" class="mx-3 my-1" width="30">
+                                    <span>{{ equipo.nombreEquipo }}</span>
+                                </div>
+                            </ng-template>
+                            <div class="form-group row">
+                                <label for="typeahead-equipo" class="col-12 col-sm-2 col-form-label">Equipo:</label>
+                                <div class="col-12 col-sm-10">
+                                    <input type="text" class="form-control" id="typeahead-equipo"
+                                        [ngbTypeahead]="search" placeholder="Escoger equipo..."
+                                        [inputFormatter]="inputFormatter" [resultTemplate]="rt">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="" aria-label="">
+                                <span class="input-group-text"><fa-icon [icon]="faGoles"></fa-icon></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="cantidad{{i}}" aria-label="">
+                                <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="removeFilas(i)">Eliminar predicción</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-primary" (click)="addFilas()">Nueva predicción</button>
+    </form>
+</div>

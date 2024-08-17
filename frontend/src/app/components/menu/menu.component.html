@@ -21,17 +21,31 @@
                 </ng-container>
                 <li class="nav-item dropdown" *appRoles="['usuario']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Predicciones
+                        <fa-icon [icon]="faPredicciones"></fa-icon> Predicciones
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="nav-item">
-                            <a routerLink="/apuesta" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-                                <fa-icon [icon]="faMoney"></fa-icon> Quiniela
+                        <li>
+                            <a routerLink="/quiniela" class="dropdown-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <fa-icon [icon]="faQuiniela"></fa-icon> Quiniela
                             </a>
                         </li>
-                        <li><a class="dropdown-item" routerLink="/goles" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Goles</a></li>
-                        <li><a class="dropdown-item" routerLink="/asistencias" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Asistencias</a></li>
-                        <li><a class="dropdown-item" routerLink="/historial" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Historial</a></li>
+                        <li>
+                            <a routerLink="/ap_Goles" class="dropdown-item"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <fa-icon [icon]="faGoles"></fa-icon> Goles
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/ap_Asitencias" class="dropdown-item"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <fa-icon [icon]="faAsistencias"></fa-icon> Asistencias
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a routerLink="/historico" class="dropdown-item"  routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <fa-icon [icon]="faHistorico"></fa-icon> Histórico de Apuestas
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
                 
@@ -69,67 +83,3 @@
         </div>
     </div>
 </nav>
-
-
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        
-        <a routerLink="/" class="navbar-brand iconoPag">
-            <img src="../../../assets/img/icono3.png" width="80" alt="Logo">
-            <h2 *appRoles="['nologin', 'usuario']">LaLigaStats</h2>
-            <h2 *appRoles="['admin']">Dashboard del Admin</h2>
-        </a>
-        
-        <button class="navbar-toggler" data-bs-target="#my-nav" data-bs-toggle="collapse"
-            aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="my-nav">
-            <ul class="navbar-nav mx-auto">
-                
-                <li class="nav-item active" *appRoles="['nologin','usuario']">
-                    <a routerLink="/" class="btn btn-primary"><fa-icon [icon]="faHome"></fa-icon> Inicio</a>
-                </li>
-                <ng-container *ngIf="numJornada !== 0">
-                    <li class="nav-item active" *appRoles="['nologin','usuario']">
-                        <a routerLink="/novedades" class="btn btn-primary"><fa-icon [icon]="faNovedad"></fa-icon> Novedades</a>
-                    </li>
-                </ng-container>                
-                <li class="nav-item active" *appRoles="['usuario']">
-                    <a routerLink="/apuesta" class="btn btn-primary"><fa-icon [icon]="faMoney"></fa-icon> Apuesta</a>
-                </li>
-                <li class="nav-item active" *appRoles="['admin']">
-                    <a routerLink="/usuarios" class="btn btn-primary"><fa-icon [icon]="faUser"></fa-icon> Usuarios</a>
-                </li>
-                <li class="nav-item active" *appRoles="['admin']">
-                    <a routerLink="/adminJornadas" class="btn btn-primary"><fa-icon [icon]="faJornada"></fa-icon> Jornadas</a>
-                </li>
-                <li class="nav-item active" *appRoles="['nologin','usuario']">
-                    <a routerLink="/clasificacion" class="btn btn-primary"><fa-icon [icon]="faTrophy"></fa-icon> Clasificacion</a>
-                </li>
-                <li class="nav-item active" *appRoles="['nologin','usuario']">
-                     <a routerLink="/equipos" class="btn btn-primary"><fa-icon [icon]="faBook"></fa-icon> Coleccion</a>
-                </li>
-                <li class="nav-item active">
-                     <a routerLink="/premios" class="btn btn-primary"><fa-icon [icon]="faGift"></fa-icon> Premios</a>
-                </li>
-            </ul>
-        </div>
-        
-        
-        <div class="botones" [ngClass]="{'gap-usuario': authServiceService.hasRole('usuario')}">
-            <div *appRoles="['usuario']" class="d-flex align-items-center">
-                <img src="../../../assets/img/moneda.png" alt="monedaUsuario" width="50">
-                <label style="color: white;">{{ monedaJugador !== null ? monedaJugador : 'Cargando...' }}</label>
-            </div>
-            <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
-            <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
-            <div *appRoles="['admin', 'usuario']" (click)="openModal('editarUsuario')">
-                <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'" *appRoles="['usuario']"></fa-icon>
-                <fa-icon class="iconoUsuario" [icon]="faAdmin" [size]="'3x'" *appRoles="['admin']"></fa-icon>
-            </div>
-            <button *appRoles="['admin', 'usuario']" class="btn btn-secondary" (click)="logOut()">Log Out</button>
-        </div>
-    </div>
-</nav> -->

@@ -20,9 +20,8 @@
     gap: 10px;
 }
 
-/* Estilo para el navbar */
-.navbar {
-    background-color: #343a40; /* Color de fondo */
+li hr {
+    border-top: 1px solid rgb(153 153 153);
 }
 
 /* Estilo para los enlaces del menú */
@@ -31,12 +30,17 @@
     padding: 10px 15px; /* Espaciado interno */
     text-decoration: none;
 }
+.nav-link:hover {
 
-/* Estilo para los enlaces activos */
-.nav-link.active {
     background-color: #495057; /* Color de fondo para el enlace activo */
     border-radius: 5px; /* Bordes redondeados */
-    text-decoration: underline;
+}
+
+/* Estilo para los enlaces activos */
+.nav-link.active,  .dropdown-item.active, .dropdown.active{
+    background-color: #495057; /* Color de fondo para el enlace activo */
+    border-radius: 5px; /* Bordes redondeados */
+    /* text-decoration: underline; */
 }
 
 /* Estilo para los iconos */
