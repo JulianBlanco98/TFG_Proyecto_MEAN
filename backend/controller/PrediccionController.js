@@ -206,3 +206,41 @@ export const actualizarPrediccionByJornada = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
+export const createPrediTipo2 = async (req, res) => {
+    try {
+        const { numJornada } = req.params;
+        const predicciones = req.body;
+        const usuario = await UserModel.findById(req.usuario.id);
+        console.log("Predicciones tipo2: ",predicciones);
+        
+        
+        
+        let totalMonedas = 0;
+        let prediccionesHechas = {
+            idUsuario: usuario._id,
+            numeroJornada: numJornada,
+            monedaInicial: usuario.moneda,
+            ganado: false,
+            tipo_2: []
+        }
+        predicciones.predicciones.forEach(p => {
+            totalMonedas = totalMonedas + p.cantidad;
+            console.log("Campo de equipo: ", p.equipo.nombreEquipo);
+            prediccionesHechas.tipo_2.push({
+                idEquipo: p.equipo._id,
+                goles: p.goles,
+                cantidad: p.cantidad
+            })
+        })
+        if (usuario.moneda < totalMonedas) {
+            return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
+        }
+        console.log("Predicciones hechas: ",prediccionesHechas);
+        
+        //aqui sería ver como compaginar los 3 tipos de predicción
+
+        res.status(201).json({ message: 'Predicción de goles guardada correctamente' })
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}

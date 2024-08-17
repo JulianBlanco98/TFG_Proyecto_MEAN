@@ -1,8 +1,8 @@
 <div class="container">
-    <h1 class="text-center mt-4">Predicciones de Goles (jornada 2)</h1>
+    <h1 class="text-center mt-4">Predicciones de Goles (jornada {{numJornada}})</h1>
 
     <form [formGroup]="golesPrediForm">
-      <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table table-bordered text-center">
                 <thead>
                     <tr>
@@ -12,8 +12,8 @@
                         <th class="col-2">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let fila of filas; let i = index">
+                <tbody formArrayName="predicciones">
+                    <tr *ngFor="let prediccion of predicciones.controls; let i = index" [formGroupName]="i">
                         <td>
                             <ng-template #rt let-equipo="result">
                                 <div class="d-flex align-items-center">
@@ -26,29 +26,62 @@
                                 <div class="col-12 col-sm-10">
                                     <input type="text" class="form-control" id="typeahead-equipo"
                                         [ngbTypeahead]="search" placeholder="Escoger equipo..."
-                                        [inputFormatter]="inputFormatter" [resultTemplate]="rt">
+                                        [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
+                                        [resultTemplate]="rt" (selectItem)="onSelectEquipo($event, i)"
+                                        formControlName="equipo">
+                                    <div *ngIf="prediccion.get('equipo').invalid && prediccion.get('equipo').touched"
+                                        class="text-danger">
+                                        Selecciona un equipo.
+                                    </div>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="" aria-label="">
+                                <input type="number" class="form-control" formControlName="goles" name="goles"
+                                    aria-label="">
                                 <span class="input-group-text"><fa-icon [icon]="faGoles"></fa-icon></span>
+                            </div>
+                            <div *ngIf="prediccion.get('goles').invalid && prediccion.get('goles').touched"
+                                class="text-danger">
+                                <div *ngIf="prediccion.get('goles').errors?.['required']">Los goles son obligatorios.
+                                </div>
+                                <div
+                                    *ngIf="prediccion.get('goles').errors?.['min'] || prediccion.get('goles').errors?.['max']">
+                                    Deben ser entre 1 y 6.
+                                </div>
                             </div>
                         </td>
                         <td>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="cantidad{{i}}" aria-label="">
+                                <input type="number" class="form-control" formControlName="cantidad" name="cantidad"
+                                    aria-label="">
                                 <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
+                            </div>
+                            <div *ngIf="prediccion.get('cantidad').invalid && prediccion.get('cantidad').touched"
+                                class="text-danger">
+                                <div *ngIf="prediccion.get('cantidad').errors?.['required']">La cantidad es obligatoria.
+                                </div>
+                                <div *ngIf="prediccion.get('cantidad').errors?.['min']">Debe ser un número positivo.
+                                </div>
                             </div>
                         </td>
                         <td>
-                            <button class="btn btn-danger" (click)="removeFilas(i)">Eliminar predicción</button>
+                            <button class="btn btn-danger" (click)="removeFilas(i)">
+                                <fa-icon [icon]="faBorrar" style="margin-right: 10px"></fa-icon>Eliminar predicción
+                            </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary" (click)="addFilas()">Nueva predicción</button>
+        <button class="btn btn-primary d-flex mx-auto" (click)="addFilas()">
+            <fa-icon [icon]="faNuevo" style="margin-right: 10px"></fa-icon> Nueva predicción
+        </button>
+        <hr>
+        <div class="abajo" *ngIf="predicciones.length > 0">
+            <button class="btn btn-success" (click)="onSubmit()" [disabled]="golesPrediForm.invalid">GuardarPredicciones</button>
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Resetear</button>
+        </div>
     </form>
 </div>
