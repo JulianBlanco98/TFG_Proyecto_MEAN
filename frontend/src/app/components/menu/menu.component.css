@@ -1,5 +1,5 @@
 .btn {
-    margin: 0 10px;  
+    margin: 20px 10px; 
 }
 .botones {
     display: flex;
@@ -19,3 +19,45 @@
 .gap-usuario {
     gap: 10px;
 }
+
+/* Estilo para el navbar */
+.navbar {
+    background-color: #343a40; /* Color de fondo */
+}
+
+/* Estilo para los enlaces del menú */
+.nav-link {
+    color: white; /* Color del texto */
+    padding: 10px 15px; /* Espaciado interno */
+    text-decoration: none;
+}
+
+/* Estilo para los enlaces activos */
+.nav-link.active {
+    background-color: #495057; /* Color de fondo para el enlace activo */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: underline;
+}
+
+/* Estilo para los iconos */
+.fa-icon {
+    margin-right: 5px; /* Espaciado a la derecha del icono */
+}
+
+/* Estilo para el dropdown */
+.dropdown-menu {
+    background-color: #343a40; /* Color de fondo */
+    border: none; /* Sin borde */
+}
+
+/* Estilo para los elementos del dropdown */
+.dropdown-item {
+    color: white; /* Color del texto */
+    padding: 10px 15px; /* Espaciado interno */
+}
+
+/* Estilo para los elementos del dropdown al pasar el ratón */
+.dropdown-item:hover {
+    background-color: #495057; /* Color de fondo al pasar el ratón */
+}
+
