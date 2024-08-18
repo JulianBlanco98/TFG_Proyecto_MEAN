@@ -33,6 +33,11 @@
                                         class="text-danger">
                                         Selecciona un equipo.
                                     </div>
+                                    <div *ngFor="let control of predicciones.controls; let i = index">
+                                        <div *ngIf="control.hasError('equipoDuplicado')">
+                                          <p>El equipo seleccionado en la fila {{i + 1}} ya está seleccionado en otro lugar.</p>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </td>
@@ -80,7 +85,9 @@
         </button>
         <hr>
         <div class="abajo" *ngIf="predicciones.length > 0">
-            <button class="btn btn-success" (click)="onSubmit()" [disabled]="golesPrediForm.invalid">GuardarPredicciones</button>
+            <button class="btn btn-success" (click)="editarBoton ? onUpdate() : onSubmit()" [disabled]="golesPrediForm.invalid">
+                {{ editarBoton ? 'Editar predicciones' : 'Guardar predicciones' }}
+            </button>
             <button type="button" class="btn btn-danger" (click)="resetForm()">Resetear</button>
         </div>
     </form>

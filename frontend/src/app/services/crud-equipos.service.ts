@@ -29,6 +29,10 @@ export class CrudEquiposService {
     return this.httpClient.get(`${this.rest_API}/ord`, {headers: this.httpHeaders})
   }
 
+  getEquipo(id: any): Observable <any> {
+    return this.httpClient.get(`this.rest_API/${id}`, {headers: this.httpHeaders})
+  }
+
   
 
 }
