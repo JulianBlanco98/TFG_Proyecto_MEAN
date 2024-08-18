@@ -5,10 +5,10 @@ import { actualizarPrediccionByJornada, createPrediTipo2, deletePrediccionByJorn
 const router = express.Router();
 
 //Predición de tipo 1
-router.post('/tipo_1/createPredi/:numJornada', autenticarToken, hacerPrediccionByJornada);
-router.put('/tipo_1/actualizarPredi/:numJornada', autenticarToken, actualizarPrediccionByJornada);
-router.delete('/tipo_1/borrarPredi/:numJornada', autenticarToken, deletePrediccionByJornada);
-router.get('/tipo_1/:numJornada', autenticarToken, getPrediccionByJornada);
+router.post('/createPredi/:numJornada/:tipoPredi', autenticarToken, hacerPrediccionByJornada);
+router.put('/actualizarPredi/:numJornada/:tipoPredi', autenticarToken, actualizarPrediccionByJornada);
+router.delete('/borrarPredi/:numJornada/:tipoPredi', autenticarToken, deletePrediccionByJornada);
+router.get('/:numJornada', autenticarToken, getPrediccionByJornada);
 
 //Predicción de tipo2
 router.post('/tipo_2/createPredi/:numJornada', autenticarToken, createPrediTipo2);

@@ -4,76 +4,108 @@ import { UserModel } from "../model/UserModel.js";
 
 export const hacerPrediccionByJornada = async (req, res) => {
     try {
-        const { numJornada } = req.params;
+        const { numJornada, tipoPredi } = req.params;
         const predicciones = req.body;
         const usuario = await UserModel.findById(req.usuario.id);
-        //console.log("Numero jornada para prediccion: ", numJornada);
-        //console.log("Datos de predicción: ", predicciones);
+        console.log("Numero jornada para prediccion: ", numJornada, " TipoPredi:", tipoPredi);
+        console.log("Datos de predicción: ", predicciones);
         //console.log("Usuario logueado: ", usuario);
 
-        let campoPrediNoSeleccionado = true;
-        let campoCantidadVacio = false;
-        let campoInvalido;
-
+        //1. Ver si existe la predicción
+        let prediccion = await PrediccionModel.findOne({ idUsuario: usuario.id, numeroJornada: numJornada });
         let totalMonedas = 0;
-        let prediccionesHechas = {
-            idUsuario: usuario._id,
-            numeroJornada: numJornada,
-            monedaInicial: usuario.moneda,
-            ganado: false,
-            tipo_1: []
-        }
 
-        for (let i = 0; i < predicciones.length; i++) {
-            const p = predicciones[i];
-            totalMonedas += p.cantidad;
-            if (p.cantidad !== 0 && p.prediccion === '') {
-                campoPrediNoSeleccionado = false;
-                campoInvalido = p.indicePartido;
-                break; // Termino el bucle si se encuentra un campo inválido
-            }
-            if ((p.cantidad === 0 || p.cantidad === null) && p.prediccion !== '') {
-                campoCantidadVacio = true;
-                campoInvalido = p.indicePartido;
+        //2 Si no existe, creo los campos principales
+        if (!prediccion) {
+            prediccion = new PrediccionModel({
+                idUsuario: usuario._id,
+                numeroJornada: numJornada,
+                monedaInicial: usuario.moneda,
+                ganado: false,
+                tipo_1: [],
+                tipo_2: [],
+                tipo_3: [],
+            });
+        }
+        //3 Dependiendo del tipo, creo la predicción nueva del tipo 1,2,3
+        switch (parseInt(tipoPredi)) {
+            case 1:
+                let campoPrediNoSeleccionado = true;
+                let campoCantidadVacio = false;
+                let campoInvalido;
+
+                for (let i = 0; i < predicciones.length; i++) {
+                    const p = predicciones[i];
+                    totalMonedas += p.cantidad;
+                    if (p.cantidad !== 0 && p.prediccion === '') {
+                        campoPrediNoSeleccionado = false;
+                        campoInvalido = p.indicePartido;
+                        break; // Termino el bucle si se encuentra un campo inválido
+                    }
+                    if ((p.cantidad === 0 || p.cantidad === null) && p.prediccion !== '') {
+                        campoCantidadVacio = true;
+                        campoInvalido = p.indicePartido;
+                        break;
+                    }
+                    console.log("Predicción multi: ", p.multi);
+
+                    //Aquí ha pasao todos los controles, y multi tiene datos, por lo que la prediccion es correcta
+                    if (p.multi) {
+                        prediccion.tipo_1.push({
+                            indicePartido: p.indicePartido,
+                            prediGanador: p.prediccion,
+                            multiPrediccion: parseFloat(p.multi),
+                            cantidad: p.cantidad
+                        });
+                    }
+                }
+
+                console.log("Total de monedas apostadas: ", totalMonedas);
+                console.log("Monedas del usuario: ", usuario.moneda);
+
+                if (usuario.moneda < totalMonedas) {
+                    return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
+                }
+                if (campoCantidadVacio) {
+                    return res.status(400).json({ message: `No has usado ninguna moneda en el partido de la fila ${campoInvalido} ` });
+                }
+                if (!campoPrediNoSeleccionado) {
+                    return res.status(400).json({ message: `En el partido de la fila ${campoInvalido} no has hecho ninguna predicción` });
+                }
                 break;
-            }
-            //Aquí ha pasao todos los controles, y multi tiene datos, por lo que la prediccion es correcta
-            if (p.multi) {
-                prediccionesHechas.tipo_1.push({
-                    indicePartido: p.indicePartido,
-                    prediGanador: p.prediccion,
-                    multiPrediccion: parseFloat(p.multi),
-                    cantidad: p.cantidad
-                });
-            }
+            case 2:
+                predicciones.predicciones.forEach(p => {
+                    totalMonedas = totalMonedas + p.cantidad;
+                    console.log("Campo de equipo: ", p.equipo.nombreEquipo);
+                    prediccion.tipo_2.push({
+                        idEquipo: p.equipo._id,
+                        goles: p.goles,
+                        cantidad: p.cantidad
+                    })
+                })
+                if (usuario.moneda < totalMonedas) {
+                    return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
+                }
+                break;
+            default:
+                break;
         }
 
-        console.log("Total de monedas apostadas: ", totalMonedas);
-        console.log("Monedas del usuario: ", usuario.moneda);
 
-        if (usuario.moneda < totalMonedas) {
-            return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
-        }
-        if (campoCantidadVacio) {
-            return res.status(400).json({ message: `No has usado ninguna moneda en el partido de la fila ${campoInvalido} ` });
-        }
-        if (!campoPrediNoSeleccionado) {
-            return res.status(400).json({ message: `En el partido de la fila ${campoInvalido} no has hecho ninguna predicción` });
-        }
-
-        const nuevaPrediccion = new PrediccionModel(prediccionesHechas);
-        //console.log("Nueva prediccion: ",nuevaPrediccion);
-
-
-        await nuevaPrediccion.save();
-        //Actualizo las monedas del jugador
+        console.log("Predicciones hechas: ", prediccion);
+        //4 Restar lsa monedas al jugador y actualizar el usuario
         usuario.moneda = usuario.moneda - totalMonedas;
         await usuario.save();
 
+        //5 Guardar la predicción en la base de datos
+        await prediccion.save();
 
-        res.status(201).json({ message: 'Predicción guardada correctamente' })
+
+        res.status(201).json({ message: `Predicción de tipo ${tipoPredi} guardada correctamente` })
 
     } catch (error) {
+        console.log(error);
+
         return res.status(500).json({ message: error.message });
     }
 }
@@ -82,17 +114,16 @@ export const getPrediccionByJornada = async (req, res) => {
 
 
         const { numJornada } = req.params;
-        //const usuario = await UserModel.findById(req.usuario.id);
-
-        const prediccionTipo1 = await PrediccionModel.findOne({
+        //const usuario = await UserModel.findById(req.usuario.id);       
+        const prediccion = await PrediccionModel.findOne({
             idUsuario: req.usuario.id,
             numeroJornada: numJornada
         });
-        if (!prediccionTipo1) {
+        if (!prediccion) {
             return res.status(404).json({ message: 'No se ha encontrado la prediccion' });
         }
 
-        res.status(200).json(prediccionTipo1);
+        res.status(200).json(prediccion);
 
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -100,25 +131,48 @@ export const getPrediccionByJornada = async (req, res) => {
 }
 export const deletePrediccionByJornada = async (req, res) => {
     try {
-        const { numJornada } = req.params;
+        const { numJornada, tipoPredi } = req.params;
         const usuario = await UserModel.findById(req.usuario.id);
-        const prediccioBorrar = await PrediccionModel.findOneAndDelete({
+        const prediccion = await PrediccionModel.findOne({
             idUsuario: usuario._id,
             numeroJornada: numJornada
         });
-        if (!prediccioBorrar) {
+        if (!prediccion) {
             return res.status(404).json({ message: 'Predicción no encontrada' });
         }
 
-        //Recorrer la prediccion actual, y devolver las monedas al usuario
         let totalMonedas = 0;
-        prediccioBorrar.tipo_1.forEach(p => {
-            totalMonedas = totalMonedas + p.cantidad
-        });
+        let tipoActual;
+        switch (parseInt(tipoPredi)) {
+            case 1: tipoActual = 'tipo_1';
+                break;
+            case 2: tipoActual = 'tipo_2';
+                break;
+            default: tipoActual = 'tipo_3';
+                break;
+        }
+
+        prediccion[tipoActual].forEach(p => {
+            totalMonedas = totalMonedas + p.cantidad;
+        })
+
+        const otrosTipos = ['tipo_1', 'tipo_2', 'tipo_3']
+            .filter(tipo => tipo !== tipoActual)
+            .every(tipo => prediccion[tipo].length === 0);
+
+        //Si los otros tipos de predicción están vacíos, borro el documento entero
+        if (otrosTipos) {
+            await PrediccionModel.findByIdAndDelete(prediccion._id);
+        }
+        //Si no, borro el campo tipo correspondiente
+        else {
+            prediccion[tipoActual] = [];
+            await prediccion.save();
+        }
 
         usuario.moneda = usuario.moneda + totalMonedas;
         await usuario.save();
-        res.status(200).json({message: 'La predicción se ha borrado correctamente'})
+        res.status(200).json({ message: `La predicción de tipo ${tipoPredi} se ha borrado correctamente` });
 
 
     } catch (error) {
@@ -128,80 +182,95 @@ export const deletePrediccionByJornada = async (req, res) => {
 export const actualizarPrediccionByJornada = async (req, res) => {
     try {
         console.log("Estoy en actualizarPrediccion");
-        const { numJornada } = req.params;
+        const { numJornada, tipoPredi } = req.params;
         const predicciones = req.body;
         const usuario = await UserModel.findById(req.usuario.id);
         //console.log("Numero jornada para prediccion: ", numJornada);
         console.log("Datos de actualizar predicción: ", predicciones);
         //console.log("Usuario logueado: ", usuario);
 
-        let campoPrediNoSeleccionado = true;
-        let campoCantidadVacio = false;
-        let campoInvalido;
 
         let totalMonedas = 0;
         let prediccionesHechas = {
-            //idUsuario: usuario._id,
-            //numeroJornada: numJornada,
-            //monedaInicial: usuario.moneda,
-            //ganado: false,
-            tipo_1: []
+            tipo_1: [],
+            tipo_2: [],
+            tipo_3: [],
         }
 
-        for (let i = 0; i < predicciones.length; i++) {
-            const p = predicciones[i];
-            totalMonedas += p.cantidad;
-            if (p.cantidad !== 0 && p.prediccion === '') {
-                campoPrediNoSeleccionado = false;
-                campoInvalido = p.indicePartido;
-                break; // Termino el bucle si se encuentra un campo inválido
-            }
-            if ((p.cantidad === 0 || p.cantidad === null) && p.prediccion !== '') {
-                campoCantidadVacio = true;
-                campoInvalido = p.indicePartido;
+        switch (parseInt(tipoPredi)) {
+            case 1:
+                let campoPrediNoSeleccionado = true;
+                let campoCantidadVacio = false;
+                let campoInvalido;
+
+                for (let i = 0; i < predicciones.length; i++) {
+                    const p = predicciones[i];
+                    totalMonedas += p.cantidad;
+                    if (p.cantidad !== 0 && p.prediccion === '') {
+                        campoPrediNoSeleccionado = false;
+                        campoInvalido = p.indicePartido;
+                        break; // Termino el bucle si se encuentra un campo inválido
+                    }
+                    if ((p.cantidad === 0 || p.cantidad === null) && p.prediccion !== '') {
+                        campoCantidadVacio = true;
+                        campoInvalido = p.indicePartido;
+                        break;
+                    }
+                    //Aquí ha pasao todos los controles, y multi tiene datos, por lo que la prediccion es correcta
+                    if (p.multi) {
+                        prediccionesHechas.tipo_1.push({
+                            indicePartido: p.indicePartido,
+                            prediGanador: p.prediccion,
+                            multiPrediccion: parseFloat(p.multi),
+                            cantidad: p.cantidad
+                        });
+                    }
+                }
+
+                console.log("Total de monedas apostadas: ", totalMonedas);
+                console.log("Monedas del usuario: ", usuario.moneda);
+
+                if (usuario.moneda < totalMonedas) {
+                    return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
+                }
+                if (campoCantidadVacio) {
+                    return res.status(400).json({ message: `No has usado ninguna moneda en el partido de la fila ${campoInvalido} ` });
+                }
+                if (!campoPrediNoSeleccionado) {
+                    return res.status(400).json({ message: `En el partido de la fila ${campoInvalido} no has hecho ninguna predicción` });
+                }
+
                 break;
-            }
-            //Aquí ha pasao todos los controles, y multi tiene datos, por lo que la prediccion es correcta
-            if (p.multi) {
-                prediccionesHechas.tipo_1.push({
-                    indicePartido: p.indicePartido,
-                    prediGanador: p.prediccion,
-                    multiPrediccion: parseFloat(p.multi),
-                    cantidad: p.cantidad
-                });
-            }
+
+            case 2:
+
+                break;
+
+            default:
+
+                break;
+
         }
 
-        console.log("Total de monedas apostadas: ", totalMonedas);
-        console.log("Monedas del usuario: ", usuario.moneda);
-
-        if (usuario.moneda < totalMonedas) {
-            return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
-        }
-        if (campoCantidadVacio) {
-            return res.status(400).json({ message: `No has usado ninguna moneda en el partido de la fila ${campoInvalido} ` });
-        }
-        if (!campoPrediNoSeleccionado) {
-            return res.status(400).json({ message: `En el partido de la fila ${campoInvalido} no has hecho ninguna predicción` });
-        }
-
-
+        //Actualizo el campo de tipo segun la prediccion mandada: 1,2,3
+        const actualizarCampo = {};
+        actualizarCampo[`tipo_${tipoPredi}`] = prediccionesHechas[`tipo_${tipoPredi}`]
 
         const prediccionExistente = await PrediccionModel.findOneAndUpdate({
             idUsuario: req.usuario.id,
             numeroJornada: numJornada,
         },
-        {
-            $set: { tipo_1: prediccionesHechas.tipo_1 }
-        },
-        {
-            new: true
-        });
+            {
+                $set: actualizarCampo
+            },
+            {
+                new: true
+            });
 
-        usuario.moneda = prediccionExistente.monedaInicial - totalMonedas; 
+        usuario.moneda = prediccionExistente.monedaInicial - totalMonedas;
         await usuario.save();
 
-        res.status(200).json({ message: 'Predicción actualizada correctamente', prediccionExistente})
+        res.status(200).json({ message: `Predicción ${tipoPredi} actualizada correctamente`, prediccionExistente })
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
@@ -211,10 +280,10 @@ export const createPrediTipo2 = async (req, res) => {
         const { numJornada } = req.params;
         const predicciones = req.body;
         const usuario = await UserModel.findById(req.usuario.id);
-        console.log("Predicciones tipo2: ",predicciones);
-        
-        
-        
+        console.log("Predicciones tipo2: ", predicciones);
+
+
+
         let totalMonedas = 0;
         let prediccionesHechas = {
             idUsuario: usuario._id,
@@ -235,8 +304,8 @@ export const createPrediTipo2 = async (req, res) => {
         if (usuario.moneda < totalMonedas) {
             return res.status(400).json({ message: `No tienes suficientes monedas ${usuario.datos.nombre}!` })
         }
-        console.log("Predicciones hechas: ",prediccionesHechas);
-        
+        console.log("Predicciones hechas: ", prediccionesHechas);
+
         //aqui sería ver como compaginar los 3 tipos de predicción
 
         res.status(201).json({ message: 'Predicción de goles guardada correctamente' })

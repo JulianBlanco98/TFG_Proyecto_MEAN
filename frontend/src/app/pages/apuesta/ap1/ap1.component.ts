@@ -177,7 +177,7 @@ export class Ap1Component implements OnInit {
       };
     });
 
-    this.crudPrediccionService.crearPredi(this.numJornada, data).subscribe({
+    this.crudPrediccionService.crearPredi(this.numJornada, 1, data).subscribe({
       next: (response) => {
         console.log('Predicciones guardadas:', response);
         this.eventService.notifyMonedasActualizadas();
@@ -215,7 +215,7 @@ export class Ap1Component implements OnInit {
       };
     });
   
-    this.crudPrediccionService.actualizarPredi(this.numJornada, data).subscribe({
+    this.crudPrediccionService.actualizarPredi(this.numJornada, 1, data).subscribe({
       next: (response) => {
         console.log('Predicciones actualizadas:', response);
         this.eventService.notifyMonedasActualizadas();
@@ -238,7 +238,7 @@ export class Ap1Component implements OnInit {
     console.log("Botoón de reset. Jornada: ",this.numJornada);
 
     //hacer llamada de delte prediccion
-    this.crudPrediccionService.deletePredi(this.numJornada).subscribe({
+    this.crudPrediccionService.deletePredi(this.numJornada, 1).subscribe({
       next: (response) => {
         
         this.alertifyService.success(response.message);

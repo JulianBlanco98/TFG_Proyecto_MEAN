@@ -108,8 +108,8 @@ export class Ap2Component implements OnInit{
         predicciones: predicciones
       };
   
-      this.crudPrediccionService.createPrediTipo2(this.numJornada ,dataToSend).subscribe({
-        next: (res) => {
+      this.crudPrediccionService.crearPredi(this.numJornada, 2, dataToSend).subscribe({
+        next: (response) => {
           this.alertifyService.success('Predicciones guardadas exitosamente');
         },
         error: (err) => {
