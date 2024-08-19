@@ -15,6 +15,10 @@ const prediccionSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Por favor, completa este campo"],
     },
+    jugado: {
+      type: Boolean,
+      default: false
+    },
     ganado: {
       type: Boolean,
       default: false,
@@ -38,6 +42,10 @@ const prediccionSchema = new mongoose.Schema(
             type: Number,
             required: [true, "Por favor, completa este campo"],
           },
+          isGanada: {
+            type: Boolean,
+            default: false,
+          }
         },
       ],
       default: undefined,
@@ -58,6 +66,10 @@ const prediccionSchema = new mongoose.Schema(
             type: Number,
             required: [true, "Por favor, completa este campo"],
           },
+          isGanada: {
+            type: Boolean,
+            default: false,
+          }
         },
       ],
       default: undefined,
@@ -78,6 +90,10 @@ const prediccionSchema = new mongoose.Schema(
             type: Number,
             required: [true, "Por favor, completa este campo"],
           },
+          isGanada: {
+            type: Boolean,
+            default: false,
+          }
         },
       ],
       default: undefined,

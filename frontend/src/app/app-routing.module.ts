@@ -17,6 +17,7 @@ import { TabClasificacionComponent } from './components/tabs/clasificacion/tab-c
 import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-novedades.component';
 import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
 import { Ap2Component } from './pages/apuesta/ap2/ap2/ap2.component';
+import { Ap3Component } from './pages/apuesta/ap3/ap3.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
     canActivate: [loginGuard, loginUsuario]
   },
   {
-    path:'ap_Asistencias', component: Ap1Component,
+    path:'ap_Asistencias', component: Ap3Component,
     canActivate: [loginGuard, loginUsuario]
   },
   {

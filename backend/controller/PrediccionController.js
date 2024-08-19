@@ -114,6 +114,24 @@ export const hacerPrediccionByJornada = async (req, res) => {
                 }
                 break;
             default:
+                console.log("Crear predi tipo3");
+                
+                predicciones.predicciones.forEach((p) => {
+                    totalMonedas = totalMonedas + p.cantidad;
+                    console.log("Campo de equipo: ", p.equipo.nombreEquipo);
+                    prediccion.tipo_3.push({
+                        idEquipo: p.equipo._id,
+                        asistencias: p.asistencias,
+                        cantidad: p.cantidad,
+                    });
+                });
+                if (usuario.moneda < totalMonedas) {
+                    return res
+                        .status(400)
+                        .json({
+                            message: `No tienes suficientes monedas ${usuario.datos.nombre}!`,
+                        });
+                }
                 break;
         }
 
@@ -306,6 +324,23 @@ export const actualizarPrediccionByJornada = async (req, res) => {
                 break;
 
             default:
+                predicciones.predicciones.forEach(p => {
+                    totalMonedas = totalMonedas + p.cantidad;
+                    prediccionesHechas.tipo_3.push({
+                        idEquipo: p.equipo._id,
+                        goles: p.goles,
+                        cantidad: p.cantidad,
+                    });
+                });
+                
+
+                if (usuario.moneda < totalMonedas) {
+                    return res
+                        .status(400)
+                        .json({
+                            message: `No tienes suficientes monedas ${usuario.datos.nombre}!`,
+                        });
+                }
                 break;
         }
 

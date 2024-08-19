@@ -21,7 +21,7 @@ export class Ap1Component implements OnInit {
   multis: [{ equipo: string; multi: string }];
   prediccionesForm: FormGroup;
   selectedButton: { [key: number]: string } = {};
-  editarBoton: boolean = true;
+  editarBoton: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -98,10 +98,10 @@ export class Ap1Component implements OnInit {
   getPrediccionActual() {
     this.crudPrediccionService.getPrediByJornada(this.numJornada).subscribe({
       next: (data:any) => {
-        console.log("predi1 actual: ",data); 
         
         //Si tiene contenido, es decir, ya hay una predi del usuario en ensta jornada
-        if(data && data.tipo_1) {
+        if(data && data.tipo_1.length > 0) {
+          console.log("predi1 actual: ",data); 
 
           this.editarBoton= true;
           data.tipo_1.forEach((predi: any) => {

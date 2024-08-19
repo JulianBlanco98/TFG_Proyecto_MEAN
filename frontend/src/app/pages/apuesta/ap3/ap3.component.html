@@ -1,1 +1,94 @@
-<p>ap3 works!</p>
+<div class="container">
+    <h1 class="text-center mt-4">Predicciones de Asistencias (jornada {{numJornada}})</h1>
+
+    <form [formGroup]="asistenciasPrediForm">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="col-6">Equipo</th>
+                        <th class="col-2">Predicción Asistencias</th>
+                        <th class="col-2">Cantidad (monedas)</th>
+                        <th class="col-2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="predicciones">
+                    <tr *ngFor="let prediccion of predicciones.controls; let i = index" [formGroupName]="i">
+                        <td>
+                            <ng-template #rt let-equipo="result">
+                                <div class="d-flex align-items-center">
+                                    <img [src]="equipo.escudoEquipo" alt="Escudo" class="mx-3 my-1" width="30" />
+                                    <span>{{ equipo.nombreEquipo }}</span>
+                                </div>
+                            </ng-template>
+                            <div class="form-group row">
+                                <label for="typeahead-equipo" class="col-12 col-sm-2 col-form-label">Equipo:</label>
+                                <div class="col-12 col-sm-10">
+                                    <input type="text" class="form-control" id="typeahead-equipo"
+                                        [ngbTypeahead]="search" placeholder="Escoger equipo..."
+                                        [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
+                                        [resultTemplate]="rt" (selectItem)="onSelectEquipo($event, i)"
+                                        formControlName="equipo">
+                                    <div *ngIf="prediccion.get('equipo').touched">
+                                        <div *ngIf="prediccion.get('equipo').hasError('equipoDuplicado')" class="text-danger">
+                                            Este equipo ya ha sido seleccionado en otra predicción.
+                                        </div>
+                                        <div *ngIf="prediccion.get('equipo').hasError('required') && !prediccion.get('equipo').hasError('equipoDuplicado')" class="text-danger">
+                                            Selecciona un equipo.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control" formControlName="asistencias"
+                                    name="asistencias" aria-label="" />
+                                <span class="input-group-text"><fa-icon [icon]="faAsistencias"></fa-icon></span>
+                            </div>
+                            <div *ngIf="prediccion.get('asistencias').invalid && prediccion.get('asistencias').touched" class="text-danger">
+                                <div *ngIf="prediccion.get('asistencias').errors?.['required']">
+                                    Las asistencias son obligatorios.
+                                </div>
+                                <div
+                                    *ngIf="prediccion.get('asistencias').errors?.['min'] || prediccion.get('asistencias').errors?.['max']">
+                                    Deben ser entre 1 y 6.
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control" formControlName="cantidad" name="cantidad"
+                                    aria-label="" />
+                                <span class="input-group-text"><fa-icon [icon]="faMoneda"></fa-icon></span>
+                            </div>
+                            <div *ngIf="prediccion.get('cantidad').invalid && prediccion.get('cantidad').touched" class="text-danger">
+                                <div *ngIf="prediccion.get('cantidad').errors?.['required']">
+                                    La cantidad es obligatoria.
+                                </div>
+                                <div *ngIf="prediccion.get('cantidad').errors?.['min']">
+                                    Debe ser un número positivo.
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="removeFilas(i)">
+                                <fa-icon [icon]="faBorrar" style="margin-right: 10px"></fa-icon>Eliminar predicción
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-primary d-flex mx-auto" (click)="addFilas()">
+            <fa-icon [icon]="faNuevo" style="margin-right: 10px"></fa-icon> Nueva predicción
+        </button>
+        <hr>
+        <div class="abajo" *ngIf="predicciones.length > 0">
+            <button class="btn btn-success" (click)="editarBoton ? onUpdate() : onSubmit()" [disabled]="asistenciasPrediForm.invalid">
+                {{ editarBoton ? 'Editar predicciones' : 'Guardar predicciones' }}
+            </button>
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Resetear</button>
+        </div>
+    </form>
+</div>
