@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CrudService } from './services/crud.service';
+import { Component } from '@angular/core';
+import { AlertifyService } from './services/alertify.service';
 
 
 
@@ -8,19 +8,12 @@ import { CrudService } from './services/crud.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'frontend';
 
-  constructor(private crudService: CrudService){
-
-    
-  }
-
-  ngOnInit(): void {
-    this.crudService.getUsuarios().subscribe( (res) => {
-      //console.log(res);
-      
-    })
+  constructor(
+    public alertifyService: AlertifyService){
+   
   }
 
 }

@@ -7,6 +7,7 @@ declare let alertify: any
 })
 export class AlertifyService {
 
+  showedLoading: boolean = false;
   constructor() { }
 
 
@@ -33,6 +34,14 @@ export class AlertifyService {
         alertify.success('usuario borrado');
       }
     })
+  }
+
+  showLoading() {
+    this.showedLoading = true;
+  }
+
+  hideLoading() {
+    this.showedLoading = false;
   }
 
 }

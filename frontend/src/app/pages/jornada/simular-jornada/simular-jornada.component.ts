@@ -35,7 +35,13 @@ export class SimularJornadaComponent {
   }
 
   simular() {
-    this.crudJornadaService.simularJornadaAdmin().subscribe({
+    //poner aquí el abrirSpinner (showLoading)
+    this.alertifyService.showLoading();
+    setTimeout(() => {
+      this.alertifyService.hideLoading();
+    },
+    2000);
+    /*this.crudJornadaService.simularJornadaAdmin().subscribe({
       next: (response) => {
         console.log(response);
         this.getNumeroJornadaActual();
@@ -46,8 +52,11 @@ export class SimularJornadaComponent {
       error: (err) => {
         console.log(err);
         
+      },
+      complete: () => {
+        //poner aquí el cerrarSpinner (hideLoading)
       }
-    })
+    })*/
   }
 
   resetJornadas() {
