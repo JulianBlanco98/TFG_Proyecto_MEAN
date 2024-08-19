@@ -1,3 +1,4 @@
+import { error } from 'console';
 import pkg from 'nodemailer';
 const { createTransport } = pkg;
 import path from 'path';
@@ -52,6 +53,24 @@ export const premioCanjear = async (usuario, premio) => {
         }
         else{
             console.log("Correo enviado con exito");
+        }
+    })
+}
+export const historicoJornadaActual = async (usuario, prediccion) => {
+    let mail = {
+        from: "laligastats.tfg@gmail.com",
+        to: `${usuario.datos.correo}`,
+        subject: `Resumen de las predicciones de la jornada ${prediccion.numeroJornada}`,
+        html: `
+        `
+    };
+
+    trasporter.sendMail(mail, (error, info) => {
+        if(error) {
+            console.error("Error de envio: ", error)
+        }
+        else{
+            console.log("Correo histórico enviado con éxito");
         }
     })
 }

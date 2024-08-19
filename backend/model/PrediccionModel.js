@@ -15,6 +15,10 @@ const prediccionSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Por favor, completa este campo"],
     },
+    monedasGanadas: {
+      type: Number,
+      default: 0
+    },
     jugado: {
       type: Boolean,
       default: false
