@@ -29,15 +29,14 @@
                                         [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter"
                                         [resultTemplate]="rt" (selectItem)="onSelectEquipo($event, i)"
                                         formControlName="equipo">
-                                    <div *ngIf="prediccion.get('equipo').invalid && prediccion.get('equipo').touched"
-                                        class="text-danger">
-                                        Selecciona un equipo.
-                                    </div>
-                                    <div *ngFor="let control of predicciones.controls; let i = index">
-                                        <div *ngIf="control.hasError('equipoDuplicado')">
-                                          <p>El equipo seleccionado en la fila {{i + 1}} ya está seleccionado en otro lugar.</p>
+                                        <div *ngIf="prediccion.get('equipo').touched">
+                                            <div *ngIf="prediccion.get('equipo').hasError('equipoDuplicado')" class="text-danger">
+                                                Este equipo ya ha sido seleccionado en otra predicción.
+                                            </div>
+                                            <div *ngIf="prediccion.get('equipo').hasError('required') && !prediccion.get('equipo').hasError('equipoDuplicado')" class="text-danger">
+                                                Selecciona un equipo.
+                                            </div>
                                         </div>
-                                      </div>
                                 </div>
                             </div>
                         </td>

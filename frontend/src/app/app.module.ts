@@ -38,6 +38,7 @@ import { ShowNovedadesComponent } from './pages/novedad/show-novedades/show-nove
 import { SeccionesComponent } from './pages/inicio/secciones/secciones.component';
 import { ShowPremioComponent } from './pages/premio/canjear/show-premio/show-premio.component';
 import { Ap2Component } from './pages/apuesta/ap2/ap2/ap2.component';
+import { Ap3Component } from './pages/apuesta/ap3/ap3.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { Ap2Component } from './pages/apuesta/ap2/ap2/ap2.component';
     ShowNovedadesComponent,
     SeccionesComponent,
     ShowPremioComponent,
-    Ap2Component
+    Ap2Component,
+    Ap3Component
   ],
   imports: [
     BrowserModule,

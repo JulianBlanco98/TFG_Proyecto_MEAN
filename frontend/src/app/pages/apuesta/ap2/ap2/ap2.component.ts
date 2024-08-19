@@ -29,7 +29,7 @@ export class Ap2Component implements OnInit {
   faBorrar = faCircleMinus;
 
   golesPrediForm: FormGroup;
-  editarBoton: boolean = true;
+  editarBoton: boolean = false;
 
   constructor(
     private readonly eventService: EventService,
@@ -61,7 +61,7 @@ export class Ap2Component implements OnInit {
     this.filas.push({});
     
     this.golesPrediForm.setValidators(this.equipoUnicoValidator(this.predicciones));
-
+    this.golesPrediForm.updateValueAndValidity();
   }
   removeFilas(index: number) {
     this.filas.splice(index, 1);
@@ -96,7 +96,9 @@ export class Ap2Component implements OnInit {
     this.crudPrediccionService.getPrediByJornada(this.numJornada).subscribe({
       next: (data: any) => {
         //Si existe la predicción y existe una de tipo_2, cargar esa predi en el formulario
-        if (data && data.tipo_2) {
+        console.log("predi actual: ", data);
+        
+        if (data && data.tipo_2.length > 0) {
           this.editarBoton = true;
           this.cargarPredicciones(data.tipo_2);
         }
@@ -111,7 +113,7 @@ export class Ap2Component implements OnInit {
   }
 
   cargarPredicciones(predicciones: any[]) {
-    this.resetForm(); // Limpia el formulario antes de cargar nuevas predicciones
+    // this.resetForm(); // Limpia el formulario antes de cargar nuevas predicciones
     console.log(predicciones);
 
     predicciones.forEach((prediccion) => {
@@ -141,7 +143,7 @@ export class Ap2Component implements OnInit {
   onSelectEquipo(event: any, index: number) {
     const selectedEquipo = event.item;
     const formArray = this.golesPrediForm.get('predicciones') as FormArray;
-    formArray.at(index).get('equipo').setValue(selectedEquipo.nombreEquipo);
+    formArray.at(index).get('equipo').setValue(selectedEquipo);
   }
 
   onSubmit() {
@@ -156,6 +158,7 @@ export class Ap2Component implements OnInit {
           next: (response) => {
             this.eventService.notifyMonedasActualizadas();
             this.alertifyService.success(response.message);
+            this.editarBoton = true;
           },
           error: (err) => {
             if (err.status === 400) {
@@ -195,9 +198,19 @@ export class Ap2Component implements OnInit {
   }
 
   resetForm() {
-    this.golesPrediForm.reset();
-    this.predicciones.clear(); // Limpia todas las filas en caso de que existan
-    this.filas = [];
+    this.crudPrediccionService.deletePredi(this.numJornada, 2).subscribe({
+      next: (response) => {
+        this.alertifyService.success(response.message);
+        this.golesPrediForm.reset();
+        this.predicciones.clear(); // Limpia todas las filas en caso de que existan
+        this.filas = [];
+        this.editarBoton = false;
+        this.eventService.notifyMonedasActualizadas();
+      },
+      error: (err) => {
+        this.alertifyService.warning(err.error.message);
+      },
+    })
   }
 
   inputFormatter = (x: { nombreEquipo: string }) => x.nombreEquipo;
@@ -222,14 +235,33 @@ export class Ap2Component implements OnInit {
 
   equipoUnicoValidator(formArray: FormArray): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      const equipoSeleccionado = control.value;
-      const equiposSeleccionados = formArray.controls.map((c: FormGroup) => c.get('equipo').value);
+      const equiposSeleccionados = formArray.controls.map((c: FormGroup) => c.get('equipo').value?._id);
   
-      if (equiposSeleccionados.filter(equipo => equipo === equipoSeleccionado).length > 1) {
-        return { 'equipoDuplicado': true };
+      // Crear un objeto para contar las apariciones de cada ID
+      const contadorEquipos: { [key: string]: number } = {};
+  
+      for (let i = 0; i < equiposSeleccionados.length; i++) {
+        const id = equiposSeleccionados[i];
+        if (id) {
+          contadorEquipos[id] = (contadorEquipos[id] || 0) + 1;
+  
+          // Marcar el error en el control si es duplicado
+          const equipoControl = formArray.at(i).get('equipo');
+          if (contadorEquipos[id] > 1) {
+            equipoControl.setErrors({ equipoDuplicado: true });
+          } else {
+            if (equipoControl.hasError('equipoDuplicado')) {
+              equipoControl.setErrors(null);
+            }
+          }
+        }
       }
-      return null;
+  
+      return null; // Retorna null ya que los errores se manejan a nivel de control
     };
-}
+  }
+  
+  
+  
 
 } 
