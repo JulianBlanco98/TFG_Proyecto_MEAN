@@ -39,4 +39,8 @@ export class CrudPrediccionService {
     return this.httpClient.get(`${this.rest_API}/${numJornada}`, {headers: this.httpHeaders});
   }
 
+  getPrediccionesHechas(): Observable<any> {
+    return this.httpClient.get(`${this.rest_API}/historico`, {headers: this.httpHeaders});
+  }
+
 }

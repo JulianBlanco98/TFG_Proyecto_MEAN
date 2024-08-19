@@ -1,0 +1,17 @@
+<div class="containter">
+    <h1 class="text-center mt-4">Histórico de Predicciones</h1>
+
+    <ng-container *ngIf="!isPrediRealizada; else mostrarPredicciones">
+        <div class="card mx-auto mb-3">
+            <img src="../../../../assets/img/noPredis.png" class="card-img-top" alt="iconoNohayPredis">
+            <div class="card-body text-center">
+                <h5 class="card-title">Aviso</h5>
+                <p class="card-text">Todavía no has hecho ninguna predicción</p>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #mostrarPredicciones>
+        <!-- Hacer el ngbAcordeón con el resumen de las predicciones ya realizadas -->
+    </ng-template>
+
+</div>

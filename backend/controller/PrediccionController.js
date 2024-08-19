@@ -154,25 +154,6 @@ export const hacerPrediccionByJornada = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
-export const getPrediccionByJornada = async (req, res) => {
-    try {
-        const { numJornada } = req.params;
-        //const usuario = await UserModel.findById(req.usuario.id);
-        const prediccion = await PrediccionModel.findOne({
-            idUsuario: req.usuario.id,
-            numeroJornada: numJornada,
-        });
-        if (!prediccion) {
-            return res
-                .status(404)
-                .json({ message: "No se ha encontrado la prediccion" });
-        }
-
-        res.status(200).json(prediccion);
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-};
 export const deletePrediccionByJornada = async (req, res) => {
     try {
         const { numJornada, tipoPredi } = req.params;
@@ -373,45 +354,43 @@ export const actualizarPrediccionByJornada = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
-export const createPrediTipo2 = async (req, res) => {
+export const getPrediccionByJornada = async (req, res) => {
     try {
         const { numJornada } = req.params;
-        const predicciones = req.body;
-        const usuario = await UserModel.findById(req.usuario.id);
-        console.log("Predicciones tipo2: ", predicciones);
-
-        let totalMonedas = 0;
-        let prediccionesHechas = {
-            idUsuario: usuario._id,
+        //const usuario = await UserModel.findById(req.usuario.id);
+        const prediccion = await PrediccionModel.findOne({
+            idUsuario: req.usuario.id,
             numeroJornada: numJornada,
-            monedaInicial: usuario.moneda,
-            ganado: false,
-            tipo_2: [],
-        };
-        predicciones.predicciones.forEach((p) => {
-            totalMonedas = totalMonedas + p.cantidad;
-            console.log("Campo de equipo: ", p.equipo.nombreEquipo);
-            prediccionesHechas.tipo_2.push({
-                idEquipo: p.equipo._id,
-                goles: p.goles,
-                cantidad: p.cantidad,
-            });
         });
-        if (usuario.moneda < totalMonedas) {
+        if (!prediccion) {
             return res
-                .status(400)
-                .json({
-                    message: `No tienes suficientes monedas ${usuario.datos.nombre}!`,
-                });
+                .status(404)
+                .json({ message: "No se ha encontrado la prediccion" });
         }
-        console.log("Predicciones hechas: ", prediccionesHechas);
 
-        //aqui sería ver como compaginar los 3 tipos de predicción
-
-        res
-            .status(201)
-            .json({ message: "Predicción de goles guardada correctamente" });
+        res.status(200).json(prediccion);
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
 };
+export const getPrediccionesHechas = async (req, res) => {
+    try {
+        const prediccionesHechas = await PrediccionModel.find({
+            idUsuario: req.usuario.id,
+            jugado: true
+        })
+        .sort({
+            numeroJornada: -1
+        });
+        // console.log("Predicciones hechas: ",prediccionesHechas);
+        
+        if(prediccionesHechas.length === 0) {
+            return res.status(404).json({message: 'No hay predicciones hechas'});
+        }
+
+        res.status(200).json(prediccionesHechas);
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
