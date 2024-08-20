@@ -235,8 +235,10 @@ export const simularJornadaActual = async (req, res) => {
         console.log("Numero de jornada a simular: ", jornadaActual.numeroJornada);
         //Generar los goles de manera aleatoria
         const promesasGolesAsistencias = jornadaActual.partidos.map(async partido => {
-            partido.golesLocal = await randomNumber(0, 6);
-            partido.golesVisitante = await randomNumber(0, 6);
+            // partido.golesLocal = await randomNumber(0, 6);
+            // partido.golesVisitante = await randomNumber(0, 6);
+            partido.golesLocal = 4;
+            partido.golesVisitante = 4;
             partido.asistenciasLocal = partido.golesLocal > 0 ? await randomNumber(0, partido.golesLocal) : 0;
             partido.asistenciasVisitante = partido.golesVisitante > 0 ? await randomNumber(0, partido.golesVisitante) : 0;
         });

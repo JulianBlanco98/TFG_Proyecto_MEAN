@@ -1,4 +1,4 @@
-import { error } from 'console';
+import { error, log } from 'console';
 import pkg from 'nodemailer';
 const { createTransport } = pkg;
 import path from 'path';
@@ -58,20 +58,28 @@ export const premioCanjear = async (usuario, premio) => {
         }
     })
 }
-export const historicoJornadaActual = async (usuario, prediccion, totalMonedas) => {
+export const historicoJornadaActual = async (usuario, prediccion) => {
 
     try{
+        console.log("Prediccion actualizada: ",prediccion);
+        
         // Paso 1: Obtener todos los IDs de equipos mencionados en las predicciones
         const equipoIds = [];
     
-        // Recopilar ids de tipo_2
+        let totalMonedas = 0;
+        // Recopilar ids de tipo_2  
+        prediccion.tipo_1.forEach(tipo1 => {
+            totalMonedas += tipo1.cantidad;
+        });
         prediccion.tipo_2.forEach(tipo2 => {
             equipoIds.push(tipo2.idEquipo);
+            totalMonedas += tipo2.cantidad;
         });
     
         // Recopilar ids de tipo_3
         prediccion.tipo_3.forEach(tipo3 => {
-            equipoIds.push(tipo3.idEquipo);
+            equipoIds.push(tipo3.idEquipo);s
+            totalMonedas += tipo3.cantidad;
         });
 
         console.log("IDs de equipos a buscar:", equipoIds);
@@ -95,6 +103,8 @@ export const historicoJornadaActual = async (usuario, prediccion, totalMonedas) 
         let resumenTipo1 = '';
         let resumenTipo2 = '';
         let resumenTipo3 = '';
+
+        console.log("Predicción completa para el correo:", JSON.stringify(prediccion, null, 2));
     
         if(prediccion.tipo_1 && prediccion.tipo_1.length > 0){
             resumenTipo1 = `<h3 style="color: black;">Quiniela (Local, Empate, Visitante)</h3><ul>`;
@@ -127,7 +137,7 @@ export const historicoJornadaActual = async (usuario, prediccion, totalMonedas) 
             prediccion.tipo_3.forEach((tipo3) => {
                 const equipoNombre = equipoNombreMap[tipo3.idEquipo];
                 resumenTipo3 += `<li>
-                                    Equipo: ${equipoNombre},
+                                    Equipo: <strong>${equipoNombre}</strong>,
                                     Predicción Asistencias: ${tipo3.asistencias},
                                     Monedas apostadas: ${tipo3.cantidad},
                                     Resultado: ${tipo3.isGanada ? 'Ganaste' : 'Perdiste'} 
