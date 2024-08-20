@@ -109,12 +109,12 @@ export const historicoJornadaActual = async (usuario, prediccion) => {
         if(prediccion.tipo_1 && prediccion.tipo_1.length > 0){
             resumenTipo1 = `<h3 style="color: black;">Quiniela (Local, Empate, Visitante)</h3><ul>`;
             prediccion.tipo_1.forEach((tipo1) => {
-                resumenTipo1 += `<li>
-                                    Partido ${tipo1.indicePartido+1}: Predicción - ${tipo1.prediGanador},
+                resumenTipo1 += `<li><p>
+                                    <strong>Partido ${tipo1.indicePartido+1} </strong>: Predicción - ${tipo1.prediGanador},
                                     Multiplicador: ${tipo1.multiPrediccion},
                                     Monedas apostadas: ${tipo1.cantidad},
                                     Resultado: ${tipo1.isGanada ? 'Ganaste' : 'Perdiste'}
-                
+                                </p>
                                 </li>`;
             });
             resumenTipo1 += '</ul>'
@@ -161,7 +161,7 @@ export const historicoJornadaActual = async (usuario, prediccion) => {
                 <p style="color: black;">Monedas iniciales:        <strong>${prediccion.monedaInicial}</strong> monedas</p>
                 <p style="color: black;">Total de monedas jugadas: <strong>${totalMonedas}</strong> monedas</p>
                 <p style="color: black;">Total de monedas ganadas: <strong>${prediccion.monedasGanadas}</strong> monedas</p>
-                <p style="color: black;">Resultado final: ${prediccion.ganado ? 'Has salido ganador de esta jornada' : 'No has ganado esta jornada. Intentálo en la próxima'}
+                <h4 style="color: black;">Resultado final: ${prediccion.ganado ? 'Has salido ganador de esta jornada' : 'No has ganado esta jornada. Intentálo en la próxima'}</h4>
             `
         };
     
