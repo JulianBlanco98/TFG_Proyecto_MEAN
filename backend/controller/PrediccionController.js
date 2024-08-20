@@ -407,22 +407,22 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
         const usuariosMap = new Map();
         const prediccionesActualizadasMap = new Map();
 
-        // 2 --> Recorro los partidos para guardar los resultados en una variable
-        for (const partido of jornadaActual.partidos) {
-            const resultadoReal = {
-                ganador: partido.golesLocal > partido.golesVisitante ? 'local' : partido.golesLocal < partido.golesVisitante ? 'visitante' : 'empate',
-                golesLocal: partido.golesLocal,
-                golesVisitante: partido.golesVisitante,
-                asistenciasLocal: partido.asistenciasLocal,
-                asistenciasVisitante: partido.asistenciasVisitante
-            };
+        // 2 --> Recorro las predicciones de los usuarios primero para inicializar las monedas ganadas
+        for (const prediccion of prediccionesActual) {
+            let monedasGanadas = 0;
+            let cantidadMonedasApostadas = 0;
 
-            console.log("Partido", jornadaActual.partidos.indexOf(partido), " de la jornada ", jornadaActual.numeroJornada, " : ", resultadoReal.golesLocal, " vs ", resultadoReal.golesVisitante, " | Asistencias: ", resultadoReal.asistenciasLocal, " vs ", resultadoReal.asistenciasVisitante);
+            // 3 --> Recorro los partidos para ir asignado las monedas dependiendo de la predicción
+            for (const partido of jornadaActual.partidos) {
+                const resultadoReal = {
+                    ganador: partido.golesLocal > partido.golesVisitante ? 'local' : partido.golesLocal < partido.golesVisitante ? 'visitante' : 'empate',
+                    golesLocal: partido.golesLocal,
+                    golesVisitante: partido.golesVisitante,
+                    asistenciasLocal: partido.asistenciasLocal,
+                    asistenciasVisitante: partido.asistenciasVisitante
+                };
 
-            // 3 --> Recorro las predicciones de los usuarios para ir asignado las monedas dependiendo de la predicción
-            for (const prediccion of prediccionesActual) {
-                let monedasGanadas = 0;
-                let cantidadMonedasApostadas = 0;
+                console.log("Partido", jornadaActual.partidos.indexOf(partido), " de la jornada ", jornadaActual.numeroJornada, " : ", resultadoReal.golesLocal, " vs ", resultadoReal.golesVisitante, " | Asistencias: ", resultadoReal.asistenciasLocal, " vs ", resultadoReal.asistenciasVisitante);
 
                 // 3.1 --> Tipo1: Quiniela (Local, Empate, Visitante)
                 if (prediccion.tipo_1.length > 0) {
@@ -448,8 +448,8 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
                         if ((tipo2.idEquipo.toString() === partido.equipoLocal._id.toString() && tipo2.goles === resultadoReal.golesLocal) || (tipo2.idEquipo.toString() === partido.equipoVisitante._id.toString() && tipo2.goles === resultadoReal.golesVisitante)) {
                             monedasGanadas += tipo2.cantidad * 2;
                             tipo2.isGanada = true;
-                            console.log('Coincidencia encontrada y marcado como ganado');
-                            console.log("Monedas ganadas: ", monedasGanadas);
+                            console.log("Monedas acumuladas: ",monedasGanadas);
+                            
                         }
                     }
                 }
@@ -464,41 +464,44 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
                         }
                     }
                 }
-
-                // 4 --> Actualizar en memoria el usuario
-                let usuario = usuariosMap.get(prediccion.idUsuario);
-                if (!usuario) {
-                    usuario = await UserModel.findById(prediccion.idUsuario);
-                    usuariosMap.set(prediccion.idUsuario, usuario);
-                }
-
-                // 5 --> Si ha ganado monedas, actualizar el saldo al jugador
-                if (monedasGanadas > 0 && usuario) {
-                    prediccion.monedasGanadas = monedasGanadas;
-                    usuario.moneda += monedasGanadas;
-                }
-
-                // 6 --> Marcar la predicción como jugada y ganado si corresponde
-                prediccion.jugado = true;
-                if (usuario && usuario.moneda > prediccion.monedaInicial) {
-                    prediccion.ganado = true;
-                }
-                console.log("Monedas ganadas: ", monedasGanadas);
-                
-                prediccionesActualizadasMap.set(prediccion._id.toString(), prediccion);
             }
+
+            console.log("Total de monedas ganadas para esta predicción: ", monedasGanadas);
+
+            // 4 --> Actualizar en memoria el usuario
+            let usuario = usuariosMap.get(prediccion.idUsuario);
+            if (!usuario) {
+                usuario = await UserModel.findById(prediccion.idUsuario);
+                usuariosMap.set(prediccion.idUsuario, usuario);
+            }
+
+            // 5 --> Si ha ganado monedas, actualizar el saldo al jugador
+            if (monedasGanadas > 0 && usuario) {
+                prediccion.monedasGanadas = monedasGanadas;
+                usuario.moneda += monedasGanadas;
+            }
+
+            // 6 --> Marcar la predicción como jugada y ganado si corresponde
+            prediccion.jugado = true;
+            if (usuario && usuario.moneda > prediccion.monedaInicial) {
+                prediccion.ganado = true;
+            }
+            // Añadir la predicción hecha al usuario en su campo predicciones
+            if(usuario) {
+                usuario.predicciones.push(prediccion._id);
+            }
+            
+            prediccionesActualizadasMap.set(prediccion._id.toString(), prediccion);
         }
 
         // 7 --> Guardar todas las predicciones actualizadas en la base de datos
         await Promise.all(Array.from(prediccionesActualizadasMap.values()).map(prediccion => prediccion.save()));
         console.log(prediccionesActualizadasMap);
-        
 
         // 8 --> Guardar todos los usuarios actualizados en la base de datos
         await Promise.all(Array.from(usuariosMap.values()).map(usuario => usuario.save()));
 
         console.log("Aquí ya se han actualizado las predicciones y los usuarios. Ahora, se llamará a la función del correo");
-        
 
         // 9 --> Enviar correos electrónicos a los usuarios
         for (const usuario of usuariosMap.values()) {
@@ -509,11 +512,9 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
             await historicoJornadaActual(usuario, prediccionesActualizadas);
         }
 
-        // res.status(200).json({ message: 'Predicciones actualizadas correctamente' });
-
     } catch (error) {
         console.log(error);
-        // return res.status(500).json({ message: error.message });
     }
 };
+
 
