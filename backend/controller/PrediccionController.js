@@ -397,18 +397,17 @@ export const getPrediccionesHechas = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
-export const actualizarMonedasPredicion = async (req,res) => {
+export const actualizarMonedasPrediccion = async (jornadaActual) => {
     try {
-        //1 --> Recuperar todas las predicciones de la última jornada. Primero recupero el número de la jornada
-        const jornadaActual = await JornadaModel.findOne({jugado: true}).sort({numeroJornada: -1});
-
-        //2 --> Recupero todas las predicciones de los usuarios para esta jornada
+        // 1 --> Recupero todas las predicciones de los usuarios para esta jornada
         const prediccionesActual = await PrediccionModel.find({
             numeroJornada: jornadaActual.numeroJornada
         });
 
-        //3 --> Recorro los partidos para guardar los resultados en una variable
-        jornadaActual.partidos.forEach((partido, indice) => {
+        const usuariosNotificados = new Set();
+
+        // 2 --> Recorro los partidos para guardar los resultados en una variable
+        for (const partido of jornadaActual.partidos) {
             const resultadoReal = {
                 ganador: partido.golesLocal > partido.golesVisitante ? 'local' : partido.golesLocal < partido.golesVisitante ? 'visitante' : 'empate',
                 golesLocal: partido.golesLocal,
@@ -417,90 +416,94 @@ export const actualizarMonedasPredicion = async (req,res) => {
                 asistenciasVisitante: partido.asistenciasVisitante
             };
 
-            //4 --> Recorro las predicciones de los usuarios para ir asignado las monedas dependiendo de la predicción
-            prediccionesActual.forEach(async (prediccion) => {
+            // 3 --> Recorro las predicciones de los usuarios para ir asignado las monedas dependiendo de la predicción
+            for (const prediccion of prediccionesActual) {
                 let monedasGanadas = 0;
                 let cantidadMonedasApostadas = 0;
 
-                //4.1 --> Tipo1: Quiniela (Local, Empate, Visitante)
-                if(prediccion.tipo_1.length > 0) {
-                    prediccion.tipo_1.forEach((tipo1) => {
-                        cantidadMonedasApostadas = cantidadMonedasApostadas + tipo1.cantidad;
-                        //Si coincide el campo de indicePartido con el índice actual de partido
-                        if(tipo1.indicePartido === indice) {
+                // 3.1 --> Tipo1: Quiniela (Local, Empate, Visitante)
+                if (prediccion.tipo_1.length > 0) {
+                    for (const tipo1 of prediccion.tipo_1) {
+                        cantidadMonedasApostadas += tipo1.cantidad;
+                        if (tipo1.indicePartido === jornadaActual.partidos.indexOf(partido)) {
                             const prediccionResultado = tipo1.prediGanador;
                             const resultadoPartido = resultadoReal.ganador;
 
-                            //Si coinciden estos 2 valores, significa que el usuario ha acertado este partido en la quiniela
-                            if(prediccionResultado === resultadoPartido) {
-                                monedasGanadas = monedasGanadas + tipo1.cantidad * tipo1.multiPrediccion;
+                            // Si coinciden estos 2 valores, significa que el usuario ha acertado este partido en la quiniela
+                            if (prediccionResultado === resultadoPartido) {
+                                monedasGanadas += tipo1.cantidad * tipo1.multiPrediccion;
                                 tipo1.isGanada = true;
                             }
                         }
-                    });
+                    }
                 }
 
-                //4.2 --> Tipo2: Predicción de Goles
-                if(prediccion.tipo_2.length > 0){
-                    prediccion.tipo_2.forEach((tipo2) => {
-                        cantidadMonedasApostadas = cantidadMonedasApostadas + tipo1.cantidad;
-                        //Si el id coincide con el del local
-                        if(tipo2.idEquipo.equals(partido.equipoLocal) && tipo2.goles === partido.golesLocal) {
-                            monedasGanadas = monedasGanadas + tipo2.cantidad * 2;
+                // 3.2 --> Tipo2: Predicción de Goles
+                if (prediccion.tipo_2.length > 0) {
+                    for (const tipo2 of prediccion.tipo_2) {
+                        cantidadMonedasApostadas += tipo2.cantidad;
+                        
+                        console.log(`Tipo2: ${JSON.stringify(tipo2)}`);
+                        console.log(`tipo2.goles: ${tipo2.goles}, tipo2.goles (type): ${typeof tipo2.goles}`);
+                        console.log(`partido.golesLocal: ${partido.golesLocal}, partido.golesLocal (type): ${typeof partido.golesLocal}`);
+
+                        if ((tipo2.idEquipo === partido.equipoLocal) && (tipo2.goles === partido.golesLocal)) {
+                            monedasGanadas += tipo2.cantidad * 2;
+                            tipo2.isGanada = true;
+                        } else if ((tipo2.idEquipo === partido.equipoVisitante) && (tipo2.goles === partido.golesVisitante)) {
+                            monedasGanadas += tipo2.cantidad * 2;
                             tipo2.isGanada = true;
                         }
-                        else if(tipo2.idEquipo.equals(partido.equipoVisitante) && tipo2.goles === partido.golesVisitante) {
-                            monedasGanadas = monedasGanadas + tipo2.cantidad * 2;
-                            tipo2.isGanada = true;
-                        }
-                    });
-                }
-                
-                //4.3 --> Tipo3: Predicción de asistencias
-                if(prediccion.tipo_3.length > 0){
-                    prediccion.tipo_3.forEach((tipo3) => {
-                        cantidadMonedasApostadas = cantidadMonedasApostadas + tipo1.cantidad;
-                        //Si el id coincide con el del local
-                        if(tipo3.idEquipo.equals(partido.equipoLocal) && tipo3.asistencias === partido.asistenciasLocal) {
-                            monedasGanadas = monedasGanadas + tipo3.cantidad * 2;
-                            tipo3.isGanada = true;
-                        }
-                        else if(tipo3.idEquipo.equals(partido.equipoVisitante) && tipo3.asistencias === partido.asistenciasVisitante) {
-                            monedasGanadas = monedasGanadas + tipo3.cantidad * 2;
-                            tipo3.isGanada = true;
-                        }
-                    });
+                    }
                 }
 
-                //5 --> Recuperar el usuario
+                // 3.3 --> Tipo3: Predicción de asistencias
+                if (prediccion.tipo_3.length > 0) {
+                    for (const tipo3 of prediccion.tipo_3) {
+                        console.log(`Tipo3: ${JSON.stringify(tipo3)}`)
+                        console.log(`tipo3.asistencias: ${tipo3.asistencias}, tipo3.asistencias (type): ${typeof tipo3.asistencias}`);
+                        console.log(`partido.asistenciasLocal: ${partido.asistenciasLocal}, partido.asistenciasLocal (type): ${typeof partido.asistenciasLocal}`);
+
+                        cantidadMonedasApostadas += tipo3.cantidad;
+                        if ((tipo3.idEquipo === partido.equipoLocal) && (tipo3.asistencias === partido.asistenciasLocal)) {
+                            monedasGanadas += tipo3.cantidad * 2;
+                            tipo3.isGanada = true;
+                        } else if ((tipo3.idEquipo === partido.equipoVisitante) && (tipo3.asistencias === partido.asistenciasVisitante)) {
+                            monedasGanadas += tipo3.cantidad * 2;
+                            tipo3.isGanada = true;
+                        }
+                    }
+                }
+
+                // 4 --> Recuperar el usuario
                 const usuario = await UserModel.findById(prediccion.idUsuario);
 
-                //6 --> Si ha ganado monedas, le actualizo el saldo al juagdor
-                if(monedasGanadas > 0 && usuario) {
+                // 5 --> Si ha ganado monedas, le actualizo el saldo al jugador
+                if (monedasGanadas > 0 && usuario) {
                     prediccion.monedasGanadas = monedasGanadas;
-                    usuario.moneda = usuario.moneda + monedasGanadas;
+                    usuario.moneda += monedasGanadas;
                     await usuario.save();
                 }
 
-
-                //7 --> Guardar la prediccion actualizada
+                // 6 --> Guardar la prediccion actualizada
                 prediccion.jugado = true;
-                //Si la cantidad de monedas apostadas más las monedasGanadas es mayor que las monedas iniciales, has ganado
-                if((cantidadMonedasApostadas + monedasGanadas) > prediccion.monedaInicial) {
+                if ((cantidadMonedasApostadas + monedasGanadas) > prediccion.monedaInicial) {
                     prediccion.ganado = true;
                 }
                 await prediccion.save();
 
-                //8 --> Enviar un correo a cada usuario con el resumen de la predicción
-                await historicoJornadaActual(usuario, prediccion);
-            });
+                // 7 --> Enviar un correo a cada usuario con el resumen de la predicción
+                if (!usuariosNotificados.has(usuario._id.toString())) {
+                    await historicoJornadaActual(usuario, prediccion, cantidadMonedasApostadas);
+                    usuariosNotificados.add(usuario._id.toString());
+                }
+            }
+        }
 
-        });
-
-        res.status(200).json({message: 'Predicciones actualizadas correctamente'})
+        // res.status(200).json({message: 'Predicciones actualizadas correctamente'});
 
     } catch (error) {
-        console.log(error);       
-        return res.status(500).json({ message: error.message });
+        console.log(error);
+        // return res.status(500).json({ message: error.message });
     }
 }

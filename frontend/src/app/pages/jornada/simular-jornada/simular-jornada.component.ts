@@ -37,17 +37,12 @@ export class SimularJornadaComponent {
   simular() {
     //poner aquí el abrirSpinner (showLoading)
     this.alertifyService.showLoading();
-    setTimeout(() => {
-      this.alertifyService.hideLoading();
-    },
-    2000);
-    /*this.crudJornadaService.simularJornadaAdmin().subscribe({
+    this.crudJornadaService.simularJornadaAdmin().subscribe({
       next: (response) => {
         console.log(response);
         this.getNumeroJornadaActual();
         this.eventService.notifyJornadasActualizadas();
         this.alertifyService.success(response.message)
-        //hacer aquí la llamada
       },
       error: (err) => {
         console.log(err);
@@ -55,8 +50,9 @@ export class SimularJornadaComponent {
       },
       complete: () => {
         //poner aquí el cerrarSpinner (hideLoading)
+        this.alertifyService.hideLoading();
       }
-    })*/
+    })
   }
 
   resetJornadas() {

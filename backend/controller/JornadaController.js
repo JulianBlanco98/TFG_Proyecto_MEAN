@@ -3,6 +3,7 @@ import { EquiposModel } from "../model/EquiposModel.js";
 import randomNumber from 'random-number-csprng'
 import { ClasificacionModel } from "../model/SimularLiga/ClasificacionModel.js";
 import { JugadorModel } from "../model/JugadorModel.js";
+import { actualizarMonedasPrediccion } from "../controller/PrediccionController.js";
 
 
 export const getJornadaByNumero = async (req, res) => {
@@ -334,7 +335,9 @@ export const simularJornadaActual = async (req, res) => {
         await jornadaActual.save();
         await ClasificacionModel.create(nuevaClasificacion);
 
-        res.status(200).json({ message: 'Jornada simulada con éxito', jornada: jornadaActual })
+        await actualizarMonedasPrediccion(jornadaActual);
+
+        res.status(200).json({ message: 'Jornada simulada con éxito y hechos los resumenes de las predicciones de cada usuario', jornada: jornadaActual })
 
     } catch (error) {
         console.error('Error al simular la jornada:', error);
