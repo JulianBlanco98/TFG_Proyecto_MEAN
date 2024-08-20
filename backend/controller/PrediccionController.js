@@ -449,6 +449,7 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
                             monedasGanadas += tipo2.cantidad * 2;
                             tipo2.isGanada = true;
                             console.log('Coincidencia encontrada y marcado como ganado');
+                            console.log("Monedas ganadas: ", monedasGanadas);
                         }
                     }
                 }
@@ -501,7 +502,10 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
 
         // 9 --> Enviar correos electrónicos a los usuarios
         for (const usuario of usuariosMap.values()) {
-            const prediccionesActualizadas = await PrediccionModel.find({ idUsuario: usuario._id });
+            const prediccionesActualizadas = await PrediccionModel.findOne({ 
+                idUsuario: usuario._id,
+                numeroJornada: jornadaActual.numeroJornada
+            });
             await historicoJornadaActual(usuario, prediccionesActualizadas);
         }
 
