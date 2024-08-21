@@ -54,7 +54,7 @@
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 mt-3 mx-1">
             <div class="col" *ngFor="let jugador of jugadoresFiltrados">
-                <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded">
+                <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
                     <img [src]="jugador?.datos?.imagenJugador" class="card-img-top"
                         alt="{{jugador?.datos?.nombreJugador}}">
                     <div class="card-body">
@@ -66,6 +66,9 @@
                             Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
                             País: {{jugador?.datos?.paisNacimiento}}
                         </span>
+                    </div>
+                    <div class="card-footer d-flex">
+                        <button class="btn btn-outline-secondary mx-auto"(click)="getEstadisticasByJugador(jugador)" >Ver estadísticas</button>
                     </div>
                 </div>
             </div>

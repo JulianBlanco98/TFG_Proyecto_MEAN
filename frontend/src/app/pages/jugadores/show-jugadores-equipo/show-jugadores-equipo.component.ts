@@ -55,6 +55,28 @@ export class ShowJugadoresEquipoComponent implements OnInit {
     });
   }
 
+
+  getEstadisticasByJugador(jugador: Jugador) {
+    this.crudJugadoresService.getEstadisticasByIdJugador(jugador._id).subscribe({
+      next: (data: any) => {
+          //console.log("estadisticas: ",data);
+          
+          jugador.estadisticas = data;
+          console.log("estadisiticas jugador: ",jugador.estadisticas);
+          
+      },
+      error:(err) => {
+        console.log("error: ", err);
+        
+      },
+    })
+  }
+
+  flipCard(jugador: any) {
+    jugador.flipped = !jugador.flipped;
+  }
+
+
   seleccionarPosicion(event: Event): void {
 
     this.posicionSeleccionada = (event.target as HTMLInputElement).value;

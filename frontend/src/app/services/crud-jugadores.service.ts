@@ -14,6 +14,7 @@ import { catchError, map } from 'rxjs';
 export class CrudJugadoresService {
 
   private rest_API: string = 'http://localhost:8000/apiTFG/jugadores';
+  private rest_API_2: string = 'http://localhost:8000/apiTFG/estadisticas';
   private httpHeaders = new HttpHeaders().set(
     'Content-type',
     'application/json'
@@ -36,6 +37,10 @@ export class CrudJugadoresService {
   }
   getMaximosAsistentes(): Observable<any> {
     return this.httpClient.get(`${this.rest_API}/asistentes`, {headers: this.httpHeaders})
+  }
+
+  getEstadisticasByIdJugador(idJugador: any): Observable<any> {
+    return this.httpClient.get(`${this.rest_API_2}/${idJugador}`, {headers: this.httpHeaders});
   }
 
   handleError(error: HttpErrorResponse) {

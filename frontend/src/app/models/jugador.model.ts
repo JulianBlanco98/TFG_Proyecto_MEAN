@@ -12,5 +12,9 @@ export interface Jugador {
     paisNacimiento: string,
     imagenJugador: string,
   };
-  estadisticas: string,
+  estadisticas: {
+    goles: number;
+    asistencias: number;
+    partidosJugados: number;
+  }
 }
