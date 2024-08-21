@@ -19,7 +19,7 @@ import { ShowJugadoresEquipoComponent } from './pages/jugadores/show-jugadores-e
 import { ShowJornadaComponent } from './pages/jornada/show-jornada/show-jornada.component';
 import { ShowTablaClasificacionComponent } from './pages/clasificacion/show-tabla-clasificacion/show-tabla-clasificacion.component';
 import { ModalUsuarioComponent } from './components/modal/modal-usuario/modal-usuario.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ap1Component } from './pages/apuesta/ap1/ap1.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -82,7 +82,8 @@ import { HistoricoComponent } from './pages/apuesta/historico/historico.componen
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    NgbAccordionModule
   ],
   // exports: [
   //   RolesDirective

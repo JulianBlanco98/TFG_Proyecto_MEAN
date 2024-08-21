@@ -383,7 +383,15 @@ export const getPrediccionesHechas = async (req, res) => {
             jugado: true
         })
         .sort({
-            numeroJornada: -1
+            numeroJornada: 1
+        })
+        .populate({
+            path: 'tipo_2.idEquipo',
+            select: 'nombreEquipo escudoEquipo'
+        })
+        .populate({
+            path: 'tipo_3.idEquipo',
+            select: 'nombreEquipo escudoEquipo'
         });
         // console.log("Predicciones hechas: ",prediccionesHechas);
         

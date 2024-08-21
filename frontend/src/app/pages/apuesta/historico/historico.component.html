@@ -1,5 +1,9 @@
-<div class="containter">
-    <h1 class="text-center mt-4">Histórico de Predicciones</h1>
+<div class="container">
+    <div class="cabecera">
+
+        <h1 class="mt-4">Histórico de Predicciones</h1>
+        <img src="../../../../assets/img/resumen.png" class="resumen">
+    </div>
 
     <ng-container *ngIf="!isPrediRealizada; else mostrarPredicciones">
         <div class="card mx-auto mb-3">
@@ -11,7 +15,84 @@
         </div>
     </ng-container>
     <ng-template #mostrarPredicciones>
-        <!-- Hacer el ngbAcordeón con el resumen de las predicciones ya realizadas -->
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.expandAll()">Abrir todos</button>
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.collapseAll()">Cerrar todos</button>
+        <hr>
+        <ngb-accordion #acc="ngbAccordion" class="accordion">
+            <ngb-panel *ngFor="let predi of predicciones; let i = index" id="toggle-{{i}}" title="Jornada {{predi?.numeroJornada}}">
+                <ng-template ngbPanelContent>
+                    <h3 class="accordion-header">Resumen de tus predicciones de la jornada {{predi?.numeroJornada}}</h3>
+                    <hr>
+                    <h4 class="my-4">Quiniela</h4>
+                    <ng-container *ngIf="predi?.tipo_1?.length > 0; else noJugada">
+                        <li *ngFor="let tipo1 of predi?.tipo_1" class="accordion-body">
+                            <p>Partido {{tipo1?.indicePartido}}: 
+                                Predicción - {{tipo1?.prediGanador}}, 
+                                Multi {{tipo1?.multiPrediccion}},
+                                Monedas jugadas - {{tipo1?.cantidad}},
+                                Resultado: 
+                                <span *ngIf="tipo1?.isGanada; else noGanada">¡Ganaste!</span>
+                                <ng-template #noGanada>Lo siento, perdiste.</ng-template>
+                            </p>
+                        </li>
+                    </ng-container>
+                    
+                    <ng-template #noJugada>
+                        <p class="accordion-body">Esta jornada no has usado monedas para la quiniela.</p>
+                    </ng-template> 
+                    <h4 class="my-4">Prediccion de Goles</h4>
+                    <ng-container *ngIf="predi?.tipo_2?.length > 0; else noGoles">
+                        <li *ngFor="let tipo2 of predi?.tipo_2" class="accordion-body">
+                            <div class="contenido">
+                                <img [src]="tipo2?.idEquipo?.escudoEquipo" [alt]="tipo2?.idEquipo?.nombreEquipo">
+                                <p>{{tipo2?.idEquipo.nombreEquipo}}</p>
+                                <p> Predicción Goles: <strong>{{tipo2?.goles}}</strong>, Monedas jugadas: <strong>{{tipo2?.cantidad}}</strong></p>
+                            </div>
+                            <div class="res">
+                                <p>Resultado:<span *ngIf="tipo2?.isGanada; else noGanada"><strong>¡Ganaste!</strong></span>
+                                <ng-template #noGanada><strong>Lo siento, perdiste.</strong> </ng-template></p>
+                                <fa-icon [icon]="tipo2?.isGanada ? faGanada : faPerdida" [ngStyle]="{'color': tipo2?.isGanada ? '#00d100' : 'red'}"></fa-icon>
+                            </div>
+                                
+                        </li>
+                    </ng-container>    
+                    <ng-template #noGoles>
+                        <p class="accordion-body">Esta jornada no has usado monedas para la predicción de goles.</p>
+                    </ng-template> 
+                    <h4 class="my-4">Prediccion de Asistencias</h4>
+                    <ng-container *ngIf="predi?.tipo_3?.length > 0; else noAsistencias">
+                        <li *ngFor="let tipo3 of predi?.tipo_3" class="accordion-body">
+                            <div class="contenido">
+                                <img [src]="tipo3?.idEquipo?.escudoEquipo" [alt]="tipo3?.idEquipo?.nombreEquipo">
+                                <p>{{tipo3?.idEquipo.nombreEquipo}}</p>
+                                <p> Predicción Goles: <strong>{{tipo3?.asistencias}}</strong>, Monedas jugadas: <strong>{{tipo3?.cantidad}}</strong></p>
+                            </div>
+                            <div class="res">
+                                <p>Resultado:<span *ngIf="tipo3?.isGanada; else noGanada"><strong>¡Ganaste!</strong></span>
+                                <ng-template #noGanada><strong>Lo siento, perdiste.</strong> </ng-template></p>
+                                <fa-icon [icon]="tipo3?.isGanada ? faGanada : faPerdida" [ngStyle]="{'color': tipo3?.isGanada ? '#00d100' : 'red'}"></fa-icon>
+                            </div>
+                        </li>
+                    </ng-container>    
+                    <ng-template #noAsistencias>
+                        <p class="accordion-body">Esta jornada no has usado monedas para la predicción de asistencias.</p>
+                    </ng-template>
+                    <hr>
+                    <h4 class="my-2">Resumen de las ganancias o pérdidas de monedas de esta jornada</h4>
+                    <p>Monedas iniciales: {{predi?.monedaInicial}}</p>
+                    <p>Total de monedas jugadas: {{predi?.totalMonedas}}</p>
+                    <p>Total de monedas ganadas/perdidas (+/-): {{predi?.monedasGanadas}}</p>
+                    <p>Resultado final: 
+                        <strong *ngIf="predi?.ganado; else noGanado">Has ganado esta jornada</strong>
+                        <ng-template #noGanado>Has perdido esta jornada</ng-template>
+                    </p> 
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+
+        <!-- <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.toggle('toggle-0')">Toggle first</button> -->
+        <!-- <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.expandAll()">Abrir todos</button>
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.collapseAll()">Cerrar todos</button> -->
     </ng-template>
 
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudPrediccionService } from 'src/app/services/crud-prediccion.service';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { Prediccion } from 'src/app/models/prediccion.model';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-historico',
@@ -11,6 +12,10 @@ export class HistoricoComponent implements OnInit{
 
 
   isPrediRealizada : boolean = false;
+  predicciones: Prediccion[];
+  totalMonedasJugadas: number;
+  faGanada = faCheckCircle;
+  faPerdida = faTimesCircle;
 
   constructor(
     private readonly crudPrediccionService: CrudPrediccionService
@@ -23,8 +28,10 @@ export class HistoricoComponent implements OnInit{
   getPrediccionesHechas() {
     this.crudPrediccionService.getPrediccionesHechas().subscribe({
       next: (data: any) => {
-        console.log(data);
-        this.isPrediRealizada = true;       
+        this.predicciones = data;
+        console.log("Predicciones: ",this.predicciones);
+        this.isPrediRealizada = true; 
+        this.calcularTotalMonedasPorPrediccion();      
       },
       error: (err) => {
         console.log(err.error.message);
@@ -32,6 +39,15 @@ export class HistoricoComponent implements OnInit{
         
       },
     })
+  }
+
+  calcularTotalMonedasPorPrediccion() {
+    this.predicciones.forEach(prediccion => {
+      const totalTipo1 = prediccion.tipo_1.reduce((sum, t1) => sum + t1.cantidad, 0);
+      const totalTipo2 = prediccion.tipo_2.reduce((sum, t2) => sum + t2.cantidad, 0);
+      const totalTipo3 = prediccion.tipo_3.reduce((sum, t3) => sum + t3.cantidad, 0);
+      prediccion['totalMonedas'] = totalTipo1 + totalTipo2 + totalTipo3;
+    });
   }
 
 }
