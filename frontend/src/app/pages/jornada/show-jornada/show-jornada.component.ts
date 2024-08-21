@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowPartidoComponent } from '../../partido/show-partido/show-partido.component';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 @Component({
   selector: 'app-show-jornada',
@@ -16,13 +17,15 @@ import { ShowPartidoComponent } from '../../partido/show-partido/show-partido.co
 export class ShowJornadaComponent implements OnChanges {
   @Input() numJornada: number;
   jornada: Jornada;
+  jornadaActual: number;
 
   faLeft = faLongArrowLeft;
   faRight = faLongArrowRight;
 
   constructor(
     private readonly crudJornadaService: CrudJornadaService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly alertifyService: AlertifyService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -36,7 +39,10 @@ export class ShowJornadaComponent implements OnChanges {
       this.crudJornadaService.getJornadaByNumero(this.numJornada).subscribe({
         next: (data) => {
           this.jornada = data;
+          this.jornadaActual = this.jornada.numeroJornada;
           console.log(this.jornada);
+          console.log("Jornada actual: ", this.jornadaActual);
+          
         },
         error: (err) => {
           console.log(err);
@@ -58,15 +64,22 @@ export class ShowJornadaComponent implements OnChanges {
   }
 
   openModal(nJornada: number, nPartido: number) {
+
+    if(nJornada < this.jornadaActual){
+
+      const modal = this.modalService.open(ShowPartidoComponent, {
+        centered: true,
+        backdrop: true,
+        size: 'xl'
+      }); 
+      
+      modal.componentInstance.nJornada = nJornada
+      modal.componentInstance.nPartido = nPartido
+    }
+    else{
+      this.alertifyService.warning('Esta jornada todavía no se ha jugado');
+    }
     //console.log("Pinchar para el modal: Jornada ", nJornada, " Partido: ",nPartido);
-    const modal = this.modalService.open(ShowPartidoComponent, {
-      centered: true,
-      backdrop: true,
-      size: 'lg'
-    }); 
-    
-    modal.componentInstance.nJornada = nJornada
-    modal.componentInstance.nPartido = nPartido
 
   }
 }

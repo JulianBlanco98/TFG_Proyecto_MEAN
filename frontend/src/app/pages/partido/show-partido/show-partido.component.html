@@ -1,9 +1,97 @@
 <div class="modal-header">
-    <h4 class="modal-title">Jornada: {{ nJornada }}, Partido: {{ nPartido }}</h4>
+    <div class="partido">
+        <div class="local">
+            <img [src]="partido?.resultado?.equipoLocal?.escudoEquipo" [alt]="partido?.resultado?.equipoLocal?.nombreEquipoCorto">
+            <h4>{{partido?.resultado?.equipoLocal?.nombreEquipoCorto}}</h4>
+        </div>
+        <h4 class="resultado">{{partido?.resultado?.golesLocal}} vs {{partido?.resultado?.golesVisitante}}</h4>
+        <div class="visitante">
+            <img [src]="partido?.resultado?.equipoVisitante?.escudoEquipo" [alt]="partido?.resultado?.equipoVisitante?.nombreEquipoCorto">
+            <h4>{{partido?.resultado?.equipoVisitante?.nombreEquipoCorto}}</h4>
+        </div>
+    </div>
     <button type="button" class="btn-close" (click)="modal.dismiss('cross click')"></button>
 </div>
 <div class="modal-body">
-    Alineacion
+    <div class="estadisticas-goles row">
+        <div class="est-local col-6">            
+            <h5>Goleadores Local</h5>
+            <div *ngFor="let goleador of goleadoresLocales" class="est">
+                <span>{{ goleador?.nombreJugador }}</span>                   
+                <fa-icon *ngFor="let i of [].constructor(goleador?.goles)" [icon]="faGoles" class="iconoGoles"></fa-icon>
+            </div>
+        </div>
+        <div class="est-visitante col-6">
+            <h5>Goleadores Visitante</h5>
+            <div *ngFor="let goleador of goleadoresVisitantes" class="est">
+                <span>{{ goleador?.nombreJugador }}</span>                   
+                <fa-icon *ngFor="let i of [].constructor(goleador?.goles)" [icon]="faGoles" class="iconoGoles"></fa-icon>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="estadisticas-asistencias row text-center">
+        <div class="est-local col-6">
+            <h5>Asistentes Local</h5>
+            <div *ngFor="let asistente of asistentesLocales" class="est">
+                <span>{{ asistente?.nombreJugador }}</span>                   
+                <fa-icon *ngFor="let i of [].constructor(asistente?.asistencias)" [icon]="faAsistencias" class="iconoAsistencias"></fa-icon>
+            </div>
+        </div>
+        <div class="est-visitante col-6">
+            <h5>Asistentes Visitante</h5>
+            <div *ngFor="let asistente of asistentesVisitantes" class="est">
+                <span>{{ asistente?.nombreJugador }}</span>                   
+                <fa-icon *ngFor="let i of [].constructor(asistente?.asistencias)" [icon]="faAsistencias" class="iconoAsistencias"></fa-icon>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container d-flex">
+        <div class="row">
+            <!-- Primera fila: Portero -->
+            <div class="col-12" *ngFor="let jugador of partido?.titularesLocal">
+                <div class="jugador" *ngIf="jugador.posicion === 'Goalkeeper'">
+                    <img [src]="jugador?.imagen" [alt]="jugador.jugador">
+                    <span>{{jugador?.jugador}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Segunda fila: Defensas -->
+            <div class="col-3" *ngFor="let jugador of partido?.titularesLocal">
+                <div class="jugador" *ngIf="jugador.posicion === 'Defence'">
+                    <img [src]="jugador?.imagen" [alt]="jugador.jugador">
+                    <span>{{jugador?.jugador}}</span>
+                </div>
+            </div>   
+        </div>
+        <div class="row">
+            <!-- Tercera fila: Medios -->
+            <div class="col-4">
+                <div class="jugador">Medio 1</div>
+            </div>
+            <div class="col-4">
+                <div class="jugador">Medio 2</div>
+            </div>
+            <div class="col-4">
+                <div class="jugador">Medio 3</div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Cuarta fila: Delanteros -->
+            <div class="col-4">
+                <div class="jugador">Delantero 1</div>
+            </div>
+            <div class="col-4">
+                <div class="jugador">Delantero 2</div>
+            </div>
+            <div class="col-4">
+                <div class="jugador">Delantero 3</div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 <div class="modal-footer">
     Abajo

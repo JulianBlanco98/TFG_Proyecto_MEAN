@@ -195,7 +195,16 @@ export const getAlineacionPartido = async (req,res) => {
     try {
         const {numJornada, numPartido} = req.params;
         console.log(`Numero jornada: ${numJornada} | NumeroPartido: ${numPartido}`);
-        const jornadaActual = await JornadaModel.findOne({numeroJornada: numJornada});
+        const jornadaActual = await JornadaModel.findOne({
+            numeroJornada: numJornada
+        }).populate({
+            path: `partidos.${numPartido}.titularesLocal.jugador partidos.${numPartido}.titularesVisitante.jugador`,
+            select: 'datos.nombreJugador datos.imagenJugador datos.posicion'
+        }).populate({
+            path: `partidos.${numPartido}.equipoLocal partidos.${numPartido}.equipoVisitante`,
+            select: 'nombreEquipoCorto escudoEquipo'
+        });
+
         if(!jornadaActual){
             return res.status(404).json({ message: "No se encontró la jornada actual" });
         }
@@ -204,18 +213,35 @@ export const getAlineacionPartido = async (req,res) => {
         const partido = jornadaActual.partidos[numPartido];
         //console.log("Partido: ",partido);
         
+        const titularesLocal = partido.titularesLocal.map(titular => ({
+            jugador: titular.jugador.datos.nombreJugador,
+            imagen: titular.jugador.datos.imagenJugador,
+            posicion: titular.jugador.datos.posicion,
+            goles: titular.goles,
+            asistencias: titular.asistencias,
+        }));
+
+        const titularesVisitante = partido.titularesVisitante.map(titular => ({
+            jugador: titular.jugador.datos.nombreJugador,
+            imagen: titular.jugador.datos.imagenJugador,
+            posicion: titular.jugador.datos.posicion,
+            goles: titular.goles,
+            asistencias: titular.asistencias,
+        }));
+
+        const resultado = {
+            equipoLocal: partido.equipoLocal,
+            equipoVisitante: partido.equipoVisitante,
+            golesLocal: partido.golesLocal,
+            golesVisitante: partido.golesVisitante
+        }
+
         const alineacion = {
-            titularesLocal: partido.titularesLocal.map(titular => ({
-                jugador: titular.jugador,
-                goles: titular.goles,
-                asistencias: titular.asistencias,
-            })),
-            titularesVisitante: partido.titularesVisitante.map(titular => ({
-                jugador: titular.jugador,
-                goles: titular.goles,
-                asistencias: titular.asistencias,
-            })),
+            resultado,
+            titularesLocal,
+            titularesVisitante
         };
+
 
         res.status(200).json(alineacion);
 
