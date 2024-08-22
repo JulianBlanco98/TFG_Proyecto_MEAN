@@ -1,4 +1,4 @@
-section {
+/* section {
     height: 100vh;
     scroll-snap-align: start;
 }
@@ -25,4 +25,27 @@ section {
 }
 .seis {
     background-color: salmon;
+} */
+.navbar {
+    position: absolute;
+    width: 100%;
+}
+
+section {
+    padding-top: 170px;
+    padding-bottom: 170px;
+}
+img {
+    width: 100%;
+}
+#inicio {
+    background: url('../../../../assets/img/fondos/fondo1.jpg');
+    min-height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+@media (max-width: 992px) {
+    .navbar {
+        background-color: red;
+    }
 }
