@@ -17,7 +17,7 @@ export class ShowPartidoComponent implements OnInit{
   faGoles = faFutbol;
   faAsistencias = faSocks;
 
-  partido: Partido
+  partido: Partido;
   goleadoresLocales: { nombreJugador: string, goles: number }[] = [];
   asistentesLocales: { nombreJugador: string, asistencias: number }[] = [];
   goleadoresVisitantes: { nombreJugador: string, goles: number }[] = [];
@@ -37,9 +37,14 @@ export class ShowPartidoComponent implements OnInit{
     
     this.crudJornadaService.getPartido(this.nJornada, this.nPartido).subscribe({
       next: (data) => {
-        this.partido = data;
+        // console.log(data);
+        this.partido = data.alineacion;
         console.log(this.partido);
-        this.getGoleadoresYAsistentes(this.partido);
+        this.goleadoresLocales = data.estadisticas.goleadoresLocales;
+        this.goleadoresVisitantes = data.estadisticas.goleadoresVisitantes;
+        this.asistentesLocales = data.estadisticas.asistentesLocales;
+        this.asistentesVisitantes = data.estadisticas.asistentesVisitantes;
+        // this.getGoleadoresYAsistentes(this.partido);
         // console.log("Goleadores: ",this.goleadoresLocales);
         // console.log("Asistentes: ",this.asistentesVisitantes);
         
@@ -51,36 +56,4 @@ export class ShowPartidoComponent implements OnInit{
       }
     })
   }
-
-  getGoleadoresYAsistentes(partido: Partido){
-    partido.titularesLocal.forEach(jugador => {
-      if(jugador.goles !== 0){
-        this.goleadoresLocales.push({
-          nombreJugador: jugador.jugador,
-          goles: jugador.goles
-        })
-      }
-      if(jugador.asistencias !== 0){
-        this.asistentesLocales.push({
-          nombreJugador: jugador.jugador,
-          asistencias: jugador.asistencias
-        })
-      }
-    });
-    partido.titularesVisitante.forEach(jugador => {
-      if(jugador.goles !== 0){
-        this.goleadoresVisitantes.push({
-          nombreJugador: jugador.jugador,
-          goles: jugador.goles
-        })
-      }
-      if(jugador.asistencias !== 0){
-        this.asistentesVisitantes.push({
-          nombreJugador: jugador.jugador,
-          asistencias: jugador.asistencias
-        })
-      }
-    });
-  }
-
 }

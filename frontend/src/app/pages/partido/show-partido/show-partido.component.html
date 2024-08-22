@@ -50,46 +50,79 @@
     <div class="container d-flex">
         <div class="row">
             <!-- Primera fila: Portero -->
-            <div class="col-12" *ngFor="let jugador of partido?.titularesLocal">
-                <div class="jugador" *ngIf="jugador.posicion === 'Goalkeeper'">
-                    <img [src]="jugador?.imagen" [alt]="jugador.jugador">
-                    <span>{{jugador?.jugador}}</span>
+            <div class="col-12">
+                <div class="jugador">
+                <img [src]="partido?.titularesLocal?.portero?.imagen" [alt]="partido?.titularesLocal.portero?.jugador">
+                <span>{{partido?.titularesLocal.portero?.jugador}}</span>
                 </div>
-            </div>
+            </div>  
         </div>
-        <div class="row">
+        <div class="row defensas g-3">
             <!-- Segunda fila: Defensas -->
-            <div class="col-3" *ngFor="let jugador of partido?.titularesLocal">
-                <div class="jugador" *ngIf="jugador.posicion === 'Defence'">
-                    <img [src]="jugador?.imagen" [alt]="jugador.jugador">
-                    <span>{{jugador?.jugador}}</span>
+            <div class="col-3" *ngFor="let defensa of partido?.titularesLocal?.defensas">
+                <div class="jugador">
+                    <img [src]="defensa?.imagen" [alt]="defensa?.jugador">
+                    <span>{{defensa?.jugador}}</span>
                 </div>
             </div>   
-        </div>
-        <div class="row">
+        </div>       
+        <div class="row medios g-2">
             <!-- Tercera fila: Medios -->
-            <div class="col-4">
-                <div class="jugador">Medio 1</div>
-            </div>
-            <div class="col-4">
-                <div class="jugador">Medio 2</div>
-            </div>
-            <div class="col-4">
-                <div class="jugador">Medio 3</div>
+            <div class="col-4" *ngFor="let medios of partido?.titularesLocal?.mediocentros">
+                <div class="jugador">
+                    <img [src]="medios?.imagen" [alt]="medios?.jugador">
+                    <span>{{medios?.jugador}}</span>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row delanteros g-2">
             <!-- Cuarta fila: Delanteros -->
-            <div class="col-4">
-                <div class="jugador">Delantero 1</div>
-            </div>
-            <div class="col-4">
-                <div class="jugador">Delantero 2</div>
-            </div>
-            <div class="col-4">
-                <div class="jugador">Delantero 3</div>
+            <div class="col-4" *ngFor="let delanteros of partido?.titularesLocal?.delanteros">
+                <div class="jugador">
+                    <img [src]="delanteros?.imagen" [alt]="delanteros?.jugador">
+                    <span>{{delanteros?.jugador}}</span>
+                </div>
             </div>
         </div>
+        <hr>
+        <div class="row delanteros g-2">
+            <!-- Cuarta fila: Delanteros -->
+            <div class="col-4" *ngFor="let delanteros of partido?.titularesVisitante?.delanteros">
+                <div class="jugador">
+                    <img [src]="delanteros?.imagen" [alt]="delanteros?.jugador">
+                    <span>{{delanteros?.jugador}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row medios g-2">
+            <!-- Tercera fila: Medios -->
+            <div class="col-4" *ngFor="let medios of partido?.titularesVisitante?.mediocentros">
+                <div class="jugador">
+                    <img [src]="medios?.imagen" [alt]="medios?.jugador">
+                    <span>{{medios?.jugador}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row defensas g-3">
+            <!-- Segunda fila: Defensas -->
+            <div class="col-3" *ngFor="let defensa of partido?.titularesVisitante?.defensas">
+                <div class="jugador">
+                    <img [src]="defensa?.imagen" [alt]="defensa?.jugador">
+                    <span>{{defensa?.jugador}}</span>
+                </div>
+            </div>   
+        </div>   
+        <div class="row">
+            <!-- Primera fila: Portero -->
+            <div class="col-12">
+                <div class="jugador">
+                <img [src]="partido?.titularesVisitante?.portero?.imagen" [alt]="partido?.titularesVisitante.portero?.jugador">
+                <span>{{partido?.titularesVisitante.portero?.jugador}}</span>
+                </div>
+            </div>  
+        </div>
+           
+
     </div>
     
 </div>

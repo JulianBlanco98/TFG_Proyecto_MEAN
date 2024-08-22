@@ -213,21 +213,104 @@ export const getAlineacionPartido = async (req,res) => {
         const partido = jornadaActual.partidos[numPartido];
         //console.log("Partido: ",partido);
         
-        const titularesLocal = partido.titularesLocal.map(titular => ({
-            jugador: titular.jugador.datos.nombreJugador,
-            imagen: titular.jugador.datos.imagenJugador,
-            posicion: titular.jugador.datos.posicion,
-            goles: titular.goles,
-            asistencias: titular.asistencias,
-        }));
+        console.log("Numero total de jugadores locales: ");
+        
+        //Alineación 4 - 3 - 3
+        const titularesLocal = {
+            portero: null,
+            defensas: [],
+            mediocentros: [],
+            delanteros: []
+        };
+        const titularesVisitante = {
+            portero: null,
+            defensas: [],
+            mediocentros: [],
+            delanteros: []
+        };
+        const estadisticasPartido = {
+            goleadoresLocales: [],
+            goleadoresVisitantes: [],
+            asistentesLocales: [],
+            asistentesVisitantes: []
+        };
 
-        const titularesVisitante = partido.titularesVisitante.map(titular => ({
-            jugador: titular.jugador.datos.nombreJugador,
-            imagen: titular.jugador.datos.imagenJugador,
-            posicion: titular.jugador.datos.posicion,
-            goles: titular.goles,
-            asistencias: titular.asistencias,
-        }));
+        partido.titularesLocal.forEach(titular => {
+            const jugador = {
+                jugador: titular.jugador.datos.nombreJugador,
+                imagen: titular.jugador.datos.imagenJugador,
+                posicion: titular.jugador.datos.posicion,
+                goles: titular.goles,
+                asistencias: titular.asistencias,
+            };
+
+            if (jugador.goles > 0) {
+                estadisticasPartido.goleadoresLocales.push({
+                    nombreJugador: jugador.jugador,
+                    goles: jugador.goles
+                });
+            }
+
+            if (jugador.asistencias > 0) {
+                estadisticasPartido.asistentesLocales.push({
+                    nombreJugador: jugador.jugador,
+                    asistencias: jugador.asistencias
+                });
+            }
+
+            if (titular.jugador.datos.posicion === 'Goalkeeper') {
+                titularesLocal.portero = jugador;
+            } else if (titular.jugador.datos.posicion === 'Defence') {
+                titularesLocal.defensas.push(jugador);
+            } else if (titular.jugador.datos.posicion === 'Midfield') {
+                if(titularesLocal.mediocentros.length < 3){
+                    titularesLocal.mediocentros.push(jugador);
+                }
+                else{
+                    titularesLocal.delanteros.push(jugador);
+                }
+            } else {
+                titularesLocal.delanteros.push(jugador);
+            }
+        });
+        partido.titularesVisitante.forEach(titular => {
+            const jugador = {
+                jugador: titular.jugador.datos.nombreJugador,
+                imagen: titular.jugador.datos.imagenJugador,
+                posicion: titular.jugador.datos.posicion,
+                goles: titular.goles,
+                asistencias: titular.asistencias,
+            };
+
+            if (jugador.goles > 0) {
+                estadisticasPartido.goleadoresVisitantes.push({
+                    nombreJugador: jugador.jugador,
+                    goles: jugador.goles
+                });
+            }
+
+            if (jugador.asistencias > 0) {
+                estadisticasPartido.asistentesVisitantes.push({
+                    nombreJugador: jugador.jugador,
+                    asistencias: jugador.asistencias
+                });
+            }
+
+            if (titular.jugador.datos.posicion === 'Goalkeeper') {
+                titularesVisitante.portero = jugador;
+            } else if (titular.jugador.datos.posicion === 'Defence') {
+                titularesVisitante.defensas.push(jugador);
+            } else if (titular.jugador.datos.posicion === 'Midfield') {
+                if(titularesVisitante.mediocentros.length < 3){
+                    titularesVisitante.mediocentros.push(jugador);
+                }
+                else{
+                    titularesVisitante.delanteros.push(jugador);
+                }
+            } else {
+                titularesVisitante.delanteros.push(jugador);
+            }
+        });
 
         const resultado = {
             equipoLocal: partido.equipoLocal,
@@ -243,9 +326,10 @@ export const getAlineacionPartido = async (req,res) => {
         };
 
 
-        res.status(200).json(alineacion);
+        res.status(200).json({alineacion: alineacion, estadisticas: estadisticasPartido});
 
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.message })
     }
 }

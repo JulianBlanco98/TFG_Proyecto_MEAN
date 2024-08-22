@@ -12,19 +12,59 @@ export interface Partido {
         golesVisitante: number,
     },
     titularesLocal: {
-        jugador: string;
-        imagen: string;
-        goles: number;
-        posicion: string;
-        asistencias: number;
-    } [],
+        portero: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+        },
+        defensas: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+        mediocentros: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+        delanteros: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+    },
     titularesVisitante: {
-        jugador: string;
-        imagen: string;
-        goles: number;
-        posicion: string;
-        asistencias: number;
-    } [],
+        portero: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+        },
+        defensas: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+        mediocentros: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+        delanteros: {
+            jugador: string;
+            imagen: string;
+            posicion: string;
+            goles: number;
+            asistencias: number;
+        }[],
+    },
 };
-
-
