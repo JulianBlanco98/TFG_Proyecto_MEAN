@@ -55,17 +55,22 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 mt-3 mx-1">
             <div class="col" *ngFor="let jugador of jugadoresFiltrados">
                 <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
-                    <img [src]="jugador?.datos?.imagenJugador" class="card-img-top"
-                        alt="{{jugador?.datos?.nombreJugador}}">
                     <div class="card-body">
-                        <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
-                        <span class="card-text">
-                            Posición: {{jugador?.datos?.posicion}}<br>
-                            Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
-                            Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
-                            Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
-                            País: {{jugador?.datos?.paisNacimiento}}
-                        </span>
+                        <ng-container *ngIf="jugador?.frente; else noFrente">
+                            <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
+                            <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
+                            <span class="card-text">
+                                Posición: {{jugador?.datos?.posicion}}<br>
+                                Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
+                                Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
+                                Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
+                                País: {{jugador?.datos?.paisNacimiento}}
+                            </span>
+
+                        </ng-container>
+                        <ng-template #noFrente>
+                            <p>Prueba</p>
+                        </ng-template>
                     </div>
                     <div class="card-footer d-flex">
                         <button class="btn btn-outline-secondary mx-auto"(click)="getEstadisticasByJugador(jugador)" >Ver estadísticas</button>

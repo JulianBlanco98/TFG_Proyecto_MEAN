@@ -37,8 +37,10 @@ export class ShowJugadoresEquipoComponent implements OnInit {
       .getJugadoresByIdApi(idApi)
       .subscribe((data: any) => {
         //console.log(data);
-        console.log(data);
+        // console.log(data);
+        data.jugadores.filter(jug => jug.frente = true);
         this.jugadores = data.jugadores;
+
         console.log('Jugadores:', this.jugadores);
         if (data.entrenador && data.entrenador.length > 0) {
           this.entrenador = data.entrenador[0];
@@ -57,19 +59,10 @@ export class ShowJugadoresEquipoComponent implements OnInit {
 
 
   getEstadisticasByJugador(jugador: Jugador) {
-    this.crudJugadoresService.getEstadisticasByIdJugador(jugador._id).subscribe({
-      next: (data: any) => {
-          //console.log("estadisticas: ",data);
-          
-          jugador.estadisticas = data;
-          console.log("estadisiticas jugador: ",jugador.estadisticas);
-          
-      },
-      error:(err) => {
-        console.log("error: ", err);
-        
-      },
-    })
+
+    jugador.frente = !jugador.frente;
+    
+    
   }
 
   flipCard(jugador: any) {

@@ -16,5 +16,6 @@ export interface Jugador {
     goles: number;
     asistencias: number;
     partidosJugados: number;
-  }
+  };
+  frente: boolean;
 }
