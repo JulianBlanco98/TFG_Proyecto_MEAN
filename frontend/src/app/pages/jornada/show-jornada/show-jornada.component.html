@@ -14,21 +14,21 @@
         <table class="table table-hover text-center">
             <thead>
                 <tr>
-                    <th style="float: left; margin-left: 30px">EquipoLocal</th>
-                    <th>Resultado</th>
-                    <th style="float: right; margin-right: 30px">EquipoVisitante</th>
+                    <th style="float: left; margin-left: 30px" class="col-4">EquipoLocal</th>
+                    <th class="col-4">Resultado</th>
+                    <th style="float: right; margin-right: 30px" class="col-4">EquipoVisitante</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 <tr *ngFor="let partido of jornada.partidos; let i = index" (click)="openModal(jornada.numeroJornada, i)">
-                    <td>
+                    <td class="col-4">
                         <div class="local">
                             <img [src]="partido?.equipoLocal.escudoEquipo"
                                 alt="{{ partido?.equipoLocal?.nombreEquipoCorto }}" />
                             <p>{{ partido?.equipoLocal?.nombreEquipoCorto }}</p>
                         </div>
                     </td>
-                    <td class="align-middle">
+                    <td class="align-middle col-4">
                         <div *ngIf="jornada.jugado; else noJugado">
                             <p class="resultado">
                                 <b>{{ partido?.golesLocal }} vs {{ partido?.golesVisitante }}</b>
@@ -38,7 +38,7 @@
                             <p class="resultado">No jugado</p>
                         </ng-template>
                     </td>
-                    <td>
+                    <td class="col-4">
                         <div class="visitante">
                             <p>{{ partido?.equipoVisitante?.nombreEquipoCorto }}</p>
                             <img [src]="partido?.equipoVisitante?.escudoEquipo"
