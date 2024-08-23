@@ -19,9 +19,12 @@
         <button class="btn btn-sm btn-outline-primary me-2" (click)="acc.collapseAll()">Cerrar todos</button>
         <hr>
         <ngb-accordion #acc="ngbAccordion" class="accordion">
-            <ngb-panel *ngFor="let predi of predicciones; let i = index" id="toggle-{{i}}" title="Jornada {{predi?.numeroJornada}}">
+            <ngb-panel *ngFor="let predi of predicciones; let i = index" id="toggle-{{i}}">
+                <ng-template ngbPanelTitle style="background-color: aliceblue;">
+                    <span class="custom-header">Jornada {{predi?.numeroJornada}}</span>
+                </ng-template>
                 <ng-template ngbPanelContent>
-                    <h3 class="accordion-header">Resumen de tus predicciones de la jornada {{predi?.numeroJornada}}</h3>
+                    <h3>Resumen de tus predicciones de la jornada {{predi?.numeroJornada}}</h3>
                     <hr>
                     <h4 class="my-4">Quiniela</h4>
                     <ng-container *ngIf="predi?.tipo_1?.length > 0; else noJugada">

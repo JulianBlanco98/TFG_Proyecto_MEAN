@@ -27,7 +27,7 @@ export const premioCanjear = async (usuario, premio) => {
 
     let mail = {
         from: "laligastats.tfg@gmail.com",
-        to: "lojoto2177@polatrix.com",
+        to: `${usuario.datos.correo}`,
         subject: "¡HAS CANJEADO UN PREMIO!",
         html: `
             <h2>Hola ${usuario.datos.nombre}</h2>

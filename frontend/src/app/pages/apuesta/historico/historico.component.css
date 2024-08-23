@@ -33,6 +33,7 @@
     border-radius: 5px;
     list-style:none;
 }
+.a
 
 .accordion-body p {
     margin: 0;
@@ -57,4 +58,7 @@ li img {
     display: flex;
     align-items: center;
     gap: 10px
+}
+.accordion-header {
+    background-color: blanchedalmond !important;
 }
