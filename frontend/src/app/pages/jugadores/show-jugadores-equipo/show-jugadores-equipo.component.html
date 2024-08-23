@@ -52,28 +52,42 @@
         </div>
         <hr>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 mt-3 mx-1">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4 mt-3 mx-1">
             <div class="col" *ngFor="let jugador of jugadoresFiltrados">
                 <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
-                    <div class="card-body">
+                    <div class="card-body" [attr.data-frente] = "jugador.frente">
                         <ng-container *ngIf="jugador?.frente; else noFrente">
-                            <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
-                            <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
-                            <span class="card-text">
-                                Posición: {{jugador?.datos?.posicion}}<br>
-                                Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
-                                Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
-                                Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
-                                País: {{jugador?.datos?.paisNacimiento}}
-                            </span>
+                            <div class="card-front">
+                                <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
+                                <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
+                                <span class="card-text">
+                                    Posición: {{jugador?.datos?.posicion}}<br>
+                                    Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
+                                    Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
+                                    Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
+                                    País: {{jugador?.datos?.paisNacimiento}}
+                                </span>
+                                
+                            </div>
 
                         </ng-container>
                         <ng-template #noFrente>
-                            <p>Prueba</p>
+                            <div class="card-back">
+                                <img src="../../../../assets/img/estadisticas.png" alt="iconoEstadisticas" class="esta card-img-top">
+                                <h4 class="card-title">Estadísticas</h4>
+                                <span class="card-text">
+                                    Partidos jugados: {{jugador?.estadisticas?.partidosJugados}}<br>
+                                    Goles: {{jugador?.estadisticas?.goles}}<br>
+                                    Asistencias: {{jugador?.estadisticas?.asistencias}}
+                                </span>
+
+                            </div>
                         </ng-template>
                     </div>
-                    <div class="card-footer d-flex">
-                        <button class="btn btn-outline-secondary mx-auto"(click)="getEstadisticasByJugador(jugador)" >Ver estadísticas</button>
+                    <div class="card-footer d-flex align-middle">
+                        <button class="btn btn-outline-secondary mx-auto"(click)="getEstadisticasByJugador(jugador)" >
+                            {{jugador.frente ? 'Ver estadísticas' : 'Volver'}}
+                        </button>
                     </div>
                 </div>
             </div>
