@@ -41,15 +41,17 @@ export class ShowJugadoresEquipoComponent implements OnInit {
         data.jugadores.filter(jug => jug.frente = true);
         this.jugadores = data.jugadores;
 
-        console.log('Jugadores:', this.jugadores);
+        //console.log('Jugadores:', this.jugadores);
         if (data.entrenador && data.entrenador.length > 0) {
           this.entrenador = data.entrenador[0];
-          console.log('Entrenador:', this.entrenador);
+          //console.log('Entrenador:', this.entrenador);
         }
       });
   }
   cargarJugadoresPosicion(idApi: number, tipo: string) {
     this.crudJugadoresService.getJugadoresByPosicion(idApi, tipo).subscribe((data: any) => {
+      console.log(data);
+      data.jugadores.filter(jug => jug.frente = true);
       this.jugadores = data.jugadores;
       if (data.entrenador && data.entrenador.length > 0) {
         this.entrenador = data.entrenador[0];
@@ -64,12 +66,6 @@ export class ShowJugadoresEquipoComponent implements OnInit {
     
     
   }
-
-  flipCard(jugador: any) {
-    jugador.flipped = !jugador.flipped;
-  }
-
-
   seleccionarPosicion(event: Event): void {
 
     this.posicionSeleccionada = (event.target as HTMLInputElement).value;
