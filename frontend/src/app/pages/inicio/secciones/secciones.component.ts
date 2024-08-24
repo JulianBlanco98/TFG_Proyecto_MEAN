@@ -7,6 +7,7 @@ import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
+import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 
 @Component({
   selector: 'app-secciones',
@@ -15,6 +16,8 @@ import { EventService } from 'src/app/services/event.service';
 })
 export class SeccionesComponent implements OnInit {
 
+  numJornada: number;
+
   constructor(
     private readonly modalService: NgbModal,
     private readonly crudUsersService: CrudUsersService,
@@ -22,6 +25,7 @@ export class SeccionesComponent implements OnInit {
     public authServiceService: AuthServiceService,
     private readonly router: Router,
     private readonly eventService: EventService,
+    private readonly crudJornadaService: CrudJornadaService
   ){}
 
   ngOnInit(): void {
@@ -46,7 +50,7 @@ export class SeccionesComponent implements OnInit {
       anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
     });
 
-
+    this.getJornadaActual();
 
   }
 
@@ -102,4 +106,30 @@ export class SeccionesComponent implements OnInit {
       },
     });
   }
+
+  showAlerta() {
+    if(!this.authServiceService.isAuthenticated()){
+      this.alertifyService.warning('Tienes que estar logueado para poder ver esta sección')
+    }
+  }
+  showAlerta2() {
+    if(this.numJornada === 0){
+      this.alertifyService.warning('Todavía no se ha jugado la primera jornada')
+    }
+  }
+
+  getJornadaActual() {
+    this.crudJornadaService.getNumeroJornadaNovedad().subscribe({
+      next: (data: any) => {
+        this.numJornada = data.numeroJornadaActual;
+        console.log("Jornada actual: ",this.numJornada);
+        
+      },
+      error: (err: any) => {
+        console.error('Error al obtener la jornada', err);
+        this.numJornada = err.error.numeroJornada;
+      },
+    })
+  }
+
 }

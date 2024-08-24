@@ -72,7 +72,25 @@
         </div>
       </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/secciones/novedades.png" class="card-img-top" alt="iconoNovedades">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Novedades</h5>
+            <p class="card-text">Esta sección muestra la información más increíble de la última jornada: </p>
+            <ul>
+              <li>Equipo: equipo que más goles ha metido en la última jornada</li>
+              <li>Goleador: jugador que más goles ha hecho en la última jornada</li>
+              <li>Asistente: jugador que más asistencias ha dado en la última jornada</li>
+            </ul>      
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto" routerLink="/novedades" (click)="showAlerta2()">Ir a novedades</button>
+          </div>
+        </div>
+      </div>
       <div class="col">
         <div class="card h-100">
           <img src="../../../../assets/img/secciones/clasificacion.png" class="card-img-top" alt="iconoClasificacion">
@@ -118,6 +136,41 @@
           </div>
           <div class="card-footer d-flex">
             <button class="btn btn-primary mx-auto" routerLink="/premios">Ir a premios</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/secciones/quinielas.png" class="card-img-top" alt="iconoPredicciones">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Predicciones</h5>
+            <p class="card-text">Esta sección contiene los 3 tipos de predicciones: </p>      
+            <ul>
+              <li>Quiniela: acertar el resultado de uno o varios partidos de la jornada</li>
+              <li>Predicción goles: acertar los goles de un equipo en una jornada</li>
+              <li>Predicción asistencias acertar las asistenciasde un equipo en una jornada</li>
+            </ul>
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto predi" routerLink="/quiniela" (click)="showAlerta()">Quniela</button>
+            <button class="btn btn-primary mx-auto predi" routerLink="/ap_Goles" (click)="showAlerta()">Goles</button>
+            <button class="btn btn-primary mx-auto predi" routerLink="/ap_Asistencias" (click)="showAlerta()">Asistencias</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/resumen.png" class="card-img-top" alt="iconoHistorico">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Histórico</h5>
+            <p class="card-text">Aquí se recoge un resumen de las predicciones realizadas por el usuario, donde puedes ver
+              todos los tipos de predicciones que has hecho y el resultado de las monedas que has ganado o perdido.
+            </p>      
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto" routerLink="/historico" (click)="showAlerta()">Ir a histórico</button>
           </div>
         </div>
       </div>
