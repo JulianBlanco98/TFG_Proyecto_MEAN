@@ -43,15 +43,83 @@
     </div>
   </nav>
 </div>
-<!-- Fin del div menu -->
+<!-- Fin del div menu -->1
+ <!-- Sección de inicio -->
 <section id="inicio">
   <div class="container">
     <div class="row">
       <div class="col-lg-5 col-md-5 col-sm-4">
         <h1 data-aos="fade-up">LaLigaStats</h1>
-        <p>LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
+        <p data-aos="fade-up" data-aos-delay="300">LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
           y aciertas las predicciones, podrás canjear los beneficios por increíbles premios. Asi que, a que estas esperando para registrarte</p>
-          <a href="" class="btn btn-outline-light">Registrate</a>
+          <button *appRoles="['nologin']" class="btn btn-outline-light" (click)="openModal('registro')" data-aos="fade-up" data-aos-delay="500">Crear Cuenta</button> 
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Sección de secciones -->
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" data-aos="fade-up">
+        <div class="intro text-center">
+          <hr class="mx-auto">
+          <h1 class="display-4 my-2">Secciones de la página web</h1>
+          <p class="mx-auto">A continuación, se van a mostrar todas las secciones que tiene la página web LaLigaStas y se va a explicar
+            que contenido
+            vas a ver en cada una de ellas.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/secciones/clasificacion.png" class="card-img-top" alt="iconoClasificacion">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Clasificación</h5>
+            <p class="card-text">Esta sección, se divive en 4 apartados: </p>
+            <ul>
+              <li>Tabla Clasificación: tabla con las posiciones de cada equipo según los puntos</li>
+              <li>Jornada: ver todos los partidos de las 38 jornadas de la liga</li>
+              <li>Goleadores: tabla con los máximos goleadores de la liga</li>
+              <li>Asistentes: tabla con los máximos asistentes de la liga</li>
+            </ul>            
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto" routerLink="/clasificacion">Ir a clasificacion</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/secciones/coleccion.png" class="card-img-top" alt="iconoColeccion">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Colección</h5>
+            <p class="card-text">Esta sección contiene la información de todos los equipos de primera división, desde 
+              información acerca de club, como a su vez, de todos los jugadores de la plantilla, incluidas sus estadísticas actuales en la Liga.</p>      
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto" routerLink="/equipos">Ir a coleccion</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card h-100">
+          <img src="../../../../assets/img/secciones/premios.png" class="card-img-top" alt="iconoPremios">
+          <hr>
+          <div class="card-body">
+            <h5 class="card-title">Premios</h5>
+            <p class="card-text">En esta sección, podrás canjear premios dependiendo de las monedas que hayas ganado haciendo los distintos tipos de predicciones.
+              Una vez que sepas cual escoger, te llegará el código del producto al correo para que puedas canjearlo
+            </p>      
+          </div>
+          <div class="card-footer d-flex">
+            <button class="btn btn-primary mx-auto" routerLink="/premios">Ir a premios</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

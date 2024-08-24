@@ -58,3 +58,20 @@ img {
     font-size: 14px;
     font-weight: 700;
 }
+.intro {
+    margin-bottom: 60px;
+}
+.intro hr {
+    width: 100px;
+    height: 4px;
+    background-color: black;
+    opacity: 1;
+}
+.intro h1{
+    font-weight: 900;
+}
+.card img {
+    object-fit: contain;
+    width: 100px;
+    margin: 20px auto;
+}
