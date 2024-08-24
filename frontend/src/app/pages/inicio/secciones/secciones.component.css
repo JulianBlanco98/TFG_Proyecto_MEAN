@@ -55,10 +55,9 @@ img {
 }
 #about img {
     border-radius: 20px;
-    object-fit: contain;
-    height: 500px;
+    object-fit: cover;
     margin: 30px auto;
-    max-width: 333.8px;
+    max-width: 450px;
 
 }
 #about {
