@@ -32,8 +32,8 @@
 }
 
 section {
-    padding-top: 170px;
-    padding-bottom: 170px;
+    padding-top: 150px;
+    padding-bottom: 150px;
 }
 img {
     width: 100%;
@@ -77,4 +77,33 @@ img {
 }
 .card-footer .predi {
     width: 103px;
+}
+#about img {
+    border-radius: 20px;
+    object-fit: contain;
+    height: 500px;
+    margin: 30px auto;
+    max-width: 333.8px;
+
+}
+#about {
+    background-color: #ffecdd;
+}
+#contacto {
+    background-color: #fff7ea;
+}
+#contacto form {
+    padding: 32px;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: white;
+}
+#contacto form .form-control {
+    background-color: #f8f8f8;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding-left: 18px;
+}
+#contacto form input.form-control {
+    height: 56px;
 }
