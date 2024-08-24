@@ -1,31 +1,6 @@
-/* section {
-    height: 100vh;
-    scroll-snap-align: start;
+body {
+    scroll-behavior: smooth;
 }
-.contenedor-secciones {
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    height: 100vh;
-}
-
-.uno {
-    background-color: red;
-}
-.dos {
-    background-color: blue;
-}
-.tres {
-    background-color: whitesmoke;
-}
-.cuatro {
-    background-color: burlywood;
-}
-.cinco {
-    background-color: floralwhite;
-}
-.seis {
-    background-color: salmon;
-} */
 .navbar {
     position: absolute;
     width: 100%;
