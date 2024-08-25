@@ -1,8 +1,9 @@
-<div class="container">
+<div class="container my-4">
     <h1 class="text-center">Mensajes y Opiniones de los Usuarios</h1>
     
     <ng-container *ngIf="!hayMensajes; else mostrarMensajes">
         <div class="card mx-auto mb-3">
+            <img src="../../../assets/img/noMensajes.png" class="card-img-top" alt="iconoNoMensajes">
             <div class="card-body text-center">
                 <h5 class="card-title">Warning</h5>
                 <p class="card-text">No hay todavía ningún mensaje.</p>
@@ -10,7 +11,39 @@
         </div>
     </ng-container>
     <ng-template #mostrarMensajes>
+        <img src="../../../assets/img/opinion.png" alt="iconoOpinion" class="iconoOpinion">
+        <div class="table-responsive mt-4">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th class="col-2">Nombre</th>
+                        <th class="col-2">Correo</th>
+                        <th class="col-2">Motivo</th>
+                        <th class="col-6">Mensaje</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let mensaje of mensajes; let i = index">
+                        <td class="col-2">
+                            <div class="u">
+                                <fa-icon [icon]="faUsuarios" [size]="'3x'"></fa-icon>
+                                <span>{{mensaje?.nombre}}</span>
 
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            {{mensaje?.correo}}
+                        </td>
+                        <td class="col-2">
+                            {{mensaje?.motivo}}
+                        </td>
+                        <td class="col-6">
+                            {{mensaje?.mensaje}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </ng-template>
 </div>
 

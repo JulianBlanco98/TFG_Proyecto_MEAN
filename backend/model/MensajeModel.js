@@ -10,11 +10,11 @@ const mensajeSchema = new mongoose.Schema(
             type: String,
             required: [true, "Por favor, completa este campo"],
         },
-        mensaje: {
+        motivo: {
             type: String,
             required: [true, "Por favor, completa este campo"],
         },
-        motivo: {
+        mensaje: {
             type: String,
             required: [true, "Por favor, completa este campo"],
         },

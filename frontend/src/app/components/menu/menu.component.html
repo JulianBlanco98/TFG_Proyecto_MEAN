@@ -56,6 +56,10 @@
                     <a routerLink="/adminJornadas" routerLinkActive="active" class="nav-link"><fa-icon [icon]="faJornada"></fa-icon>
                         Jornadas</a>
                 </li>
+                <li class="nav-item" *appRoles="['admin']">
+                    <a routerLink="/showMensajes" routerLinkActive="active" class="nav-link"><fa-icon [icon]="faMensajes"></fa-icon>
+                        Mensajes</a>
+                </li>
                 <li class="nav-item" *appRoles="['nologin','usuario']">
                     <a routerLink="/clasificacion" routerLinkActive="active" class="nav-link"><fa-icon [icon]="faTrophy"></fa-icon>
                         Clasificacion</a>

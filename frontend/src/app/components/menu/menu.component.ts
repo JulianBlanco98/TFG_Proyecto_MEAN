@@ -12,7 +12,8 @@ import {
   faFutbol,
   faSocks,
   faRectangleList,
-  faScaleBalanced
+  faScaleBalanced,
+  faMessage
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUsuarioComponent } from '../modal/modal-usuario/modal-usuario.component';
@@ -53,6 +54,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   faGoles = faFutbol;
   faAsistencias = faSocks;
   faHistorico = faRectangleList;
+  faMensajes = faMessage;
 
   monedaJugador: number | null = null;
   numJornada: number

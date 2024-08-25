@@ -8,6 +8,8 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { Router } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
 import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MensajesService } from 'src/app/services/mensajes.service';
 
 @Component({
   selector: 'app-secciones',
@@ -17,6 +19,7 @@ import { CrudJornadaService } from 'src/app/services/crud-jornada.service';
 export class SeccionesComponent implements OnInit {
 
   numJornada: number;
+  contactForm: FormGroup;
 
   constructor(
     private readonly modalService: NgbModal,
@@ -25,8 +28,17 @@ export class SeccionesComponent implements OnInit {
     public authServiceService: AuthServiceService,
     private readonly router: Router,
     private readonly eventService: EventService,
-    private readonly crudJornadaService: CrudJornadaService
-  ){}
+    private readonly crudJornadaService: CrudJornadaService,
+    private fb: FormBuilder,
+    private readonly mensajesService: MensajesService
+  ){
+    this.contactForm = this.fb.group({
+      nombre: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      motivo: ['', Validators.required],
+      mensaje: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     Aos.init({
@@ -130,6 +142,24 @@ export class SeccionesComponent implements OnInit {
         this.numJornada = err.error.numeroJornada;
       },
     })
+  }
+
+  onSubmit() {
+    console.log("Datos: ", this.contactForm.value);
+    if(this.contactForm.valid){
+      this.mensajesService.crearMensaje(this.contactForm.value).subscribe({
+        next: (response: any) => {
+          this.alertifyService.success(response.message);
+        },
+        error: (err: any) => {
+          this.alertifyService.success(err.error.message);
+          
+        },
+      })
+    }
+    else{
+      this.alertifyService.warning('Tienes algún campo inválido')
+    }
   }
 
 }

@@ -19,6 +19,7 @@ import { SeccionesComponent } from './pages/inicio/secciones/secciones.component
 import { Ap2Component } from './pages/apuesta/ap2/ap2/ap2.component';
 import { Ap3Component } from './pages/apuesta/ap3/ap3.component';
 import { HistoricoComponent } from './pages/apuesta/historico/historico.component';
+import { MensajesComponent } from './pages/mensajes/mensajes.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
   },
   {
     path: 'adminJornadas', component: SimularJornadaComponent,
+    canActivate: [loginGuard, loginAdmin]
+  },
+  {
+    path: 'showMensajes', component: MensajesComponent,
     canActivate: [loginGuard, loginAdmin]
   },
   {

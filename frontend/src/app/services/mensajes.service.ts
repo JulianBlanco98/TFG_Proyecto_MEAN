@@ -24,7 +24,7 @@ export class MensajesService {
   }
 
   crearMensaje(data: any): Observable<any> {
-    return this.httpClient.post(this.rest_API, data, {headers: this.httpHeaders});
+    return this.httpClient.post(this.rest_API, data, {headers: this.httpHeaders})
   }
 
 }
