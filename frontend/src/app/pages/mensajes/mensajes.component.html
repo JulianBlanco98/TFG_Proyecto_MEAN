@@ -1,0 +1,16 @@
+<div class="container">
+    <h1 class="text-center">Mensajes y Opiniones de los Usuarios</h1>
+    
+    <ng-container *ngIf="!hayMensajes; else mostrarMensajes">
+        <div class="card mx-auto mb-3">
+            <div class="card-body text-center">
+                <h5 class="card-title">Warning</h5>
+                <p class="card-text">No hay todavía ningún mensaje.</p>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #mostrarMensajes>
+
+    </ng-template>
+</div>
+

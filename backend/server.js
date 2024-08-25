@@ -13,6 +13,7 @@ import routerClasificacion from "./routes/routesClasificacion.js"
 import routerPrediccion from "./routes/routesPrediccion.js"
 import routerCalendario from "./routes/routesCalendario.js"
 import routerEstadistica from "./routes/routesEstadisticas.js"
+import routerMensaje from "./routes/routesMensaje.js"
 
 //Usuarios rutas
 import routerUser from "./routes/routesUser.js"
@@ -41,6 +42,7 @@ app.use("/apiTFG/clasificacion", routerClasificacion)
 app.use("/apiTFG/prediccion", routerPrediccion)
 app.use("/apiTFG/calendario", routerCalendario)
 app.use("/apiTFG/estadisticas", routerEstadistica)
+app.use("/apiTFG/mensajes", routerMensaje)
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
