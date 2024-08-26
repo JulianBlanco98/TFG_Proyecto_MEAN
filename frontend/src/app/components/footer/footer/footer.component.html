@@ -19,8 +19,20 @@
               <!-- Grid column -->
               <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                   <h6 class="text-uppercase mb-4 font-weight-bold">Secciones</h6>
-                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/clasificacion">Novedades</a></p>
-                  <p *appRoles="['usuario']"><a class="text-white" routerLink="/clasificacion">Predicciones</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/">Inicio</a></p>
+                  <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/novedades">Novedades</a></p>
+                  <!-- <p ><a class="text-white" routerLink="/clasificacion">Predicciones</a></p> -->
+                  <div *appRoles="['usuario']" class="btn-group dropend">
+                    <p><a class="text-white dropdown-toggle" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+                      Predicciones
+                    </a></p>                    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" routerLink="/quiniela">Quiniela</a>
+                      <a class="dropdown-item" routerLink="/ap_Goles">Goles</a>
+                      <a class="dropdown-item" routerLink="/ap_Asistencias">Asistencias</a>
+                      <a class="dropdown-item" routerLink="/historico">Histórico</a>
+                    </div>
+                  </div>
                   <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/clasificacion">Clasificacion</a></p>
                   <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/equipos">Colección</a></p>
                   <p *appRoles="['nologin', 'usuario']"><a class="text-white" routerLink="/premios">Premios</a></p>

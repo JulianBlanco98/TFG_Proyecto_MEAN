@@ -9,3 +9,20 @@
   .social-icon i {
     margin: 0; 
   } */
+  .dropend:hover .dropdown-menu {
+    display: block;
+
+  }
+  .dropend .dropdown-menu {
+    position: static;
+      float: none;
+  }
+  /* .dropend .dropdown-menu:hover {
+    display: block;
+  } */
+  @media (max-width: 766px) {
+    .dropend .dropdown-menu {
+      position: static;
+      float: none;
+    }
+  }

@@ -14,5 +14,8 @@
     gap: 10px;
 }
 .iconoOpinion {
-    
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    width: 200px;
 }
