@@ -143,11 +143,11 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-  //Mover esta lógica al crud-user-service.ts y crear un
   typeSubmit(service: any, response: any) {
     this.crudUsersService[service](response).subscribe({
       next: (data: any) => {
+        console.log(data);
+        
         this.alertifyService.success(data.message);
         if (service === 'login') {
           this.authServiceService.setToken(data.token);
@@ -159,6 +159,9 @@ export class MenuComponent implements OnInit, OnDestroy {
               this.router.navigateByUrl('/usuarios');
             }
           });
+        }
+        else if(service === 'editarUsuario') {
+          //this.alertifyService.success('Usuario actualizado correctamente');
         }
       },
       error: (err: any) => {

@@ -115,29 +115,66 @@ export const getUsuariodatos = async (req, res) => {
     }
 }
 export const updateUsuarios = async (req, res) => {
-
     try {
-        const {id} = req.params;
-        //console.log("back de actualizar usuario. ID: ",id);
-        //console.log(req.body);
-        const actualizarDatos = {
+        console.log("Estoy en actualizar usuarios");
+
+        const { id } = req.params;
+        console.log(req.body);
+
+        let actualizarDatos = {
             'datos.nombre': req.body.nombre,
             'datos.edad': req.body.edad,
             'moneda': req.body.moneda,
             'datos.correo': req.body.correo,
-            'datos.password': req.body.password,
+        };
+
+        if (req.body.password) {
+            const encriptarPassword = await bcrypt.hash(req.body.password, 10);
+            actualizarDatos['datos.password'] = encriptarPassword;
         }
+
         const usuario = await UserModel.findOneAndUpdate(
-            {_id:id},
+            { _id: id },
             actualizarDatos,
-            {new: true}
-        )
-       
-        res.status(200).json({message: "usuario actualizado correctamente", usuario: usuario})
+            { new: true }
+        );
+
+        res.status(200).json({ message: "usuario actualizado correctamente", usuario: usuario });
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+export const editarUsuario = async (req, res) => {
+    try {
+        console.log("Estoy en editarUsuario");
+
+        const id = req.usuario.id;
+        console.log("back de editar usuario. ID: ", id);
+        console.log(req.body);
+
+        let actualizarDatos = {
+            'datos.nombre': req.body.nombre,
+            'datos.edad': req.body.edad,
+            'datos.correo': req.body.correo,
+        };
+
+        if (req.body.password) {
+            const encriptarPassword = await bcrypt.hash(req.body.password, 10);
+            actualizarDatos['datos.password'] = encriptarPassword;
+        }
+
+        const usuario = await UserModel.findOneAndUpdate(
+            { _id: id },
+            actualizarDatos,
+            { new: true }
+        );
+
+        res.status(200).json({ message: "usuario actualizado correctamente", usuario: usuario });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 export const getUsuarios = async (req, res) => {
     try {

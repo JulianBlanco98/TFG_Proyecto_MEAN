@@ -52,6 +52,10 @@ export class CrudUsersService {
     return this.httpClient
       .put(`${this.rest_API}/${id}`, data, { headers: this.httpHeaders })
   }
+  editarUsuario(data:any): Observable<any> {
+    return this.httpClient
+      .put(`${this.rest_API}/editar`, data, { headers: this.httpHeaders })
+  }
   deleteUsuarios(id: any): Observable <any> {
     return this.httpClient
       .delete(`${this.rest_API}/${id}`, { headers: this.httpHeaders })

@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { CrudUsersService } from 'src/app/services/crud-users.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-usuario',
@@ -16,7 +17,8 @@ export class ModalUsuarioComponent implements OnInit{
   form: FormGroup
   
   //active modal es el actual
-  constructor(public readonly modal: NgbActiveModal, 
+  constructor(
+    public readonly modal: NgbActiveModal, 
     private readonly authServiceService: AuthServiceService,
     private readonly crudUsersService: CrudUsersService,
     private readonly alertifyService: AlertifyService
@@ -48,18 +50,27 @@ export class ModalUsuarioComponent implements OnInit{
       
     }      
   }
-  buildForm(){
+  buildForm() {
     this.form = new FormGroup({
-      nombre: new FormControl(''),
-      edad: new FormControl(null),
-      correo: new FormControl(''),
-      password: new FormControl(''),
-    })
+      nombre: new FormControl('', [Validators.required]),
+      edad: new FormControl(null, [
+        Validators.required,
+        Validators.min(18),
+      ]),
+      correo: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)$/)
+      ]),
+      password: new FormControl('', [Validators.required]),
+    });
   }
   
   onSubmit() {
     // --> Poner las validaciones aqui
-    const params = {...this.form.value}
-    this.modal.close(params)
+    console.log("Tipo: ", this.tipo);
+    const params = { ...this.form.value };
+    console.log("parametros: ", params);
+    
+    this.modal.close(params);
   }
 }
