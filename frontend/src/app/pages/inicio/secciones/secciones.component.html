@@ -48,8 +48,8 @@
 <section id="inicio">
   <div class="container">
     <div class="row">
-      <div class="col-lg-5 col-md-5 col-sm-4">
-        <h1 data-aos="fade-up">LaLigaStats</h1>
+      <div class="col-lg-5 col-md-5 col-sm-6 col-6">
+        <h1 data-aos="fade-up" class="titulo">LaLigaStats</h1>
         <p data-aos="fade-up" data-aos-delay="300">LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
           y aciertas las predicciones, podrás canjear los beneficios por increíbles premios. Asi que, a que estas esperando para registrarte</p>
           <button *appRoles="['nologin']" class="btn btn-outline-light" (click)="openModal('registro')" data-aos="fade-up" data-aos-delay="500">Crear Cuenta</button> 
@@ -185,14 +185,14 @@
           <hr>
           <h1 class="display-4 my-2">Sobre mí</h1>          
         </div>
-        <p>Hola, soy Julián Blanco González, un futuro graduado en Ingeniería Informática. A lo largo de los 4 años de la carrera, he ido aprendiendo y desarrollando 
+        <p class="lead">Hola, soy Julián Blanco González, un futuro graduado en Ingeniería Informática. A lo largo de los 4 años de la carrera, he ido aprendiendo y desarrollando 
           todo tipo de habilidades en este ámbito, desde ir mejorando y optimizando el código a la hora de programar, mejorar el diseño de una base de datos, o intentar
           hacer el mejor estilo en el front-end posible.
         </p>
-        <p>El objetivo de esta página es unir 2 de mis pasiones, como lo son el fútbol y la informática, y hacer que los usuarios vivan la mejor experiencia posible. Esta web está hecho usando el
+        <p class="lead">El objetivo de esta página es unir 2 de mis pasiones, como lo son el fútbol y la informática, y hacer que los usuarios vivan la mejor experiencia posible. Esta web está hecha usando el
           stack MEAN: Mongo - Express - Angular - Node. Si quieres ver más proyectos personales de la carrera, o hechos por mi cuenta, te dejo aquí abajo mi link de GitHub.
         </p>
-        <a href="https://github.com/JulianBlanco98" class="btn btn-outline-dark"><i class="fab fa-github"></i>  Ir a GitHub</a>
+        <a href="https://github.com/JulianBlanco98" class="btn btn-outline-dark git"><i class="fab fa-github"></i>  Ir a GitHub</a>
       </div>
       <div class="col-lg-6 offset-lg-1 d-flex" data-aos="fade-up">
         <img src="../../../../assets/img/secciones/about4.jpg" loading="lazy" alt="imagenSobreMi">
