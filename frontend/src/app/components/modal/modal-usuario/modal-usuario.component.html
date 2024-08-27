@@ -14,7 +14,7 @@
                     El nombre es requerido.
                 </div> -->
                 <div *ngIf="(form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && 
-                    form.get('nombre')?.invalid)" class="text-danger">
+                    form.get('nombre')?.invalid)" class="invalid-feedback">
                     El nombre es requerido.
                 </div>
             </div>
