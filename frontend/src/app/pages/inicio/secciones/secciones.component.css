@@ -14,15 +14,29 @@ img {
     width: 100%;
 }
 #inicio {
-    background: url('../../../../assets/img/fondos/fondo3.jpg');
+    /* background: url('../../../../assets/img/fondos/fondo3.jpg');
     min-height: 100vh;
     background-position: bottom;
-    background-size: cover;
+    background-size: cover; */
+    position: relative;
+    display: inline-block;
+    padding-top: 56px;
+    width: 100%;
+}
+#inicio img {
+    object-fit: cover;
+    min-height: 100vh;
 }
 #inicio h1 {
     font-weight: 700;
     font-size: 70px;
     color: white;
+}
+#inicio .container {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    /* transform: translate(-34%, -6%); */
 }
 .titulo {
     text-shadow: 0px 8px 4px black;

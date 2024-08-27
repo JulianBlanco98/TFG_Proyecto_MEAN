@@ -12,10 +12,30 @@ h5 {
   width: auto;
   height: 50px;
 }
-/* .btn-group .btn,
-.btn-group a {
-  width: 50%;
-  border-radius: 10px;
-} */
+.modal-body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  padding: 20px;
+}
+
+.modal-body p {
+  margin-bottom: 10px;
+}
+
+.modal-body p strong {
+  color: black;
+}
+
+.modal-body a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.modal-body a:hover {
+  text-decoration: underline;
+}
+
 
 

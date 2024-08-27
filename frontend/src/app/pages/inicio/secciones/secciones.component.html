@@ -46,14 +46,15 @@
 <!-- Fin del div menu -->
  <!-- Sección de inicio -->
 <section id="inicio">
+  <img src="../../../../assets/img/fondos/fondo3.jpg" alt="fondo">
   <div class="container">
     <div class="row">
-      <div class="col-lg-5 col-md-5 col-sm-6 col-6">
-        <h1 data-aos="fade-up" class="titulo">LaLigaStats</h1>
-        <p data-aos="fade-up" data-aos-delay="300">LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
+      <div class="col-lg-5 col-md-5 col-sm-6 col-6" data-aos="fade-up">
+        <h1 class="titulo">LaLigaStats</h1>
+        <p>LaLigaStats es una página web donde puedes encontrar toda la información acerca de la liga de fútbol española en menos de 4 clicks. Además, si te registras, 
           y aciertas las predicciones, podrás canjear los beneficios por increíbles premios. Asi que, a que estas esperando para registrarte</p>
-          <button *appRoles="['nologin']" class="btn btn-outline-light" (click)="openModal('registro')" data-aos="fade-up" data-aos-delay="500">Crear Cuenta</button> 
-      </div>
+          <button *appRoles="['nologin']" class="btn btn-outline-light" (click)="openModal('registro')" >Crear Cuenta</button> 
+        </div>
     </div>
   </div>
 </section>
@@ -91,7 +92,7 @@
           </div>
         </div>
       </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="300">
+      <div class="col" data-aos="fade-up" data-aos-delay="100">
         <div class="card h-100">
           <img src="../../../../assets/img/secciones/clasificacion.png" class="card-img-top" alt="iconoClasificacion">
           <hr>
@@ -110,7 +111,7 @@
           </div>
         </div>
       </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="400">
+      <div class="col" data-aos="fade-up" data-aos-delay="200">
         <div class="card h-100">
           <img src="../../../../assets/img/secciones/coleccion.png" class="card-img-top" alt="iconoColeccion">
           <hr>
@@ -124,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="500">
+      <div class="col" data-aos="fade-up" data-aos-delay="300">
         <div class="card h-100">
           <img src="../../../../assets/img/secciones/premios.png" class="card-img-top" alt="iconoPremios">
           <hr>
@@ -139,7 +140,7 @@
           </div>
         </div>
       </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="600">
+      <div class="col" data-aos="fade-up" data-aos-delay="400">
         <div class="card h-100">
           <img src="../../../../assets/img/secciones/quinielas.png" class="card-img-top" alt="iconoPredicciones">
           <hr>
@@ -159,7 +160,7 @@
           </div>
         </div>
       </div>
-      <div class="col" data-aos="fade-up" data-aos-delay="700">
+      <div class="col" data-aos="fade-up" data-aos-delay="500">
         <div class="card h-100">
           <img src="../../../../assets/img/resumen.png" class="card-img-top" alt="iconoHistorico">
           <hr>
@@ -180,7 +181,7 @@
 <section id="about">
   <div class="container">
     <div class="row">
-      <div class="col-lg-5" data-aos="fade-up">
+      <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
         <div class="intro">
           <hr>
           <h1 class="display-4 my-2">Sobre mí</h1>          
@@ -190,11 +191,11 @@
           hacer el mejor estilo en el front-end posible.
         </p>
         <p class="lead">El objetivo de esta página es unir 2 de mis pasiones, como lo son el fútbol y la informática, y hacer que los usuarios vivan la mejor experiencia posible. Esta web está hecha usando el
-          stack MEAN: Mongo - Express - Angular - Node. Si quieres ver más proyectos personales de la carrera, o hechos por mi cuenta, te dejo aquí abajo mi link de GitHub.
+          stack MEAN: Mongo - Express - Angular - Node. Si quieres ver más proyectos de la carrera, u otros hechos por mi cuenta, te dejo aquí abajo mi link de GitHub.
         </p>
         <a href="https://github.com/JulianBlanco98" class="btn btn-outline-dark git"><i class="fab fa-github"></i>  Ir a GitHub</a>
       </div>
-      <div class="col-lg-6 offset-lg-1 d-flex" data-aos="fade-up">
+      <div class="col-lg-6 offset-lg-1 d-flex" data-aos="fade-up" data-aos-delay="400">
         <img src="../../../../assets/img/secciones/about4.jpg" loading="lazy" alt="imagenSobreMi">
       </div>
     </div>
@@ -211,7 +212,7 @@
         </div>
       </div>
     </div>
-    <div class="row" data-aos="fade-up" data-aos-delay="300">
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
       <div class="col-lg-8 mx-auto" >
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="row gy-3">
           <div class="col-lg-6">

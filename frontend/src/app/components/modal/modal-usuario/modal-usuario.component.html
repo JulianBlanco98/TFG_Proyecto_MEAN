@@ -6,11 +6,15 @@
 </div>
 <div class="modal-body">
     <div class="container">
-        <form novalidate [formGroup]="form">
+        <form novalidate [formGroup]="form" class="needs-validation">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="registroNombre" name="nombre" formControlName="nombre" class="form-control">
-                <div *ngIf="form.controls['nombre'].touched && form.controls['nombre'].invalid" class="text-danger">
+                <input type="text" id="registroNombre" name="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': (form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && form.get('nombre')?.invalid)}">
+                <!-- <div *ngIf="form.controls['nombre'].touched && form.controls['nombre'].invalid" class="text-danger">
+                    El nombre es requerido.
+                </div> -->
+                <div *ngIf="(form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && 
+                    form.get('nombre')?.invalid)" class="text-danger">
                     El nombre es requerido.
                 </div>
             </div>

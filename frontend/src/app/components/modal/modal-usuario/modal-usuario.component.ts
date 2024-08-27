@@ -15,6 +15,7 @@ export class ModalUsuarioComponent implements OnInit{
   
   @Input() tipo: string = ''
   form: FormGroup
+  submit: boolean
   
   //active modal es el actual
   constructor(
@@ -67,6 +68,11 @@ export class ModalUsuarioComponent implements OnInit{
   
   onSubmit() {
     // --> Poner las validaciones aqui
+    this.submit = true;
+    if(this.form.invalid) {
+      return;
+    }
+
     console.log("Tipo: ", this.tipo);
     const params = { ...this.form.value };
     console.log("parametros: ", params);
