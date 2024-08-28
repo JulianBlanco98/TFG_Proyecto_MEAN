@@ -57,13 +57,19 @@ export class FormPremiosComponent implements OnInit{
 
   onSubmit():void {
     if (this.formPremio.valid) {
+      console.log("Tamaño archivo: ",this.selectedFile?.size);
+      // console.log("Nombre Premio: ", this.formPremio.get('nombrePremio')?.value);
+      // console.log("Saldo: ", this.formPremio.get('saldo')?.value);
+      // console.log("Archivo: ", this.selectedFile);
+      
       const formData = new FormData();
       formData.append('nombrePremio', this.formPremio.get('nombrePremio')?.value);
       formData.append('saldo', this.formPremio.get('saldo')?.value);
       if (this.selectedFile) {
         formData.append('imagenPremio', this.selectedFile, this.selectedFile.name);
       }
-
+     
+      
       this.submitValues.emit(formData);
     }
   }

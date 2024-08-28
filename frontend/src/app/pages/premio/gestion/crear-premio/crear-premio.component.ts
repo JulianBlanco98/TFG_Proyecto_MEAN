@@ -18,6 +18,13 @@ export class CrearPremioComponent {
   ) {}
 
   onSubmit(formData: FormData) {
+    formData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`${key} - File name: ${value.name}, size: ${value.size}`);
+      } else {
+        console.log(`${key}:`, value);
+      }
+    });
     this.crudPremiosService.crearPremio(formData).subscribe({
       next: (response) => {
         console.log(response);
@@ -31,7 +38,7 @@ export class CrearPremioComponent {
           this.alertifyService.error(err.error.message)
         }
         else{
-          console.log(err);
+          console.log(err.message);
 
         }
       },

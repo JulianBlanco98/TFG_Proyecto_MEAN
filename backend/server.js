@@ -25,14 +25,15 @@ import { generarTablaClasificacion } from "./helper/initClasificacion.js";
 
 const app = express();
 dotenv.config();
-
-app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:4200', // Permitir solo el dominio de tu frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(urlencoded({ extended: true }));
+
+// app.use(express.json());
+app.use(express.json({ limit: '10mb' }));  
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 //Endpoints de las colecciones de la base de datos
 //Aquí son las rutas con las que luego se recoge en el front y en insomnia
