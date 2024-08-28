@@ -7,40 +7,46 @@
 <div class="modal-body">
     <div class="container">
         <form novalidate [formGroup]="form" class="needs-validation">
+            <!-- Campo del nombre -->
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="registroNombre" name="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': (form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && form.get('nombre')?.invalid)}">
-                <!-- <div *ngIf="form.controls['nombre'].touched && form.controls['nombre'].invalid" class="text-danger">
-                    El nombre es requerido.
-                </div> -->
+                <input type="text" id="nombre" name="nombre" formControlName="nombre" class="form-control" [ngClass]="{'is-invalid': (form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && form.get('nombre')?.invalid)}">
                 <div *ngIf="(form.get('nombre')?.invalid && (form.get('nombre')?.dirty || form.get('nombre')?.touched)) || (submit && 
                     form.get('nombre')?.invalid)" class="invalid-feedback">
                     El nombre es requerido.
                 </div>
             </div>
             <ng-container *ngIf="tipo === 'registro' || tipo === 'editarUsuario'">
+                <!-- Campo de la edad -->
                 <div class="form-group">
                     <label for="edad">Edad</label>
-                    <input type="number" id="edad" name="edad" class="form-control" required formControlName="edad">
-                    <div *ngIf="form.controls['edad'].touched && form.controls['edad'].invalid" class="text-danger">
-                        <div *ngIf="form.controls['edad'].errors?.['required']">La edad es requerida.</div>
-                        <div *ngIf="form.controls['edad'].errors?.['min']">Debes ser mayor de 18 años.</div>
+                    <input type="number" id="edad" name="edad" formControlName="edad" class="form-control" [ngClass]="{'is-invalid': (form.get('edad')?.invalid && (form.get('edad')?.dirty || form.get('edad')?.touched)) || (submit && form.get('edad')?.invalid)}">
+                    <div *ngIf="(form.get('edad')?.invalid && (form.get('edad')?.dirty || form.get('edad')?.touched)) || (submit && form.get('edad')?.invalid)" 
+                         class="invalid-feedback">
+                        <div *ngIf="form.get('edad')?.errors?.['required']">La edad es requerida.</div>
+                        <div *ngIf="form.get('edad')?.errors?.['min']">Debes ser mayor de 18 años.</div>
                     </div>
                 </div>
+                <!-- Campo del correo -->
                 <div class="form-group">
                     <label for="correo">Correo</label>
-                    <input type="email" id="correo" name="correo" class="form-control" formControlName="correo">
-                    <div *ngIf="form.controls['correo'].touched && form.controls['correo'].invalid" class="text-danger">
-                        <div *ngIf="form.controls['correo'].errors?.['required']">El correo es requerido.</div>
-                        <div *ngIf="form.controls['correo'].errors?.['pattern']">Solo se permiten correos de &#64;gmail.com o &#64;hotmail.com.</div>
+                    <input type="email" id="correo" name="correo" formControlName="correo" 
+                           class="form-control"
+                           [ngClass]="{'is-invalid': (form.get('correo')?.invalid && (form.get('correo')?.dirty || form.get('correo')?.touched)) || (submit && form.get('correo')?.invalid)}">
+                    <div *ngIf="(form.get('correo')?.invalid && (form.get('correo')?.dirty || form.get('correo')?.touched)) || (submit && form.get('correo')?.invalid)" 
+                         class="invalid-feedback">
+                        <div *ngIf="form.get('correo')?.errors?.['required']">El correo es requerido.</div>
+                        <div *ngIf="form.get('correo')?.errors?.['pattern']">Solo se permiten correos de &#64;gmail.com o &#64;hotmail.com.</div>
                     </div>
                 </div>
 
             </ng-container>
+            <!-- Campo de la password -->
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="registroPassword" name="password" class="form-control" formControlName="password">
-                <div *ngIf="form.controls['password'].touched && form.controls['password'].invalid" class="text-danger">
+                <input type="password" id="password" name="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': (form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) || (submit && form.get('password')?.invalid)}">
+                <div *ngIf="(form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)) || (submit && form.get('password')?.invalid)" 
+                     class="invalid-feedback">
                     La contraseña es requerida.
                 </div>
             </div>

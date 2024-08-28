@@ -20,7 +20,7 @@ img {
     background-size: cover; */
     position: relative;
     display: inline-block;
-    padding-top: 56px;
+    padding-top: 0px;
     width: 100%;
 }
 #inicio img {

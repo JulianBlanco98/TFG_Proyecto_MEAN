@@ -24,11 +24,11 @@ export class ModalUsuarioComponent implements OnInit{
     private readonly crudUsersService: CrudUsersService,
     private readonly alertifyService: AlertifyService
   ){
-    this.buildForm()
   }
-
+  
   ngOnInit(): void {
-
+    
+    this.buildForm()
     //console.log("Tipo: ",this.tipo);
     if(this.tipo === 'editarUsuario'){
       const userId = this.authServiceService.getIdUsuarioToken();
@@ -54,22 +54,39 @@ export class ModalUsuarioComponent implements OnInit{
   buildForm() {
     this.form = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
-      edad: new FormControl(null, [
-        Validators.required,
-        Validators.min(18),
-      ]),
-      correo: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)$/)
-      ]),
       password: new FormControl('', [Validators.required]),
     });
+
+    if(this.tipo !== 'login') {
+      this.form.addControl('edad', new FormControl(null, [
+        Validators.required, Validators.min(18),
+      ]));
+      this.form.addControl('correo', new FormControl('', [
+        Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)$/)
+      ]));
+    }
+    // this.form = new FormGroup({
+    //   nombre: new FormControl('', [Validators.required]),
+    //   edad: new FormControl(null, [
+    //     Validators.required,
+    //     Validators.min(18),
+    //   ]),
+    //   correo: new FormControl('', [
+    //     Validators.required,
+    //     Validators.pattern(/^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)$/)
+    //   ]),
+    //   password: new FormControl('', [Validators.required]),
+    // });
   }
   
   onSubmit() {
     // --> Poner las validaciones aqui
     this.submit = true;
     if(this.form.invalid) {
+      console.log("Formulario invalido");
+      console.log("Campos de formulario: ", this.form.controls);
+      
+      
       return;
     }
 
