@@ -27,6 +27,10 @@ export class CrudPremiosService {
     return this.httpClient.post(this.rest_API, data);
   }
 
+  editarPremio(idPremio:any, data: FormData): Observable<any> {
+    return this.httpClient.put(`${this.rest_API}/${idPremio}`, data);
+  }
+
   deletePremio(idPremio: any): Observable<any> {
     return this.httpClient.delete(`${this.rest_API}/${idPremio}`, {headers: new HttpHeaders().set('Content-type', 'application/json')});
   }

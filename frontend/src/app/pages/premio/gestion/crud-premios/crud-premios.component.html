@@ -27,7 +27,7 @@
                     <td>{{premio?.saldoPremio}}</td>
                     <td>
                         <div class="btn-group">
-                            <a routerLink="" class="btn btn-primary">
+                            <a routerLink="/editarPremio/{{premio?._id}}" class="btn btn-primary">
                                 <fa-icon [icon]="faEditar"></fa-icon>
                             </a>
                             <button (click)="deletePremio(premio?._id, i)" class="btn btn-danger">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Premio } from 'src/app/models/premio.model';
 import { CrudPremiosService } from 'src/app/services/crud-premios.service';
@@ -20,6 +20,8 @@ export class FormPremiosComponent implements OnInit{
 
   @Output() submitValues: EventEmitter<FormData> = new EventEmitter<FormData>()
 
+  private premioInicial: Premio | null = null
+
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly crudPremiosService: CrudPremiosService,
@@ -34,7 +36,27 @@ export class FormPremiosComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    
+    if (this.isEdit && this.modelPremio) {
+      this.setFormValues(this.modelPremio);
+      this.premioInicial = { ...this.modelPremio }; // Guardar los valores iniciales
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['modelPremio'] && this.modelPremio) {
+      this.setFormValues(this.modelPremio);
+      this.premioInicial = { ...this.modelPremio }; // Guardar los valores iniciales
+    }
+  }
+
+  private setFormValues(premio: Premio): void {
+    this.formPremio.patchValue({
+      nombrePremio: premio.nombrePremio,
+      saldo: premio.saldoPremio
+    });
+
+    // Para la imagen, necesitarás manejarlo de manera diferente, ya que no puedes previsualizar una imagen desde un URL sin cargarla.
+    this.imagePreview = premio.imagenPremio; // Asumimos que premio.imagenPremio es un URL o una cadena base64
   }
 
   get formControls() {
@@ -74,10 +96,25 @@ export class FormPremiosComponent implements OnInit{
     }
   }
   onReset(): void {
-    this.formPremio.reset();
-    this.imagePreview = null; // Limpiar la previsualización
-    this.selectedFile = null; // Limpiar el archivo seleccionado
+    if (this.premioInicial) {
+      this.formPremio.patchValue({
+        nombrePremio: this.premioInicial.nombrePremio,
+        saldo: this.premioInicial.saldoPremio
+      });
+  
+      // Mantener la imagen de vista previa, si existe
+      this.imagePreview = this.premioInicial.imagenPremio;
+      this.selectedFile = null; // Asegúrate de que no haya archivo seleccionado
+    } else {
+      this.formPremio.reset({
+        nombrePremio: '',
+        saldo: ''
+      });
+      this.imagePreview = null; // Limpiar la previsualización
+      this.selectedFile = null; // Limpiar el archivo seleccionado
+    }
   }
+  
   volverAtras() {
     this.router.navigate(['/adminPremios']);
   }

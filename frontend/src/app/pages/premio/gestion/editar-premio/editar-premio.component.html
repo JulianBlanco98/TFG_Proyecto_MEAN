@@ -1,0 +1,12 @@
+<div class="container mt-4">
+    <div *ngIf="modelPremio" class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center my-3">Editar Premio: {{modelPremio?.nombrePremio}}</h5>
+            <app-form-premios *ngIf="modelPremio"
+            [modelPremio]="modelPremio" 
+            (submitValues)="onSubmit($event)"
+            [isEdit]="true">
+            </app-form-premios>
+        </div>
+    </div>
+</div>

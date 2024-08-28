@@ -44,6 +44,7 @@ import { MensajesComponent } from './pages/mensajes/mensajes.component';
 import { CrudPremiosComponent } from './pages/premio/gestion/crud-premios/crud-premios.component';
 import { FormPremiosComponent } from './components/form/form-premios/form-premios.component';
 import { CrearPremioComponent } from './pages/premio/gestion/crear-premio/crear-premio.component';
+import { EditarPremioComponent } from './pages/premio/gestion/editar-premio/editar-premio.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { CrearPremioComponent } from './pages/premio/gestion/crear-premio/crear-
     MensajesComponent,
     CrudPremiosComponent,
     FormPremiosComponent,
-    CrearPremioComponent
+    CrearPremioComponent,
+    EditarPremioComponent
   ],
   imports: [
     BrowserModule,
