@@ -21,6 +21,7 @@ import { Ap3Component } from './pages/apuesta/ap3/ap3.component';
 import { HistoricoComponent } from './pages/apuesta/historico/historico.component';
 import { MensajesComponent } from './pages/mensajes/mensajes.component';
 import { CrudPremiosComponent } from './pages/premio/gestion/crud-premios/crud-premios.component';
+import { CrearPremioComponent } from './pages/premio/gestion/crear-premio/crear-premio.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,10 @@ const routes: Routes = [
   },
   {
     path: 'adminPremios', component: CrudPremiosComponent,
+    canActivate: [loginGuard, loginAdmin]
+  },
+  {
+    path: 'createPremio', component: CrearPremioComponent,
     canActivate: [loginGuard, loginAdmin]
   },
   {

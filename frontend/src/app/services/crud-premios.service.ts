@@ -34,4 +34,8 @@ export class CrudPremiosService {
     return this.httpClient.get(`${this.rest_API}/canjearPremio/${idPremio}`, {headers: this.httpHeaders})
   }
 
+  crearPremio(data: FormData): Observable<any> {
+    return this.httpClient.post(this.rest_API, data, {headers: this.httpHeaders});
+  }
+
 }

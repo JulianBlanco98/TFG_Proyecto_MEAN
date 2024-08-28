@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get("/", getPremios)
 router.get("/:id", getPremio)
-router.post("/", createPremios)
+router.post("/", autenticarToken, createPremios)
 router.put("/:id", updatePremios)
 router.delete("/:id", deletePremios)
 router.get('/canjearPremio/:idPremio', autenticarToken, canjearPremio)

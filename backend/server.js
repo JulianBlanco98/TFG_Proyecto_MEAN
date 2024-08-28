@@ -27,7 +27,11 @@ const app = express();
 dotenv.config();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:4200', // Permitir solo el dominio de tu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(urlencoded({ extended: true }));
 
 //Endpoints de las colecciones de la base de datos

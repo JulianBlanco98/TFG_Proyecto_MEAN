@@ -42,6 +42,8 @@ import { Ap3Component } from './pages/apuesta/ap3/ap3.component';
 import { HistoricoComponent } from './pages/apuesta/historico/historico.component';
 import { MensajesComponent } from './pages/mensajes/mensajes.component';
 import { CrudPremiosComponent } from './pages/premio/gestion/crud-premios/crud-premios.component';
+import { FormPremiosComponent } from './components/form/form-premios/form-premios.component';
+import { CrearPremioComponent } from './pages/premio/gestion/crear-premio/crear-premio.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import { CrudPremiosComponent } from './pages/premio/gestion/crud-premios/crud-p
     Ap3Component,
     HistoricoComponent,
     MensajesComponent,
-    CrudPremiosComponent
+    CrudPremiosComponent,
+    FormPremiosComponent,
+    CrearPremioComponent
   ],
   imports: [
     BrowserModule,

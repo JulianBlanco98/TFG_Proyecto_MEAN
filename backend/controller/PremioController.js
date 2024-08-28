@@ -1,7 +1,49 @@
 import { PremioModel } from "../model/PremioModel.js"
 import { UserModel } from "../model/UserModel.js"
 import { premioCanjear } from "../helper/sendCorreo.js";
+import multer from 'multer';
+import path from 'path';
+ 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../../frontend/src/assets/img/premios/'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, 'premio_' + Date.now() + path.extname(file.originalName))
+    }
+});
 
+const upload = multer({storage: storage}).single('imagenPremio');
+
+export const createPremios = async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ message: err.message });
+            
+        }
+
+        try {
+            console.log("datos: ", req.body);
+            console.log("archivo: ", req.file); // Verifica `req.file`
+            
+            const { nombrePremio, saldo } = req.body;
+            const filePath = `/assets/img/premios/${req.file.filename}`;  // Ruta relativa para frontend
+
+            const nuevoPremio = {
+                nombrePremio: nombrePremio,
+                imagenPremio: filePath,  // Guardar la ruta en la base de datos
+                saldoPremio: saldo
+            };
+
+            const premio = await PremioModel.create(nuevoPremio);
+            res.status(201).json({ message: 'Premio creado con éxito', premio: premio});
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: error.message });
+        }
+    });
+};
 export const getPremios = async (req,res) => {
     try {
         const premios = await PremioModel.find()
@@ -21,15 +63,6 @@ export const getPremio = async (req,res) => {
     } catch (error) {
         res.status(500).json({message: error.message})
     }
-}
-export const createPremios = async (req,res) => {
-    try {
-        const premio = await PremioModel.create(req.body)
-        res.status(201).json(premio)        
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-
 }
 export const updatePremios = async (req,res) => {
     try {

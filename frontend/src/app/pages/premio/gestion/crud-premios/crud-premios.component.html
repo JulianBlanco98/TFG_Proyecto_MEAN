@@ -1,1 +1,42 @@
-<p>crud-premios works!</p>
+<div class="container">
+    <div class="mt-4 titulo">
+        <img src="../../../../../assets/img/gestionRegalos.png" alt="iconoGestionRegalos">
+        <h2 class="display-4">Gestión de Premios</h2>
+    </div>
+    <div class="d-grid gap-2">
+        <a routerLink="/createPremio" class="btn btn-success" type="button">
+            <fa-icon [icon]="faAdd" [size]="'2x'"></fa-icon>
+        </a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Monedas</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                <tr *ngFor="let premio of premios; let i = index">
+                    <td>{{premio?.nombrePremio}}</td>
+                    <td>
+                        <img [src]="premio?.imagenPremio" [alt]="premio?.nombrePremio">
+                    </td>
+                    <td>{{premio?.saldoPremio}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a routerLink="" class="btn btn-primary">
+                                <fa-icon [icon]="faEditar"></fa-icon>
+                            </a>
+                            <button class="btn btn-danger">
+                                <fa-icon [icon]="faBorrar"></fa-icon>
+                            </button>    
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
