@@ -24,6 +24,11 @@ export class CrudPremiosService {
   }
 
   crearPremio(data: FormData): Observable<any> {
-    return this.httpClient.post(this.rest_API, data); // No incluyas 'Content-Type' en los headers
+    return this.httpClient.post(this.rest_API, data);
   }
+
+  deletePremio(idPremio: any): Observable<any> {
+    return this.httpClient.delete(`${this.rest_API}/${idPremio}`, {headers: new HttpHeaders().set('Content-type', 'application/json')});
+  }
+
 }

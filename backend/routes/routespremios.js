@@ -14,7 +14,13 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '../../frontend/src/assets/img/premios/'));
     },
     filename: (req, file, cb) => {
-        cb(null, 'premio_' + Date.now() + path.extname(file.originalname));
+        // Obtener el nombre del archivo original sin la extensión
+    const originalName = path.basename(file.originalname, path.extname(file.originalname));
+    // Obtener la extensión del archivo
+    const ext = path.extname(file.originalname);
+    // Construir el nuevo nombre de archivo
+    const newFilename = `premio_${Date.now()}_${originalName}${ext}`;
+    cb(null, newFilename);
     }
 });
 
@@ -29,7 +35,7 @@ router.post("/", autenticarToken, upload.single('imagenPremio'), createPremios)
 router.get("/", getPremios)
 router.get("/:id", getPremio)
 router.put("/:id", updatePremios)
-router.delete("/:id", deletePremios)
+router.delete("/:idPremio", autenticarToken, deletePremios)
 router.get('/canjearPremio/:idPremio', autenticarToken, canjearPremio)
 
 export default router

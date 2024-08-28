@@ -1,12 +1,19 @@
 import { PremioModel } from "../model/PremioModel.js"
 import { UserModel } from "../model/UserModel.js"
 import { premioCanjear } from "../helper/sendCorreo.js";
+import path from 'path';
+import fs from 'fs/promises';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 export const createPremios = async (req, res) => {
     console.log("Entra en createPremios");
     
     try {
-        console.log("Headers: ", req.headers);
+        // console.log("Headers: ", req.headers);
         console.log("datos: ", req.body);
         console.log("archivo: ", req.file); // Verifica `req.file`
         
@@ -26,6 +33,37 @@ export const createPremios = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const deletePremios = async (req,res) => {
+    try {
+        const {idPremio} = req.params
+        const premio = await PremioModel.findById(idPremio)
+        if(!premio){
+            return res.status(404).json(`El premio con id: ${idPremio} no se ha encontrado`)
+        }
+        console.log("Estoy en deletePremios antes de imagenPath. Premio: ",premio);
+        
+        const imagenPath = path.join(__dirname, '../../frontend/src', premio.imagenPremio);
+        console.log("En delete. ruta de la imagen: ",imagenPath);
+        
+        // Eliminar la imagen del sistema de archivos
+        try {
+            await fs.unlink(imagenPath);
+            console.log("Imagen eliminada exitosamente");
+        } catch (err) {
+            console.error("Error al eliminar la imagen: ", err);
+            return res.status(500).json({ message: 'Error al eliminar la imagen' });
+        }
+
+        await PremioModel.findOneAndDelete(idPremio);
+
+
+        res.status(200).json("Premio borrado!")
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).json({message: error.message})
+    }
+}
 export const getPremios = async (req,res) => {
     try {
         const premios = await PremioModel.find()
@@ -55,18 +93,6 @@ export const updatePremios = async (req,res) => {
             {new: true}
         )
         res.status(200).json(premio)
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-}
-export const deletePremios = async (req,res) => {
-    try {
-        const {id} = req.params
-        const premio = await PremioModel.findByIdAndDelete(id)
-        if(!premio){
-            return res.status(404).json(`El premio con id: ${id} no se ha encontrado`)
-        }
-        res.status(200).json("Premio borrado!")
     } catch (error) {
         res.status(500).json({message: error.message})
     }

@@ -30,7 +30,7 @@
                             <a routerLink="" class="btn btn-primary">
                                 <fa-icon [icon]="faEditar"></fa-icon>
                             </a>
-                            <button class="btn btn-danger">
+                            <button (click)="deletePremio(premio?._id, i)" class="btn btn-danger">
                                 <fa-icon [icon]="faBorrar"></fa-icon>
                             </button>    
                         </div>
