@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export const autenticarToken = (req, res, next) => {
 
     // console.log(req.headers);
-    console.log("Estoy en autenticar, antes de createPremios");
+    // console.log("Estoy en autenticar, antes de createPremios");
     
     const token = req.headers['authorization'];
     if(!token){
