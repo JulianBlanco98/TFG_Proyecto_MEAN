@@ -54,13 +54,58 @@ export const deletePremios = async (req,res) => {
             return res.status(500).json({ message: 'Error al eliminar la imagen' });
         }
 
-        await PremioModel.findOneAndDelete(idPremio);
+        await PremioModel.findByIdAndDelete(idPremio);
 
 
-        res.status(200).json("Premio borrado!")
+        res.status(200).json({message:  'Premio borrado con éxito!'})
     } catch (error) {
         console.log(error);
         
+        res.status(500).json({message: error.message})
+    }
+}
+export const updatePremios = async (req,res) => {
+    try {
+        const {idPremio} = req.params
+        const premioExistente = await PremioModel.findById(idPremio);
+        if(!premioExistente) {
+            return res.status(404).json({ message: `El premio con id: ${idPremio} no se ha encontrado` });
+        }
+
+        if(req.file) {
+            const imagenAntiguaPath = path.join(__dirname, '../../frontend/src', premioExistente.imagenPremio);
+            //Ahora, tengo que eliminar la imagen antigua
+            try {
+                await fs.unlink(imagenAntiguaPath);
+                console.log('Imagen borrada');
+                
+            } catch (err) {
+                console.error("Error al eliminar la imagen antigua: ", err);
+                return res.status(500).json({ message: 'Error al eliminar la imagen antigua' });
+            }
+
+            //Actualizp la ruta de la imagen nueva
+            req.body.imagenPremio = `/assets/img/premios/${req.file.filename}`;
+        } else{
+            req.body.imagenPremio = premioExistente.imagenPremio;
+        }
+
+        console.log("Body: ", req.body);
+
+        let nuevosDatosPremio = {
+            'nombrePremio': req.body.nombrePremio,
+            'imagenPremio': req.body.imagenPremio,
+            'saldoPremio': req.body.saldo
+        }
+        
+        const premioActualizado = await PremioModel.findByIdAndUpdate(
+            idPremio,
+            nuevosDatosPremio,
+            { new: true }
+        );
+
+        res.status(200).json({ message: "Premio actualizado con éxito", premio: premioActualizado });
+    } catch (error) {
         res.status(500).json({message: error.message})
     }
 }
@@ -80,19 +125,6 @@ export const getPremio = async (req,res) => {
             return res.status(404).json(`El premio con id: ${id} no se ha encontrado`)
         }
         res.status(200).json({premio})
-    } catch (error) {
-        res.status(500).json({message: error.message})
-    }
-}
-export const updatePremios = async (req,res) => {
-    try {
-        const {id} = req.params
-        const premio = await PremioModel.findOneAndUpdate(
-            {_id: id},
-            req.body,
-            {new: true}
-        )
-        res.status(200).json(premio)
     } catch (error) {
         res.status(500).json({message: error.message})
     }

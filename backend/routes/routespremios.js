@@ -34,7 +34,7 @@ const router = express.Router()
 router.post("/", autenticarToken, upload.single('imagenPremio'), createPremios)
 router.get("/", getPremios)
 router.get("/:id", getPremio)
-router.put("/:id", updatePremios)
+router.put("/:idPremio", autenticarToken, upload.single('imagenPremio'), updatePremios)
 router.delete("/:idPremio", autenticarToken, deletePremios)
 router.get('/canjearPremio/:idPremio', autenticarToken, canjearPremio)
 

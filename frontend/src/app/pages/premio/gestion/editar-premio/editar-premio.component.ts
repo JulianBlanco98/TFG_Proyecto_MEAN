@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Premio } from 'src/app/models/premio.model';
 import { CrudPremiosService } from 'src/app/services/crud-premios.service';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class EditarPremioComponent implements OnInit{
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly crudPremiosService: CrudPremiosService
+    private readonly crudPremiosService: CrudPremiosService,
+    private readonly alertifyService: AlertifyService
   ){}
 
   ngOnInit(): void {
@@ -55,7 +57,18 @@ export class EditarPremioComponent implements OnInit{
 
   }
 
-  onSubmit(data: any) {
-
+  onSubmit(data: any): void {
+    if(this.id) {
+      this.crudPremiosService.editarPremio(this.id, data).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.router.navigateByUrl("/adminPremios")
+          this.alertifyService.success(response.message)
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      })
+    }
   }
 }

@@ -82,7 +82,7 @@ import { EditarPremioComponent } from './pages/premio/gestion/editar-premio/edit
     CrudPremiosComponent,
     FormPremiosComponent,
     CrearPremioComponent,
-    EditarPremioComponent
+    EditarPremioComponent,
   ],
   imports: [
     BrowserModule,

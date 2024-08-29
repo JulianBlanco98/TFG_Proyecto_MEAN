@@ -1,0 +1,13 @@
+.card img {
+    object-fit: contain;
+    width: 200px;
+    margin: 0 auto;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7));
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+h5 {
+    font-weight: 600;
+}

@@ -97,23 +97,33 @@ export class FormPremiosComponent implements OnInit{
   }
   onReset(): void {
     if (this.premioInicial) {
+      
+      // Restaurar los valores iniciales del formulario
       this.formPremio.patchValue({
         nombrePremio: this.premioInicial.nombrePremio,
         saldo: this.premioInicial.saldoPremio
       });
   
-      // Mantener la imagen de vista previa, si existe
+      
       this.imagePreview = this.premioInicial.imagenPremio;
-      this.selectedFile = null; // Asegúrate de que no haya archivo seleccionado
+  
+      
+      this.selectedFile = null;
+  
+      // Asegúrate de restablecer el valor del control de imagen a su estado original
+      this.formPremio.get('imagenPremio')?.setValue(this.premioInicial.imagenPremio ? this.premioInicial.imagenPremio : '');
     } else {
+      // Si no hay premio inicial, resetea el formulario a su estado por defecto
       this.formPremio.reset({
         nombrePremio: '',
         saldo: ''
       });
-      this.imagePreview = null; // Limpiar la previsualización
-      this.selectedFile = null; // Limpiar el archivo seleccionado
+  
+      this.imagePreview = null; 
+      this.selectedFile = null; 
     }
   }
+  
   
   volverAtras() {
     this.router.navigate(['/adminPremios']);
