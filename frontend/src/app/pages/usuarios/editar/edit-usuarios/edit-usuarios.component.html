@@ -2,7 +2,7 @@
     <div *ngIf="modelUsuario" class="card">
         <div class="card-body">
             <h5 class="card-title text-center display-2 my-3">Editar Usuario: {{modelUsuario?.datos?.nombre}}</h5>
-            <img src="../../../../../assets/img/add.png" alt="iconoEditarUsuario">
+            <img src="../../../../../assets/img/editar.png" alt="iconoEditarUsuario">
             <app-form-usuarios *ngIf="modelUsuario"
             [modelUsuario]="modelUsuario" 
             (submitValues)="onSubmit($event)"
