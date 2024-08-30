@@ -86,10 +86,10 @@
             </div>
             <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('registro')">Crear Cuenta</button>
             <button *appRoles="['nologin']" class="btn btn-secondary" (click)="openModal('login')">Iniciar Sesion</button>
-            <div *appRoles="['admin', 'usuario']" (click)="openModal('editarUsuario')">
+            <div *appRoles="['usuario']" (click)="openModal('editarUsuario')">
                 <fa-icon class="iconoUsuario" [icon]="faUser" [size]="'3x'" *appRoles="['usuario']"></fa-icon>
-                <fa-icon class="iconoUsuario" [icon]="faAdmin" [size]="'3x'" *appRoles="['admin']"></fa-icon>
             </div>
+            <fa-icon class="iconoUsuario" [icon]="faAdmin" [size]="'3x'" *appRoles="['admin']"></fa-icon>
             <button *appRoles="['admin', 'usuario']" class="btn btn-secondary" (click)="logOut()">Log Out</button>
         </div>
     </div>
