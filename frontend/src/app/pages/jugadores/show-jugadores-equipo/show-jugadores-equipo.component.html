@@ -8,62 +8,63 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Columna Izquierda: Entrenador -->
-        <div class="col-12 col-lg-4">
-            <div class="entrenador sticky-top">
-                <div class="card shadow-sm p-3 bg-body-tertiary rounded">
-                    <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top" alt="{{entrenador?.datos?.nombreEntrenador}}">
-                    <hr>
-                    <div class="card-body">
-                        <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
-                        <div class="card-text">
-                            <ul>
-                                <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
-                                <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
-                                <li>País de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
-                            </ul>
+        <!-- Columna Izquierda: Opciones + Entrenador (Sticky) -->
+        <div class="col-12 col-lg-3 mb-4">
+            <div class="sticky-top">
+                <!-- Tarjeta del Entrenador -->
+                <div class="entrenador">
+                    <div class="card shadow-sm p-3 bg-body-tertiary rounded">
+                        <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top" alt="{{entrenador?.datos?.nombreEntrenador}}">
+                        <div class="card-body">
+                            <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
+                            <div class="card-text">
+                                <ul>
+                                    <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
+                                    <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
+                                    <li>País de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <!-- Opciones de selección -->
+                <div class="opciones my-4">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingSelect" (change)="seleccionarPosicion($event)">
+                            <option value="Todos" selected>Todos</option>
+                            <option value="por">Porteros</option>
+                            <option value="def">Defensas</option>
+                            <option value="med">Mediocentros</option>
+                            <option value="del">Delanteros</option>
+                        </select>
+                        <label for="floatingSelect">Buscar por posición</label>
+                    </div>
+                    <div class="barraBusqueda">
+                        <form role="search" method="get" action="">
+                            <div class="input-group">
+                                <input type="search" class="form-control" [(ngModel)]="terminoBusqueda" value="" name="s" placeholder="Buscar jugador..." />
+                                <button type="submit" class="btn btn-outline-secondary" name="submit">
+                                    <fa-icon [icon]="faLupa" [size]="'1x'"></fa-icon>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Columna Derecha: Opciones y Jugadores -->
-        <div class="col-12 col-lg-8">
-            <div class="opciones mb-4">
-                <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingSelect" (change)="seleccionarPosicion($event)">
-                        <option value="Todos" selected>Todos</option>
-                        <option value="por">Porteros</option>
-                        <option value="def">Defensas</option>
-                        <option value="med">Mediocentros</option>
-                        <option value="del">Delanteros</option>
-                    </select>
-                    <label for="floatingSelect">Buscar por posición</label>
-                </div>
-                <div class="barraBusqueda">
-                    <form role="search" method="get" action="">
-                        <div class="input-group">
-                            <input type="search" class="form-control" [(ngModel)]="terminoBusqueda" value="" name="s" placeholder="Buscar jugador..." />
-                            <button type="submit" class="btn btn-outline-secondary" name="submit">
-                                <fa-icon [icon]="faLupa" [size]="'1x'"></fa-icon>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <hr>
+        <!-- Columna Derecha: Jugadores -->
+        <div class="col-12 col-lg-9">
+            <!-- <hr> -->
 
             <!-- Jugadores -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-4 g-4">
                 <div class="col" *ngFor="let jugador of jugadoresFiltrados">
                     <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
                         <div class="card-body" [attr.data-frente]="jugador.frente">
                             <ng-container *ngIf="jugador?.frente; else noFrente">
                                 <div class="card-front">
                                     <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
-                                    <hr>
                                     <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
                                     <span class="card-text">
                                         Posición: {{jugador?.datos?.posicion}}<br>
@@ -96,6 +97,6 @@
             </div>
         </div>
     </div>
+    <!-- Div de todos los jugadores -->
 </div>
 
-<!-- Div de todos los jugadores -->
