@@ -45,6 +45,7 @@ import { CrudPremiosComponent } from './pages/premio/gestion/crud-premios/crud-p
 import { FormPremiosComponent } from './components/form/form-premios/form-premios.component';
 import { CrearPremioComponent } from './pages/premio/gestion/crear-premio/crear-premio.component';
 import { EditarPremioComponent } from './pages/premio/gestion/editar-premio/editar-premio.component';
+import { FlechaTopComponent } from './components/flecha-top/flecha-top.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { EditarPremioComponent } from './pages/premio/gestion/editar-premio/edit
     FormPremiosComponent,
     CrearPremioComponent,
     EditarPremioComponent,
+    FlechaTopComponent,
   ],
   imports: [
     BrowserModule,
