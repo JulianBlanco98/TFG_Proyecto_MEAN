@@ -2,6 +2,9 @@
   display: flex;
   align-items: center; /* Alinea verticalmente los elementos hijos */
 }
+.sticky-top {
+  top: 3%;
+}
 
 .search-input,
 .search-submit {
