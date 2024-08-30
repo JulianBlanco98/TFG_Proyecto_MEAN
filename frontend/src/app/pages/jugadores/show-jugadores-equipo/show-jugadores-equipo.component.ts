@@ -5,6 +5,7 @@ import { CrudJugadoresService } from 'src/app/services/crud-jugadores.service';
 import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Entrenador } from 'src/app/models/entrenador.model';
 import { FormsModule } from '@angular/forms';
+import { Equipo } from 'src/app/models/equipo.model';
 
 @Component({
   selector: 'app-show-jugadores-equipo',
@@ -26,6 +27,7 @@ export class ShowJugadoresEquipoComponent implements OnInit {
   entrenador: Entrenador | undefined;
   terminoBusqueda = '';
   posicionSeleccionada = 'Todos';
+  equipo: Equipo | undefined;
 
   ngOnInit(): void {
     this.idApi = +this.activatedRoute.snapshot.paramMap.get('idApi');
@@ -36,9 +38,9 @@ export class ShowJugadoresEquipoComponent implements OnInit {
     this.crudJugadoresService
       .getJugadoresByIdApi(idApi)
       .subscribe((data: any) => {
-        //console.log(data);
+        console.log(data);
         // console.log(data);
-        data.jugadores.filter(jug => jug.frente = true);
+        data.jugadores.filter((jug: { frente: boolean; }) => jug.frente = true);
         this.jugadores = data.jugadores;
 
         //console.log('Jugadores:', this.jugadores);
@@ -46,16 +48,18 @@ export class ShowJugadoresEquipoComponent implements OnInit {
           this.entrenador = data.entrenador[0];
           //console.log('Entrenador:', this.entrenador);
         }
+        this.equipo = data.equipo;
       });
   }
   cargarJugadoresPosicion(idApi: number, tipo: string) {
     this.crudJugadoresService.getJugadoresByPosicion(idApi, tipo).subscribe((data: any) => {
       console.log(data);
-      data.jugadores.filter(jug => jug.frente = true);
+      data.jugadores.filter((jug: { frente: boolean; }) => jug.frente = true);
       this.jugadores = data.jugadores;
       if (data.entrenador && data.entrenador.length > 0) {
         this.entrenador = data.entrenador[0];
       }
+      this.equipo = data.equipo;
     });
   }
 

@@ -1,98 +1,101 @@
-<div class="d-flex align-items-center">
+<div class="d-flex align-items-center my-4">
     <a routerLink="/equipos">
         <fa-icon [icon]="faBackWard" [size]="'3x'"></fa-icon>
     </a>
-    <h1 class="text-center mt-3 mx-auto">Jugadores</h1>
+    <h1 class="text-center mx-auto">Jugadores del {{equipo?.nombreEquipo}}</h1>
 </div>
 
 
-<div class="principal">
-
-    <div class="izquierda">
-        <div class="entrenador">
-            <div class="card shadow-sm p-3 mb-4 bg-body-tertiary rounded">
-                <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top"
-                    alt="{{entrenador?.datos?.nombreEntrenador}}">
-                <div class="card-body">
-                    <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
-                    <div class="card-text">
-                        <ul>
-                            <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
-                            <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
-                            <li>Pais de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="derecha">
-
-        <div class="opciones">
-            <div class="form-floating">
-                <select class="form-select" id="floatingSelect" (change)="seleccionarPosicion($event)">
-                    <option value="Todos" selected>Todos</option>
-                    <option value="por">Porteros</option>
-                    <option value="def">Defensas</option>
-                    <option value="med">Mediocentros</option>
-                    <option value="del">Delanteros</option>
-                </select>
-                <label for="floatingSelect">Buscar por posicion</label>
-            </div>
-            <div class="barraBusqueda">
-                <form role="search" method="get" action="">
-                    <div class="input-container">
-                        <input type="search" class="search-input" [(ngModel)]="terminoBusqueda" value="" name="s" placeholder="Buscar jugador..." />
-                        <button type="submit" class="search-submit" name="submit">
-                            <fa-icon [icon]="faLupa" [size]="'1x'"></fa-icon>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4 mt-3 mx-1">
-            <div class="col" *ngFor="let jugador of jugadoresFiltrados">
-                <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
-                    <div class="card-body" [attr.data-frente] = "jugador.frente">
-                        <ng-container *ngIf="jugador?.frente; else noFrente">
-                            <div class="card-front">
-                                <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
-                                <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
-                                <span class="card-text">
-                                    Posición: {{jugador?.datos?.posicion}}<br>
-                                    Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
-                                    Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
-                                    Dorsal: {{ jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
-                                    País: {{jugador?.datos?.paisNacimiento}}
-                                </span>
-                                
-                            </div>
-
-                        </ng-container>
-                        <ng-template #noFrente>
-                            <div class="card-back">
-                                <img src="../../../../assets/img/estadisticas.png" alt="iconoEstadisticas" class="esta card-img-top">
-                                <h4 class="card-title">Estadísticas</h4>
-                                <span class="card-text">
-                                    Partidos jugados: {{jugador?.estadisticas?.partidosJugados}}<br>
-                                    Goles: {{jugador?.estadisticas?.goles}}<br>
-                                    Asistencias: {{jugador?.estadisticas?.asistencias}}
-                                </span>
-
-                            </div>
-                        </ng-template>
-                    </div>
-                    <div class="card-footer d-flex align-middle">
-                        <button class="btn btn-outline-secondary mx-auto"(click)="getEstadisticasByJugador(jugador)" >
-                            {{jugador.frente ? 'Ver estadísticas' : 'Volver'}}
-                        </button>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Columna Izquierda: Entrenador -->
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="entrenador sticky-top">
+                <div class="card shadow-sm p-3 bg-body-tertiary rounded">
+                    <img [src]="entrenador?.datos?.imagenEntrenador" class="card-img-top" alt="{{entrenador?.datos?.nombreEntrenador}}">
+                    <hr>
+                    <div class="card-body">
+                        <h4 class="card-title">{{entrenador?.datos?.nombreEntrenador}}</h4>
+                        <div class="card-text">
+                            <ul>
+                                <li>Fecha de Nacimiento: {{entrenador?.datos?.fechaNacimiento}}</li>
+                                <li>Nacionalidad: {{entrenador?.datos?.nacionalidad}}</li>
+                                <li>País de Nacimiento: {{entrenador?.datos?.paisNacimiento}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Columna Derecha: Opciones y Jugadores -->
+        <div class="col-12 col-lg-8">
+            <div class="opciones mb-4">
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingSelect" (change)="seleccionarPosicion($event)">
+                        <option value="Todos" selected>Todos</option>
+                        <option value="por">Porteros</option>
+                        <option value="def">Defensas</option>
+                        <option value="med">Mediocentros</option>
+                        <option value="del">Delanteros</option>
+                    </select>
+                    <label for="floatingSelect">Buscar por posición</label>
+                </div>
+                <div class="barraBusqueda">
+                    <form role="search" method="get" action="">
+                        <div class="input-group">
+                            <input type="search" class="form-control" [(ngModel)]="terminoBusqueda" value="" name="s" placeholder="Buscar jugador..." />
+                            <button type="submit" class="btn btn-outline-secondary" name="submit">
+                                <fa-icon [icon]="faLupa" [size]="'1x'"></fa-icon>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Jugadores -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-3">
+                <div class="col" *ngFor="let jugador of jugadoresFiltrados">
+                    <div class="card shadow-sm p-2 mb-4 bg-body-tertiary rounded h-100">
+                        <div class="card-body" [attr.data-frente]="jugador.frente">
+                            <ng-container *ngIf="jugador?.frente; else noFrente">
+                                <div class="card-front">
+                                    <img [src]="jugador?.datos?.imagenJugador" class="card-img-top" alt="{{jugador?.datos?.nombreJugador}}">
+                                    <hr>
+                                    <h4 class="card-title">{{jugador?.datos.nombreJugador}}</h4>
+                                    <span class="card-text">
+                                        Posición: {{jugador?.datos?.posicion}}<br>
+                                        Fecha: {{jugador?.datos?.fechaNacimiento}}<br>
+                                        Nacionalidad: {{jugador?.datos?.nacionalidad}}<br>
+                                        Dorsal: {{jugador?.datos?.dorsal == -1 ? '?' : jugador?.datos?.dorsal }}<br>
+                                        País: {{jugador?.datos?.paisNacimiento}}
+                                    </span>
+                                </div>
+                            </ng-container>
+                            <ng-template #noFrente>
+                                <div class="card-back">
+                                    <img src="../../../../assets/img/estadisticas.png" alt="iconoEstadisticas" class="esta card-img-top">
+                                    <h4 class="card-title">Estadísticas</h4>
+                                    <span class="card-text">
+                                        Partidos jugados: {{jugador?.estadisticas?.partidosJugados}}<br>
+                                        Goles: {{jugador?.estadisticas?.goles}}<br>
+                                        Asistencias: {{jugador?.estadisticas?.asistencias}}
+                                    </span>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="card-footer d-flex align-middle">
+                            <button class="btn btn-outline-secondary mx-auto" (click)="getEstadisticasByJugador(jugador)">
+                                {{jugador.frente ? 'Ver estadísticas' : 'Volver'}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <!-- Div de todos los jugadores -->

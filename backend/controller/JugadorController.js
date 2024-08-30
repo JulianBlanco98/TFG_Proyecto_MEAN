@@ -77,8 +77,9 @@ export const getJugadoresByEquipo = async (req, res) => {
         const jugadoresExistentes = await JugadorModel.find({idApiEquipo: idApi}).populate('estadisticas');
         const entrenadorExistente = await EntrenadorModel.find({idApiEquipo: idApi});
         if(jugadoresExistentes.length > 0 && entrenadorExistente.length > 0){
+            const equipo = await EquiposModel.findOne({idEquipoAPI: idApi});
             console.log("Jugadores y entrenador ya creados --> No se llama a la API");
-            return res.status(200).json({jugadores: jugadoresExistentes, entrenador: entrenadorExistente});
+            return res.status(200).json({jugadores: jugadoresExistentes, entrenador: entrenadorExistente, equipo: equipo});
         }
 
         const response = await axios.get(`${API_URL}/${idApi}`, {
@@ -109,7 +110,9 @@ export const getJugadoresByEquipo = async (req, res) => {
             await EntrenadorModel.insertMany(entrenadores);
         }
 
-        res.status(200).json({jugadores: jugadores.length > 0 ? jugadores : jugadoresExistentes, entrenador: entrenadores.length > 0 ? entrenadores : entrenadorExistente});
+        
+
+        res.status(200).json({jugadores: jugadores.length > 0 ? jugadores : jugadoresExistentes, entrenador: entrenadores.length > 0 ? entrenadores : entrenadorExistente, equipo: equipo});
     } catch (error) {
         console.error('Error al insertar jugadores y entrenadores en la base de datos:', error);
         res.status(500).json({ message: 'Error al insertar jugadores y entrenadores en la base de datos' });
@@ -132,11 +135,12 @@ export const getJugadoresByPosicion = async (req, res) => {
         console.log(query);
 
         const jugadores = await JugadorModel.find(query).populate('estadisticas');
-        const entrenador = await EntrenadorModel.find({idApiEquipo: idApi})
+        const entrenador = await EntrenadorModel.findOne({idApiEquipo: idApi})
+        const equipo = await EquiposModel.findOne({idEquipoAPI: idApi});
         if(!jugadores){
             res.status(400).json("El id del equipo no existe")
         }
-        return res.status(200).json({jugadores: jugadores, entrenador: entrenador})
+        return res.status(200).json({jugadores: jugadores, entrenador: entrenador, equipo: equipo})
         
         
     } catch (error) {

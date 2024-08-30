@@ -1,34 +1,3 @@
-.principal {
-  display: flex;
-}
-.izquierda {
-  width: 25%;
-  background-color: bisque;
-}
-.derecha {
-  width: 75%;
-  background-color: cadetblue;
-}
-.opciones {
-  width: 100%;
-  background-color: rgb(156, 156, 156);
-  display: flex;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-.form-floating {
-  width: 60%;
-  margin: 6px;
-}
-.barraBusqueda {
-  width: 40%;
-  margin: 6px;
-  background-color: rgb(248, 158, 143);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .input-container {
   display: flex;
   align-items: center; /* Alinea verticalmente los elementos hijos */
@@ -51,18 +20,10 @@
     inset 1px 0 1px -1px #cccccc;
 }
 
-.search-submit {
-  background: #d500f9;
-  color: #ffffff;
-  padding: 0 20px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
+.card img {
+  filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.8));
 }
 
-.search-submit:hover {
-  background: #ab47bc;
-}
 
 .card-title {
   font-size: 1.5rem;
