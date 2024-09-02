@@ -454,7 +454,7 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
                         cantidadMonedasApostadas += tipo2.cantidad;
 
                         if ((tipo2.idEquipo.toString() === partido.equipoLocal._id.toString() && tipo2.goles === resultadoReal.golesLocal) || (tipo2.idEquipo.toString() === partido.equipoVisitante._id.toString() && tipo2.goles === resultadoReal.golesVisitante)) {
-                            monedasGanadas += tipo2.cantidad * 2;
+                            monedasGanadas += tipo2.cantidad * 3;
                             tipo2.isGanada = true;
                             console.log("Monedas acumuladas: ",monedasGanadas);
                             
@@ -467,7 +467,7 @@ export const actualizarMonedasPrediccion = async (jornadaActual) => {
                     for (const tipo3 of prediccion.tipo_3) {
                         cantidadMonedasApostadas += tipo3.cantidad;
                         if ((tipo3.idEquipo.toString() === partido.equipoLocal._id.toString() && tipo3.asistencias === resultadoReal.asistenciasLocal) || (tipo3.idEquipo.toString() === partido.equipoVisitante._id.toString() && tipo3.asistencias === resultadoReal.asistenciasVisitante)) {
-                            monedasGanadas += tipo3.cantidad * 2;
+                            monedasGanadas += tipo3.cantidad * 3;
                             tipo3.isGanada = true;
                         }
                     }
