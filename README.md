@@ -108,11 +108,11 @@ Página que tiene 4 opciones para realizar predicciones y ganar monedas:
 ## Dashboard del Administrador
 Rol de administrador que sirve para gestionar la página web. 
 ### Gestionar Usuarios - CRUD (Privada - Administrador)
-![screenshot](Capturas/Admin_Usuarios.png)
 Puede ver, añadir, editar y borrar usuarios.
+![screenshot](Capturas/Admin_Usuarios.png)
 ### Jornadas (Privada - Administrador)
-![screenshot](Capturas/Admin_Jornadas.png)
 Puede simular la siguiente jornada de la liga, o empezar de 0 la liga.
+![screenshot](Capturas/Admin_Jornadas.png)
 ### Buzón de Mensajería (Privada - Administrador)
 Ver los mensajes de los usuarios dando feedback para poder mejorar la página wb
 ![screenshot](Capturas/Admin_Buzon.png)
